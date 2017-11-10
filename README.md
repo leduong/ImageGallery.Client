@@ -4,6 +4,7 @@
 
 ```
 dotnet restore
+
 cd ImageGallery.Client\src\ImageGallery.Client
 
 npm install
