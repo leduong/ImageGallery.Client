@@ -1,6 +1,4 @@
-﻿@model ImageGallery.Client.ViewModels.GalleryIndexViewModel
-
-<div class="bottomMarginDefault">
+﻿<div class="bottomMarginDefault">
 </div>
 
 <app-root></app-root>
@@ -14,25 +12,6 @@
 <script src="~/dist/polyfills.js" asp-append-version="true"></script>
 <script src="~/dist/vendor.js" asp-append-version="true"></script>
 <script src="~/preloader/preloader.js" asp-append-version="true"></script>
-
-<div class="container">
-    @foreach (var item in Model.Images)
-    {
-        <div class="pull-left col-md-4">
-            <div>
-                <img class="thumbnailImage" src="@(Model.ImagesUri + item.FileName)" />
-            </div>
-            <div>
-                <div class="h5">@item.Title</div>
-                <div class="h5">@item.Category</div>
-                <div class="bottomMarginDefault">
-                    <a asp-action="EditImage" asp-controller="Gallery" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="DeleteImage" asp-controller="Gallery" asp-route-id="@item.Id">Delete</a>
-                </div>
-            </div>
-        </div>
-    }
-</div>
 
 @section scripts {
     <script src="~/dist/main-client.js" asp-append-version="true"></script>
