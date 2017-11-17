@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.HttpOverrides;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.SpaServices.Webpack;
 using StackExchange.Redis;
 using ConfigurationOptions = ImageGallery.Client.Configuration.ConfigurationOptions;
 
@@ -116,10 +117,17 @@ namespace ImageGallery.Client
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            Console.WriteLine($"EnvironmentName: {env.EnvironmentName}");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                {
+                    HotModuleReplacement = true,
+                    HotModuleReplacementEndpoint = "/dist/__webpack_hmr"
+                });
             }
             else
             {
@@ -217,6 +225,10 @@ namespace ImageGallery.Client
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Gallery}/{action=Index}/{id?}");
+
+                routes.MapSpaFallbackRoute(
+                    name: "spa-fallback",
+                    defaults: new { controller = "Gallery", action = "Index" });
             });
         }
     }
