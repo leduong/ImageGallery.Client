@@ -10,7 +10,7 @@
   "license": "https://wrapbootstrap.com/help/licenses",
   "scripts": {
     "install": "napa",
-    "postinstall": "modernizr -c modernizr-config.json -d ClientApp/modernizr.js",
+    "postinstall": "modernizr -c modernizr-config.json -d wwwroot/app/modernizr.js",
     "compile-app": "webpack --config webpack.config.js",
     "compile-app-prod": "webpack --config webpack.config.js --env.prod"
   },

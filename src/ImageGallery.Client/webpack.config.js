@@ -17,9 +17,9 @@ module.exports = {
     },
 
     entry: {
-        'polyfills': './ClientApp/app/polyfills.ts',
-        'vendor': './clientApp/app/vendor.ts',
-        'main-client': './ClientApp/boot-client.ts'
+        'polyfills': './wwwroot/app/polyfills.ts',
+        'vendor': './wwwroot/app/vendor.ts',
+        'main-client': './wwwroot/app/main.ts'
     },
 
     output: {
