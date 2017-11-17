@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,7 +22,7 @@ namespace ImageGallery.Client.Controllers
     public class GalleryController : Controller
     {
         private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
-        private ConfigurationOptions ApplicationSettings { get; set; }
+        private ConfigurationOptions ApplicationSettings { get; }
 
         public GalleryController(IOptions<ConfigurationOptions> settings, IImageGalleryHttpClient imageGalleryHttpClient)
         {
@@ -31,35 +30,9 @@ namespace ImageGallery.Client.Controllers
             _imageGalleryHttpClient = imageGalleryHttpClient;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            await WriteOutIdentityInformation();
-
-            // call the API
-            var httpClient = await _imageGalleryHttpClient.GetClient();
-
-            var response = await httpClient.GetAsync("api/images").ConfigureAwait(false);
-
-            if (response.IsSuccessStatusCode)
-            {
-                var imagesAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                var galleryIndexViewModel = new GalleryIndexViewModel
-                    (
-                      JsonConvert.DeserializeObject<IList<Image>>(imagesAsString).ToList(),
-                      ApplicationSettings.ImagesUri
-                    );
-
-                return View(galleryIndexViewModel);
-            }
-            else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized ||
-                     response.StatusCode == System.Net.HttpStatusCode.Forbidden)
-            {
-                return RedirectToAction("AccessDenied", "Authorization");
-            }
-
-
-            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+            return View();
         }
 
         public async Task<IActionResult> EditImage(Guid id)
@@ -307,5 +280,4 @@ namespace ImageGallery.Client.Controllers
             }
         }
     }
-
 }
