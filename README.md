@@ -13,7 +13,7 @@ VS Code 1.18.0 or VS 2017 15.4.2
 ```
 dotnet restore
 
-cd ImageGallery.Client\src\ImageGallery.Client
+cd src\ImageGallery.Client
 
 npm install
 
