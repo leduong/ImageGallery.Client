@@ -1,5 +1,13 @@
 # ImageGallery.Client
 
+### Prerequisites
+
+```
+Node v6.10.1
+NET Core 2.0.2
+VS Code 1.18.0 or VS 2017 15.4.2
+```
+
 ### Install
 
 ```
@@ -8,7 +16,7 @@ dotnet restore
 cd ImageGallery.Client\src\ImageGallery.Client
 
 npm install
-npm run compile-app
+
 dotnet run
 
 http://localhost:5000/home
