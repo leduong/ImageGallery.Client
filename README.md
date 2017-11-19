@@ -1,9 +1,18 @@
 # ImageGallery.Client
 
 
+
 [![This image on DockerHub](https://img.shields.io/docker/pulls/stuartshay/imagegallery-client.svg)](https://hub.docker.com/r/stuartshay/imagegallery-client/)
  [![dependencies Status](https://david-dm.org/stuartshay/ImageGallery.Client/status.svg)](https://david-dm.org/stuartshay/ImageGallery.Client) [![devDependencies Status](https://david-dm.org/stuartshay/ImageGallery.Client/dev-status.svg)](https://david-dm.org/stuartshay/ImageGallery.Client?type=dev) 
 
+
+### Prerequisites
+
+```
+Node v6.10.1
+NET Core 2.0.2
+VS Code 1.18.0 or VS 2017 15.4.2
+```
 
 ### Install
 
@@ -14,7 +23,7 @@ dotnet restore
 cd src\ImageGallery.Client
 
 npm install
-npm run compile-app
+
 dotnet run
 
 http://localhost:5000/home
