@@ -29,6 +29,12 @@ dotnet run
 http://localhost:5000/home
 ```
 
+### Docker
+```
+docker build -t imagegallery-core-base
+
+docker run -p 8080:44300 imagegallery-core-base
+```
 
 ### Demo
 ```
@@ -44,12 +50,12 @@ P: password
 
 ```
 
-### Identity Server 
+### Identity Server
 https://auth.informationcart.com/
       
 ### API
 https://imagegallery-api.informationcart.com/swagger
 
 
-### Samples   
+### Samples
 https://github.com/MarkPieszak/aspnetcore-angular2-universal
