@@ -15,6 +15,10 @@ RUN dotnet publish -o /publish -c Release -f netcoreapp2.0 -r debian.8-x64
 # Runtime Image Stage
 FROM microsoft/aspnetcore:2.0
 
+RUN node --version
+RUN npm --version
+
+
 WORKDIR /publish
 COPY --from=build-env /publish .
 
