@@ -1,5 +1,5 @@
-docker/**/*
-docker/
+**/docker/**/*
+**/docker/
 
 **/bin/**/*
 **/bin
@@ -7,11 +7,16 @@ docker/
 **/obj/**/*
 **/obj
 
+**/Properties/**/*
+**/Properties
+
 **/Views/**/*
 **/Views
 
 **/wwwroot/**/*
 **/wwwroot
+
+
 
 
 
@@ -22,6 +27,8 @@ docker/
 **/*.map
 
 **/*.md
+
+**/appsettings**/.json
 
 **/web.config
 **/Jenkinsfile-base
