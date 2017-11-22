@@ -7,4 +7,22 @@ docker/
 **/obj/**/*
 **/obj
 
+**/Views/**/*
+**/Views
+
+
+
+
+
 .dockerignore
+
+**/*.cs
+**/*.js
+**/*.map
+
+**/*.md
+
+**/web.config
+**/Jenkinsfile-base
+**/Jenkinsfile
+**/Dockerfile
