@@ -7,7 +7,6 @@ node('docker') {
 
     stage('Docker build base image') {
          sh  '''mv docker/imagegallery-client-base.dockerfile .dockerignore'''
-        }
 
     }
 
