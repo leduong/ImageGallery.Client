@@ -1,7 +1,7 @@
 node('docker') {
 
-    stage('Git Checkout') {
-        git credentialsId: 'gihub-key', url: 'git@github.com:stuartshay/NavigatorIdentity.git'
+    stage('Git checkout') {
+        git branch: 'NG5', credentialsId: 'gihub-key', url: 'git@github.com:stuartshay/ImageGallery.Client.git'
     }
 
     stage('Package Diff') {
