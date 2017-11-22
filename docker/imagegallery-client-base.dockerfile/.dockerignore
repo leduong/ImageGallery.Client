@@ -1,0 +1,10 @@
+docker/**/*
+docker/
+
+**/bin/**/*
+**/bin
+
+**/obj/**/*
+**/obj
+
+.dockerignore
