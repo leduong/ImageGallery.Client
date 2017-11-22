@@ -6,7 +6,8 @@ node('docker') {
 
 
     stage('Docker build base image') {
-         sh  '''mv docker/imagegallery-client-base.dockerfile .dockerignore'''
+         sh  '''mv docker/imagegallery-client-base.dockerfile .dockerignore
+          docker build -f docker/imagegallery-client-base.dockerfile/Dockerfile --build-arg BUILD_NUMBER=${BUILD_NUMBER} -t stuartshay/imagegallery-client:2.0-base . '''
 
     }
 
