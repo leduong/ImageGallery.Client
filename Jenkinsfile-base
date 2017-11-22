@@ -6,7 +6,7 @@ node('docker') {
 
 
     stage('Docker build base image') {
-         sh   '''ls docker -la'''
+         sh   '''ls docker/imagegallery-client-base.dockerfile -la'''
     }
 
 
