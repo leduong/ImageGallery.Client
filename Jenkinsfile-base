@@ -6,7 +6,7 @@ node('docker') {
 
 
     stage('Docker build base image') {
-         sh   '''ls -la'''
+         sh   '''ls docker -la'''
     }
 
 
