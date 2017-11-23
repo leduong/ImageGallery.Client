@@ -9,15 +9,14 @@ COPY ImageGallery.Client.sln /app/ImageGallery.Client.sln
 
 WORKDIR /app/src/ImageGallery.Client
 
+RUN node --version
+RUN npm --version
+
 RUN dotnet setversion 2.0.0.${BUILD_NUMBER};
 RUN dotnet publish -o /publish -c Release -f netcoreapp2.0 -r debian.8-x64
 
 # Runtime Image Stage
 FROM microsoft/aspnetcore:2.0
-
-RUN node --version
-RUN npm --version
-
 
 WORKDIR /publish
 COPY --from=build-env /publish .
