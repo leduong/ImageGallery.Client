@@ -9,6 +9,7 @@ using ImageGallery.Client.ViewModels;
 using ImageGallery.Model;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Newtonsoft.Json;
@@ -19,12 +20,14 @@ namespace ImageGallery.Client.Apis
     public class GalleryApiController : Controller
     {
         private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
+        private readonly ILogger<GalleryApiController> _logger;
 
         private ConfigurationOptions ApplicationSettings { get; }
 
         public GalleryApiController(IOptions<ConfigurationOptions> settings,
-            IImageGalleryHttpClient imageGalleryHttpClient)
+            IImageGalleryHttpClient imageGalleryHttpClient, ILogger<GalleryApiController> logger)
         {
+            _logger = logger;
             ApplicationSettings = settings.Value;
             _imageGalleryHttpClient = imageGalleryHttpClient;
         }
@@ -36,9 +39,12 @@ namespace ImageGallery.Client.Apis
             await WriteOutIdentityInformation();
 
             // call the API
+            var imagesRoute = "api/images";
             var httpClient = await _imageGalleryHttpClient.GetClient();
 
-            var response = await httpClient.GetAsync("api/images").ConfigureAwait(false);
+            var response = await httpClient.GetAsync(imagesRoute).ConfigureAwait(false);
+
+            _logger.LogInformation($"Call {imagesRoute} return {response.StatusCode}.");
 
             if (response.IsSuccessStatusCode)
             {
@@ -52,10 +58,52 @@ namespace ImageGallery.Client.Apis
 
                 return Ok(galleryIndexViewModel);
             }
-            else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized ||
-                     response.StatusCode == System.Net.HttpStatusCode.Forbidden)
+
+            switch (response.StatusCode)
             {
-                return RedirectToAction("AccessDenied", "Authorization");
+                case System.Net.HttpStatusCode.Unauthorized:
+                    return Unauthorized();
+
+                case System.Net.HttpStatusCode.Forbidden:
+                    return new ForbidResult();
+            }
+
+            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> EditImage(Guid id)
+        {
+            // call the API
+            var imagesRoute = $"api/images/{id}";
+            var httpClient = await _imageGalleryHttpClient.GetClient();
+
+            var response = await httpClient.GetAsync(imagesRoute).ConfigureAwait(false);
+
+            _logger.LogInformation($"Call {imagesRoute} return {response.StatusCode}.");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var imageAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                var deserializedImage = JsonConvert.DeserializeObject<Image>(imageAsString);
+
+                var editImageViewModel = new EditImageViewModel
+                {
+                    Id = deserializedImage.Id,
+                    Title = deserializedImage.Title,
+                    Category = deserializedImage.Category,
+                };
+
+                return Ok(editImageViewModel);
+            }
+
+            switch (response.StatusCode)
+            {
+                case System.Net.HttpStatusCode.Unauthorized:
+                    return Unauthorized();
+
+                case System.Net.HttpStatusCode.Forbidden:
+                    return new ForbidResult();
             }
 
             throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
