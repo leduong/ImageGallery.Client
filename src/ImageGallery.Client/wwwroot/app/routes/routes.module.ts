@@ -7,12 +7,14 @@ import { PagesModule } from './pages/pages.module';
 
 import { menu } from './menu';
 import { routes } from './routes';
+import { GalleryModule } from './gallery/gallery.module';
 
 @NgModule({
     imports: [
         SharedModule,
         RouterModule.forRoot(routes),
-        PagesModule
+        PagesModule,
+        GalleryModule
     ],
     declarations: [],
     exports: [

@@ -8,16 +8,22 @@ import { MaintenanceComponent } from './pages/maintenance/maintenance.component'
 import { Error404Component } from './pages/error404/error404.component';
 import { Error500Component } from './pages/error500/error500.component';
 
+import { GalleryComponent } from './gallery/gallery/gallery.component';
+import { GalleryEditComponent } from './gallery/gallery-edit/gallery-edit.component';
+import { GalleryModule } from './gallery/gallery.module';
+
 export const routes = [
 
     {
         path: '',
         component: LayoutComponent,
         children: [
-            { path: '', redirectTo: 'home', pathMatch: 'full' },
-            { path: 'home', loadChildren: './gallery/gallery.module#GalleryModule' }
+            { path: '', redirectTo: 'home', pathMatch: 'full' }
         ]
     },
+
+    { path: 'home', component: GalleryComponent },
+    { path: 'gallery-edit/:id', component: GalleryEditComponent },
 
     // Not lazy-loaded routes
     { path: 'login', component: LoginComponent },

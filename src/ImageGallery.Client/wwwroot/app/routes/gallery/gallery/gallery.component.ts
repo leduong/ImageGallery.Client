@@ -16,7 +16,9 @@ export class GalleryComponent implements OnInit {
     constructor(private galleryService: GalleryService) { }
 
     ngOnInit() {
-        this.getGalleryIndexViewModel()
+        console.log(`[ngOnInit] app-gallery`);
+
+        this.getGalleryIndexViewModel();
     }
 
     getGalleryIndexViewModel() {
