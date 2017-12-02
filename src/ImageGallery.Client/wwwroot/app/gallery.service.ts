@@ -4,7 +4,7 @@ import { Http, Headers, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 
-import { IGalleryIndexViewModel } from './shared/interfaces';
+import { IGalleryIndexViewModel, IEditImageViewModel } from './shared/interfaces';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable()
@@ -18,6 +18,11 @@ export class GalleryService {
     getGalleryIndexViewModel(): Observable<IGalleryIndexViewModel> {
         return this.http.get<IGalleryIndexViewModel>(this.baseUrl)
         .catch(this.handleError);
+    }
+
+    getEditImageViewModel(id: string): Observable<IEditImageViewModel> {
+        return this.http.get<IEditImageViewModel>(`${this.baseUrl}/${id}`)
+            .catch(this.handleError);
     }
 
     private handleError(error: any) {

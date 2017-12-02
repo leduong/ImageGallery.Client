@@ -9,3 +9,9 @@ export interface IGalleryIndexViewModel {
     images: IImage[];
     imagesUri: string;
 }
+
+export interface IEditImageViewModel {
+    id: string;
+    title: string;
+    category: string;
+}
