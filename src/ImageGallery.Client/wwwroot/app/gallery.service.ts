@@ -6,6 +6,7 @@ import 'rxjs/add/operator/catch';
 
 import { IGalleryIndexViewModel, IEditImageViewModel } from './shared/interfaces';
 import { HttpClient } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class GalleryService {
@@ -15,13 +16,19 @@ export class GalleryService {
     constructor(private http: HttpClient) {
     }
 
-    getGalleryIndexViewModel(): Observable<IGalleryIndexViewModel> {
+    public getGalleryIndexViewModel(): Observable<IGalleryIndexViewModel> {
         return this.http.get<IGalleryIndexViewModel>(this.baseUrl)
-        .catch(this.handleError);
+            .catch(this.handleError);
     }
 
-    getEditImageViewModel(id: string): Observable<IEditImageViewModel> {
+    public getEditImageViewModel(id: string): Observable<IEditImageViewModel> {
         return this.http.get<IEditImageViewModel>(`${this.baseUrl}/${id}`)
+            .catch(this.handleError);
+    }
+
+    public postEditImageViewModel(model: IEditImageViewModel): Observable<Object> {
+        let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        return this.http.post(this.baseUrl, JSON.stringify(model), { headers: headers })
             .catch(this.handleError);
     }
 

@@ -6,6 +6,7 @@ import 'rxjs/add/operator/toPromise';
 
 import { GalleryService } from '../../../gallery.service';
 import { IEditImageViewModel } from '../../../shared/interfaces';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -17,6 +18,8 @@ import { IEditImageViewModel } from '../../../shared/interfaces';
 export class GalleryEditComponent implements OnInit {
 
     editImageViewModel: IEditImageViewModel;
+
+    categories: string[] = ['Landscapes', 'Portraits', 'Animals'];
 
     constructor(private readonly galleryService: GalleryService, private activatedRoute: ActivatedRoute) { }
 
@@ -30,13 +33,22 @@ export class GalleryEditComponent implements OnInit {
         this.getEditImageViewModel(imageId);
     }
 
+    public onSubmit() {
+        console.log(`[onSubmit] app-gallery-edit`);
+
+        this.galleryService.postEditImageViewModel(this.editImageViewModel)
+            .subscribe((response) => { },
+            (err: any) => console.log(err),
+            () => console.log('postEditImageViewModel() posted EditImageViewModel'));;
+    }
+
     private async getImageIdAsync(): Promise<string> {
         const params = await this.activatedRoute.paramMap.first().toPromise();
         const imageId = params.get('id');
         return imageId;
     }
 
-    getEditImageViewModel(imageId: string) {
+    private getEditImageViewModel(imageId: string) {
         this.galleryService.getEditImageViewModel(imageId)
             .subscribe((response: IEditImageViewModel) => {
                 this.editImageViewModel = response;
