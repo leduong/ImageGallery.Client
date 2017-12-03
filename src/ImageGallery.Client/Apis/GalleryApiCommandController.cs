@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using ImageGallery.Client.Configuration;
@@ -54,6 +55,29 @@ namespace ImageGallery.Client.Apis
 
             if (response.IsSuccessStatusCode)
                 return Ok();
+
+            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteImage(Guid id)
+        {
+            // call the API
+            var httpClient = await _imageGalleryHttpClient.GetClient();
+
+            var response = await httpClient.DeleteAsync($"{InternalImagesRoute}/{id}").ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+                return Ok();
+
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.Unauthorized:
+                    return Unauthorized();
+
+                case HttpStatusCode.Forbidden:
+                    return new ForbidResult();
+            }
 
             throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
         }

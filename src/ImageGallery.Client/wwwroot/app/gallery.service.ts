@@ -32,6 +32,11 @@ export class GalleryService {
             .catch(this.handleError);
     }
 
+    public deleteImageViewModel(id: string): Observable<Object> {
+        return this.http.delete(`${this.baseUrl}/${id}`)
+            .catch(this.handleError);
+    }
+
     private handleError(error: any) {
         console.error('server error:', error);
         if (error instanceof Response) {
