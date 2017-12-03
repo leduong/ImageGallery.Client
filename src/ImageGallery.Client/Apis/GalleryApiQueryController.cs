@@ -17,18 +17,21 @@ using Newtonsoft.Json;
 namespace ImageGallery.Client.Apis
 {
     [Route("api/images")]
-    public class GalleryApiController : Controller
+    public class GalleryApiQueryController : Controller
     {
         private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
-        private readonly ILogger<GalleryApiController> _logger;
+        private readonly ILogger<GalleryApiQueryController> _logger;
+
+        private const string InternalImagesRoute = "api/images";
 
         private ConfigurationOptions ApplicationSettings { get; }
 
-        public GalleryApiController(IOptions<ConfigurationOptions> settings,
-            IImageGalleryHttpClient imageGalleryHttpClient, ILogger<GalleryApiController> logger)
+        public GalleryApiQueryController(IOptions<ConfigurationOptions> settings,
+            IImageGalleryHttpClient imageGalleryHttpClient, ILogger<GalleryApiQueryController> logger)
         {
-            _logger = logger;
             ApplicationSettings = settings.Value;
+
+            _logger = logger;
             _imageGalleryHttpClient = imageGalleryHttpClient;
         }
 
@@ -39,12 +42,11 @@ namespace ImageGallery.Client.Apis
             await WriteOutIdentityInformation();
 
             // call the API
-            var imagesRoute = "api/images";
             var httpClient = await _imageGalleryHttpClient.GetClient();
 
-            var response = await httpClient.GetAsync(imagesRoute).ConfigureAwait(false);
+            var response = await httpClient.GetAsync(InternalImagesRoute).ConfigureAwait(false);
 
-            _logger.LogInformation($"Call {imagesRoute} return {response.StatusCode}.");
+            _logger.LogInformation($"Call {InternalImagesRoute} return {response.StatusCode}.");
 
             if (response.IsSuccessStatusCode)
             {
@@ -75,7 +77,7 @@ namespace ImageGallery.Client.Apis
         public async Task<IActionResult> EditImage(Guid id)
         {
             // call the API
-            var imagesRoute = $"api/images/{id}";
+            var imagesRoute = $"{InternalImagesRoute}/{id}";
             var httpClient = await _imageGalleryHttpClient.GetClient();
 
             var response = await httpClient.GetAsync(imagesRoute).ConfigureAwait(false);
