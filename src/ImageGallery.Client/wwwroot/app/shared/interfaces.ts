@@ -15,3 +15,9 @@ export interface IEditImageViewModel {
     title: string;
     category: string;
 }
+
+export interface IAddImageViewModel {
+    title: string;
+    category: string;
+    file: File;
+}
