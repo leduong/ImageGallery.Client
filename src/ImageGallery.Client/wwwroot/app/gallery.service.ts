@@ -42,7 +42,7 @@ export class GalleryService {
         formData.append('Title', model.title);
         formData.append('Category', model.category);
         formData.append('File', model.file);
-        return this.http.post(`${this.baseUrl}/add`, formData)
+        return this.http.post(`${this.baseUrl}/order`, formData)
             .catch(this.handleError);
     }
 
