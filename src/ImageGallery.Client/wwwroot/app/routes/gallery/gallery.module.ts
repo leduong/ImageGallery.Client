@@ -3,16 +3,20 @@ import { GalleryComponent } from './gallery/gallery.component';
 import { GalleryEditComponent } from './gallery-edit/gallery-edit.component';
 import { Routes, RouterModule } from '@angular/router';
 import { SharedModule } from '../../shared/shared.module';
+import { GalleryAddComponent } from './gallery-add/gallery-add.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
     imports: [
         SharedModule
     ],
-    declarations: [GalleryComponent, GalleryEditComponent],
+    declarations: [GalleryComponent, GalleryEditComponent, GalleryAddComponent, AboutComponent],
     exports: [
         RouterModule,
         GalleryComponent,
-        GalleryEditComponent
+        GalleryEditComponent,
+        GalleryAddComponent,
+        AboutComponent
     ]
 })
 export class GalleryModule { }
