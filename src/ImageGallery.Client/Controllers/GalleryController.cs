@@ -146,7 +146,7 @@ namespace ImageGallery.Client.Controllers
             };
 
             // take the first (only) file in the Files list
-            var imageFile = addImageViewModel.Files.First();
+            var imageFile = addImageViewModel.File;
 
             if (imageFile.Length > 0)
             {
