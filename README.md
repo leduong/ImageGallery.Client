@@ -7,7 +7,6 @@
  Jenkins | Status  
 ------------ | -------------
 Base Image | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery/ImageGallery-Client-Base-2)](https://jenkins.navigatorglass.com/job/ImageGallery/job/ImageGallery-Client-Base-2/)
-
 Application Image | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery/ImageGallery-Client-Build-2)](https://jenkins.navigatorglass.com/job/ImageGallery/ImageGallery-Client-Build-2)
 
 
