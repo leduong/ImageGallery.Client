@@ -11,6 +11,10 @@ import { CoreModule } from './core/core.module';
 import { LayoutModule } from './layout/layout.module';
 import { SharedModule } from './shared/shared.module';
 import { RoutesModule } from './routes/routes.module';
+import { AuthService } from './services/auth.service';
+
+import { AuthModule, OidcSecurityService } from 'angular-auth-oidc-client';
+import { HttpModule } from '@angular/http';
 
 // https://github.com/ocombe/ng2-translate/issues/218
 export function createTranslateLoader(http: HttpClient) {
@@ -22,6 +26,8 @@ export function createTranslateLoader(http: HttpClient) {
         AppComponent
     ],
     imports: [
+        AuthModule.forRoot(),
+        HttpModule,
         HttpClientModule,
         BrowserAnimationsModule, // required for ng2-tag-input
         CoreModule,
@@ -36,7 +42,20 @@ export function createTranslateLoader(http: HttpClient) {
             }
         })
     ],
-    providers: [],
+    providers: [
+        { provide: 'ORIGIN_URL', useFactory: getBaseUrl },
+        { provide: 'IDENTITY_URL', useFactory: identityUrlFactory },
+        AuthService,
+        OidcSecurityService
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function getBaseUrl() {
+    return document.getElementsByTagName('base')[0].href;
+}
+
+export function identityUrlFactory() {
+    return "https://auth.informationcart.com";
+}

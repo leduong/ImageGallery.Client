@@ -12,6 +12,7 @@ using ImageGallery.Model;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Newtonsoft.Json;
@@ -22,17 +23,19 @@ namespace ImageGallery.Client.Apis
     public class GalleryApiCommandController : Controller
     {
         private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
+        private readonly ILogger<GalleryApiCommandController> _logger;
 
         private const string InternalImagesRoute = "api/images";
 
         private ConfigurationOptions ApplicationSettings { get; }
 
         public GalleryApiCommandController(IOptions<ConfigurationOptions> settings,
-            IImageGalleryHttpClient imageGalleryHttpClient)
+            IImageGalleryHttpClient imageGalleryHttpClient, ILogger<GalleryApiCommandController> logger)
         {
-            ApplicationSettings = settings.Value;
-
+            _logger = logger;
             _imageGalleryHttpClient = imageGalleryHttpClient;
+
+            ApplicationSettings = settings.Value;
         }
 
         [HttpPost]
@@ -69,6 +72,8 @@ namespace ImageGallery.Client.Apis
         [HttpDelete]
         public async Task<IActionResult> DeleteImage(Guid id)
         {
+            _logger.LogInformation($"Delete image by Id {id}");
+
             // call the API
             var httpClient = await _imageGalleryHttpClient.GetClient();
 

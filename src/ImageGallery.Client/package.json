@@ -108,5 +108,8 @@
     "webpack-node-externals": "1.6.0",
     "whirl": "github:jh3y/whirl",
     "zone.js": "0.8.14"
+  },
+  "devDependencies": {
+    "angular-auth-oidc-client": "^3.0.5"
   }
 }

@@ -1,25 +1,42 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../authentication.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { AuthService } from '../services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-layout',
     templateUrl: './layout.component.html',
     styleUrls: ['./layout.component.scss'],
-    providers: [AuthenticationService]
+    providers: [AuthService]
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent implements OnInit, OnDestroy {
+    isAuthorizedSubscription: Subscription;
+    isAuthorized: boolean;
 
-    constructor(private readonly authenticationService: AuthenticationService) { }
+    constructor(private authService: AuthService) {
+    }
 
     ngOnInit() {
         console.log(`[ngOnInit] app-layout`);
+
+        this.isAuthorizedSubscription = this.authService.getIsAuthorized().subscribe(
+            (isAuthorized: boolean) => {
+                this.isAuthorized = isAuthorized;
+            });
     }
 
-    public onLogout() {
-        this.authenticationService.logout()
-            .subscribe((response) => { },
-            (err: any) => console.log(err),
-            () => console.log('logout()'));;
+    ngOnDestroy(): void {
+        this.isAuthorizedSubscription.unsubscribe();
     }
 
+    public login() {
+        this.authService.login();
+    }
+
+    public refreshSession() {
+        this.authService.refreshSession();
+    }
+
+    public logout() {
+        this.authService.logout();
+    }
 }
