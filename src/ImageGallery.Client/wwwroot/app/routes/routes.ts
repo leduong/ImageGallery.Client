@@ -37,6 +37,6 @@ export const routes = [
     { path: '500', component: Error500Component },
 
     // Not found
-    { path: '**', redirectTo: 'home' }
+    { path: '**', redirectTo: '' }
 
 ];

@@ -15,14 +15,14 @@
                     <a routerLink="/">Home</a>
                 </li>
                 <li>
-                    <a routerLink="/gallery-add">Add an image</a>
+                    <a *ngIf="isAuthorized" routerLink="/gallery-add">Add an image</a>
                 </li>
                 <!-- <li><a asp-area="" asp-controller="Gallery" asp-action="OrderFrame">Order a framed image</a></li> -->
                 <li>
-                    <a routerLink="/about">About</a>
+                    <a *ngIf="isAuthorized" routerLink="/about">About</a>
                 </li>
                 <li>
-                    <a href="#" (click)="logout()">Logout</a>
+                    <a *ngIf="isAuthorized" href="#" (click)="logout()">Logout</a>
                 </li>
             </ul>
         </div>
