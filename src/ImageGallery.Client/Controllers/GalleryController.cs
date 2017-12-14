@@ -13,25 +13,29 @@ using IdentityModel.Client;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Services;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace ImageGallery.Client.Controllers
 {
-    [Authorize]
     public class GalleryController : Controller
     {
         private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
+        private readonly ILogger<GalleryController> _logger;
         private ConfigurationOptions ApplicationSettings { get; }
 
-        public GalleryController(IOptions<ConfigurationOptions> settings, IImageGalleryHttpClient imageGalleryHttpClient)
+        public GalleryController(IOptions<ConfigurationOptions> settings, IImageGalleryHttpClient imageGalleryHttpClient, ILogger<GalleryController> logger)
         {
             ApplicationSettings = settings.Value;
             _imageGalleryHttpClient = imageGalleryHttpClient;
+            _logger = logger;
         }
 
         public IActionResult Index()
         {
+            _logger.LogInformation($"Index() of {typeof(GalleryController)}");
+
             return View();
         }
 
