@@ -85,12 +85,11 @@ namespace ImageGallery.Client
                     options.Scope.Add("profile");
                     options.Scope.Add("address");
                     options.Scope.Add("country");
-                    options.Scope.Add("offline_access");
                     options.Scope.Add("imagegalleryapi");
                     options.Scope.Add("subscriptionlevel");
-                    
 
-                    options.ResponseType = "code id_token";
+
+                    options.ResponseType = "id_token token";
                     // CallbackPath = new PathString("...")
                     options.SignInScheme = "Cookies";
                     options.SaveTokens = true;
