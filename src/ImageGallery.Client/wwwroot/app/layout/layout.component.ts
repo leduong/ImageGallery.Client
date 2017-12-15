@@ -16,20 +16,18 @@ export class LayoutComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        console.log(`[ngOnInit] app-layout`);
+        console.log(`[LayoutComponent] -> [ngOnInit]`);
 
         this.isAuthorizedSubscription = this.authService.getIsAuthorized().subscribe(
             (isAuthorized: boolean) => {
+                console.log(`[AuthService] -> [getIsAuthorized] raised with ${isAuthorized}`);
+
                 this.isAuthorized = isAuthorized;
             });
     }
 
     ngOnDestroy(): void {
         this.isAuthorizedSubscription.unsubscribe();
-    }
-
-    public login() {
-        this.authService.login();
     }
 
     public refreshSession() {
