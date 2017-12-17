@@ -96,15 +96,15 @@ export class AuthService implements OnInit, OnDestroy {
         console.log(`location is ${location} and window.location.hash is ${hash}`)
 
         if (typeof location !== "undefined" && hash) {
-            console.log(`[authorizedCallback()] of [OidcSecurityService] call`);
+            console.log(`[OidcSecurityService] -> [authorizedCallback()]`);
 
             this.oidcSecurityService.authorizedCallback();
         } else {
-            console.log(`[OidcSecurityService] -> [getToken()] call`);
+            console.log(`[OidcSecurityService] -> [getToken()]`);
 
             let token = this.oidcSecurityService.getToken();
             if (!token) {
-                console.log(`[login()] call`);
+                console.log(`[AuthService] -> [login] call`);
 
                 this.login()
             }
