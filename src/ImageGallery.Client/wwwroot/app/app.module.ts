@@ -14,6 +14,7 @@ import { RoutesModule } from './routes/routes.module';
 import { AuthService } from './services/auth.service';
 
 import { AuthModule, OidcSecurityService } from 'angular-auth-oidc-client';
+import { JwtModule } from '@auth0/angular-jwt';
 import { HttpModule } from '@angular/http';
 
 // https://github.com/ocombe/ng2-translate/issues/218
@@ -40,7 +41,14 @@ export function createTranslateLoader(http: HttpClient) {
                 useFactory: (createTranslateLoader),
                 deps: [HttpClient]
             }
-        })
+        }),
+        JwtModule.forRoot({
+            config: {
+              tokenGetter: () => {
+                return JSON.parse(sessionStorage.getItem('authorizationData'));
+              }
+            }
+          })
     ],
     providers: [
         { provide: 'ORIGIN_URL', useFactory: getBaseUrl },
