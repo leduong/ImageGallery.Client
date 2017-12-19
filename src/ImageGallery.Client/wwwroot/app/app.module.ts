@@ -16,6 +16,7 @@ import { AuthService } from './services/auth.service';
 import { AuthModule, OidcSecurityService } from 'angular-auth-oidc-client';
 import { JwtModule } from '@auth0/angular-jwt';
 import { HttpModule } from '@angular/http';
+import { HasPayingUserRoleAuthenticationGuard } from './guards/hasPayingUserRoleAuthenticationGuard';
 
 // https://github.com/ocombe/ng2-translate/issues/218
 export function createTranslateLoader(http: HttpClient) {
@@ -54,7 +55,8 @@ export function createTranslateLoader(http: HttpClient) {
         { provide: 'ORIGIN_URL', useFactory: getBaseUrl },
         { provide: 'IDENTITY_URL', useFactory: identityUrlFactory },
         AuthService,
-        OidcSecurityService
+        OidcSecurityService,
+        HasPayingUserRoleAuthenticationGuard
     ],
     bootstrap: [AppComponent]
 })

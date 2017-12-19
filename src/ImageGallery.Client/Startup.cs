@@ -91,13 +91,6 @@ namespace ImageGallery.Client
                         policyBuilder.RequireAuthenticatedUser();
                         policyBuilder.RequireClaim("country", "be");
                         policyBuilder.RequireClaim("subscriptionlevel", "PayingUser");
-                        //policyBuilder.RequireRole("role", "PayingUser");
-                    });
-
-                authorizationOptions.AddPolicy(
-                    "PayingUser",
-                    policyBuilder =>
-                    {
                         policyBuilder.RequireRole("PayingUser");
                     });
             });

@@ -4,13 +4,14 @@ import { GalleryService } from '../../../gallery.service';
 import { IAddImageViewModel } from '../../../shared/interfaces';
 import { Observable } from 'rxjs/Observable';
 import { debug } from 'util';
+import { HasPayingUserRoleAuthenticationGuard } from '../../../guards/hasPayingUserRoleAuthenticationGuard';
 
 
 @Component({
     selector: 'app-gallery-add',
     templateUrl: './gallery-add.component.html',
     styleUrls: ['./gallery-add.component.scss'],
-    providers: [GalleryService]
+    providers: [GalleryService, HasPayingUserRoleAuthenticationGuard]
 })
 export class GalleryAddComponent implements OnInit {
 

@@ -36,7 +36,7 @@ namespace ImageGallery.Client.Apis
             _imageGalleryHttpClient = imageGalleryHttpClient;
         }
 
-        [Authorize(Policy = "PayingUser")]
+        [Authorize(Roles = "PayingUser")]
         [HttpGet]
         [ProducesResponseType(typeof(GalleryIndexViewModel), 200)]
         public async Task<ActionResult> GalleryIndexViewModel()
@@ -75,6 +75,7 @@ namespace ImageGallery.Client.Apis
             throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> EditImage(Guid id)
         {

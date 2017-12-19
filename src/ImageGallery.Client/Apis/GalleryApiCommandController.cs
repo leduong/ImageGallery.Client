@@ -96,7 +96,7 @@ namespace ImageGallery.Client.Apis
 
         [HttpPost]
         [Route("add")]
-        //[Authorize(Roles = "PayingUser")]
+        [Authorize(Roles = "PayingUser")]
         public IActionResult AddImage()
         {
             return Ok();
@@ -104,7 +104,7 @@ namespace ImageGallery.Client.Apis
 
         [HttpPost]
         [Route("order")]
-        //[Authorize(Policy = "CanOrderFrame")]
+        [Authorize(Policy = "CanOrderFrame")]
         public async Task<IActionResult> AddImage(AddImageViewModel addImageViewModel)
         {
             if (!ModelState.IsValid)

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate} from '@angular/router';
+import { CanActivate } from '@angular/router';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { RolesConstants } from '../roles.constants';
 
@@ -27,11 +27,12 @@ export class HasPayingUserRoleAuthenticationGuard implements CanActivate {
             (userData: any) => {
                 console.log(`[HasPayingUserRoleAuthenticationGuard] -> [OidcSecurityService] -> [getUserData] raised`)
 
-                if (userData && userData !== '') {
-                    for (let i = 0; i < userData.role.length; i++) {
-                        if (userData.role[i] === RolesConstants.PayingUser) {
-                            this.hasPayingUserRole = true;
-                        }
+                if (userData && userData !== '' && userData.role !== '') {
+                    let roleName = userData.role;
+                    console.log(`Role name is ${roleName}`)
+
+                    if (roleName === RolesConstants.PayingUser) {
+                        this.hasPayingUserRole = true;
                     }
                 }
             });
