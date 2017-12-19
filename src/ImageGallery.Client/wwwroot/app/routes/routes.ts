@@ -13,6 +13,7 @@ import { GalleryEditComponent } from './gallery/gallery-edit/gallery-edit.compon
 import { GalleryModule } from './gallery/gallery.module';
 import { GalleryAddComponent } from './gallery/gallery-add/gallery-add.component';
 import { AboutComponent } from './gallery/about/about.component';
+import { HasPayingUserRoleAuthenticationGuard } from '../guards/hasPayingUserRoleAuthenticationGuard';
 
 export const routes = [
 
@@ -21,7 +22,7 @@ export const routes = [
         component: LayoutComponent,
         children: [
             { path: '', component: GalleryComponent },
-            { path: 'gallery-add', component: GalleryAddComponent },
+            { path: 'gallery-add', component: GalleryAddComponent, canActivate: [HasPayingUserRoleAuthenticationGuard] },
             { path: 'gallery-edit/:id', component: GalleryEditComponent },
             { path: 'about', component: AboutComponent }
         ]

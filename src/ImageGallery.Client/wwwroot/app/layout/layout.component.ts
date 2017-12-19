@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { RolesConstants } from '../roles.constants';
 
 @Component({
     selector: 'app-layout',
@@ -37,7 +38,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
                     let roleName = userData.role;
                     console.log(`Role name is ${roleName}`)
 
-                    if (roleName === 'PayingUser') {
+                    if (roleName === RolesConstants.PayingUser) {
                         this.hasPayingUserRole = true;
                     }
                 }
