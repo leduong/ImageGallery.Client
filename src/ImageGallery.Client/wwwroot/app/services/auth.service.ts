@@ -1,5 +1,4 @@
 import { Injectable, Component, OnInit, OnDestroy, Inject } from '@angular/core';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -10,8 +9,7 @@ export class AuthService implements OnInit, OnDestroy {
     isAuthorizedSubscription: Subscription;
     isAuthorized: boolean;
 
-    constructor(public oidcSecurityService: OidcSecurityService,
-        private http: Http,
+    constructor(private oidcSecurityService: OidcSecurityService,
         @Inject('ORIGIN_URL') originUrl: string,
         @Inject('IDENTITY_URL') identityUrl: string
     ) {
