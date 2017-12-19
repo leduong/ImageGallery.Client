@@ -16,7 +16,7 @@ namespace ImageGallery.Client.Services
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HttpClient _httpClient = new HttpClient();
-        private ConfigurationOptions ApplicationSettings { get; set; }
+        private ConfigurationOptions ApplicationSettings { get; }
 
         public ImageGalleryHttpClient(IOptions<ConfigurationOptions> settings, IHttpContextAccessor httpContextAccessor)
         {
@@ -26,31 +26,10 @@ namespace ImageGallery.Client.Services
 
         public async Task<HttpClient> GetClient()
         {
-            string accessToken = string.Empty;
-
             var currentContext = _httpContextAccessor.HttpContext;
           
-            //accessToken = await currentContext.Authentication.GetTokenAsync(
-            //    OpenIdConnectParameterNames.AccessToken);
-
-            // should we renew access & refresh tokens?
-            // get expires_at value
-            var expires_at = await currentContext.GetTokenAsync("expires_at");
-
-            // compare - make sure to use the exact date formats for comparison 
-            // (UTC, in this case)
-            if (string.IsNullOrWhiteSpace(expires_at)
-                || ((DateTime.Parse(expires_at).AddSeconds(-60)).ToUniversalTime()
-                    < DateTime.UtcNow))
-            {
-                accessToken = await RenewTokens();
-            }
-            else
-            {
-                // get access token
-                accessToken = await currentContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
-            }
-
+            // get access token
+            var accessToken = await currentContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
 
             if (!string.IsNullOrWhiteSpace(accessToken))
             {
