@@ -15,7 +15,7 @@ export class AuthService implements OnInit, OnDestroy {
         @Inject('ORIGIN_URL') originUrl: string,
         @Inject('IDENTITY_URL') identityUrl: string
     ) {
-        console.log(`Init [AuthService]`)
+        console.log(`Ctor of [AuthService]`)
 
         const openIdImplicitFlowConfiguration = new OpenIDImplicitFlowConfiguration();
         openIdImplicitFlowConfiguration.stsServer = identityUrl;
@@ -109,52 +109,5 @@ export class AuthService implements OnInit, OnDestroy {
                 this.login()
             }
         }
-    }
-
-    get(url: string, options?: RequestOptions): Observable<Response> {
-        return this.http.get(url, this.setRequestOptions(options));
-    }
-
-    put(url: string, data: any, options?: RequestOptions): Observable<Response> {
-        const body = JSON.stringify(data);
-        return this.http.put(url, body, this.setRequestOptions(options));
-    }
-
-    delete(url: string, options?: RequestOptions): Observable<Response> {
-        return this.http.delete(url, this.setRequestOptions(options));
-    }
-
-    post(url: string, data: any, options?: RequestOptions): Observable<Response> {
-        const body = JSON.stringify(data);
-        return this.http.post(url, body, this.setRequestOptions(options));
-    }
-
-    private setRequestOptions(options?: RequestOptions | null) {
-        if (options) {
-            this.appendAuthHeader(options.headers);
-        }
-        else {
-            options = new RequestOptions({ headers: this.getHeaders(), body: "" });
-        }
-        return options;
-    }
-
-    private getHeaders() {
-        const headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        this.appendAuthHeader(headers);
-        return headers;
-    }
-
-    private appendAuthHeader(headers?: Headers | null) {
-
-        if (headers == null) headers = this.getHeaders();
-
-        const token = this.oidcSecurityService.getToken();
-
-        if (token == '') return;
-
-        const tokenValue = 'Bearer ' + token;
-        headers.append('Authorization', tokenValue);
     }
 }

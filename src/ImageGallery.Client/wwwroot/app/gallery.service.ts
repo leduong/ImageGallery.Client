@@ -11,7 +11,7 @@ import { HttpHeaders } from '@angular/common/http';
 @Injectable()
 export class GalleryService {
 
-    baseUrl: string = '/api/images';
+    private baseUrl: string = '/api/images';
 
     constructor(private http: HttpClient) {
     }
