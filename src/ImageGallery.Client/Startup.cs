@@ -1,8 +1,5 @@
 ﻿using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using ImageGallery.Client.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,14 +8,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using ImageGallery.Client.Services;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.HttpOverrides;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.SpaServices.Webpack;
+using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
 using ConfigurationOptions = ImageGallery.Client.Configuration.ConfigurationOptions;
 
@@ -68,33 +63,23 @@ namespace ImageGallery.Client
 
             services.AddAuthentication(options =>
                 {
-                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddOpenIdConnect("OpenIdConnect", options =>
+                .AddJwtBearer(options =>
                 {
                     options.Authority = config.OpenIdConnectConfiguration.Authority;
                     options.RequireHttpsMetadata = true;
-                    options.ClientId = config.OpenIdConnectConfiguration.ClientId;
-
-                    options.Scope.Clear();
-                    options.Scope.Add("roles");
-                    options.Scope.Add("openid");
-                    options.Scope.Add("profile");
-                    options.Scope.Add("address");
-                    options.Scope.Add("country");
-                    options.Scope.Add("imagegalleryapi");
-                    options.Scope.Add("subscriptionlevel");
-
-
-                    options.ResponseType = "id_token token";
-                    // CallbackPath = new PathString("...")
-                    options.SignInScheme = "Cookies";
-                    options.SaveTokens = true;
-                    options.ClientSecret = config.OpenIdConnectConfiguration.ClientSecret;
-                    options.GetClaimsFromUserInfoEndpoint = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = true,
+                        ValidAudiences = new List<string>
+                        {
+                            $"{config.OpenIdConnectConfiguration.Authority}/resources",
+                            config.OpenIdConnectConfiguration.ClientId
+                        }
+                    };
                 });
 
             services.AddAuthorization(authorizationOptions =>
@@ -107,6 +92,13 @@ namespace ImageGallery.Client
                         policyBuilder.RequireClaim("country", "be");
                         policyBuilder.RequireClaim("subscriptionlevel", "PayingUser");
                         //policyBuilder.RequireRole("role", "PayingUser");
+                    });
+
+                authorizationOptions.AddPolicy(
+                    "PayingUser",
+                    policyBuilder =>
+                    {
+                        policyBuilder.RequireRole("PayingUser");
                     });
             });
 
@@ -154,8 +146,6 @@ namespace ImageGallery.Client
 
             #endregion 
 
-
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             var config = Configuration.Get<ConfigurationOptions>();
             Console.WriteLine("Authority" + config.OpenIdConnectConfiguration.Authority);
