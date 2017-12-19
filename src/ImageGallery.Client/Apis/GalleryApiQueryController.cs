@@ -8,6 +8,7 @@ using ImageGallery.Client.Services;
 using ImageGallery.Client.ViewModels;
 using ImageGallery.Model;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -35,6 +36,7 @@ namespace ImageGallery.Client.Apis
             _imageGalleryHttpClient = imageGalleryHttpClient;
         }
 
+        [Authorize(Policy = "PayingUser")]
         [HttpGet]
         [ProducesResponseType(typeof(GalleryIndexViewModel), 200)]
         public async Task<ActionResult> GalleryIndexViewModel()
