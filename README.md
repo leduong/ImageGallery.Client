@@ -13,9 +13,9 @@ Application Image | [![Build Status](https://jenkins.navigatorglass.com/buildSta
 ### Prerequisites
 
 ```
-Node v6.10.1
+Node v8.9.3
 NET Core 2.0.2
-VS Code 1.18.0 or VS 2017 15.4.2
+VS Code 1.19.1 or VS 2017 15.4.2
 ```
 
 ### Install
