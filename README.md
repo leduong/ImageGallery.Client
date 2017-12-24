@@ -28,6 +28,8 @@ cd src\ImageGallery.Client
 
 npm install
 
+npm run compile-app
+
 dotnet run
 
 http://localhost:5000/home
