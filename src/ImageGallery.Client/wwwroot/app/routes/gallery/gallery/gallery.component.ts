@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GalleryService } from '../../../gallery.service';
 import { IGalleryIndexViewModel } from '../../../shared/interfaces';
+import { AuthService } from '../../../services/auth.service';
 
 
 @Component({
@@ -13,12 +14,18 @@ export class GalleryComponent implements OnInit {
 
     galleryIndexViewModel: IGalleryIndexViewModel;
 
-    constructor(private galleryService: GalleryService) { }
+    constructor(private authService: AuthService, private galleryService: GalleryService) { }
 
     ngOnInit() {
         console.log(`[ngOnInit] app-gallery`);
 
-        this.getGalleryIndexViewModel();
+        this.authService.getIsAuthorized().subscribe(
+            (isAuthorized: boolean) => {
+                console.log(`[AuthService] -> [getIsAuthorized] raised with ${isAuthorized}`);
+
+                if (isAuthorized)
+                    this.getGalleryIndexViewModel();
+            });
     }
 
     public deleteImage(imageId: string) {
