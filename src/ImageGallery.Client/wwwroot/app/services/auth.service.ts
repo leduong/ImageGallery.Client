@@ -9,35 +9,8 @@ export class AuthService implements OnInit, OnDestroy {
     isAuthorizedSubscription: Subscription;
     isAuthorized: boolean;
 
-    constructor(private oidcSecurityService: OidcSecurityService,
-        @Inject('ORIGIN_URL') originUrl: string,
-        @Inject('IDENTITY_URL') identityUrl: string
-    ) {
+    constructor(private oidcSecurityService: OidcSecurityService) {
         console.log(`Ctor of [AuthService]`)
-
-        const openIdImplicitFlowConfiguration = new OpenIDImplicitFlowConfiguration();
-        openIdImplicitFlowConfiguration.stsServer = identityUrl;
-        openIdImplicitFlowConfiguration.redirect_url = originUrl + 'callback';
-
-        console.log(`redirect_url -> ${openIdImplicitFlowConfiguration.redirect_url}`)
-
-        openIdImplicitFlowConfiguration.client_id = 'imagegalleryjsclient';
-        openIdImplicitFlowConfiguration.response_type = 'id_token token';
-        openIdImplicitFlowConfiguration.scope = 'roles openid profile address country imagegalleryapi subscriptionlevel';
-        openIdImplicitFlowConfiguration.post_logout_redirect_uri = originUrl;
-
-        console.log(`post_logout_redirect_uri -> ${openIdImplicitFlowConfiguration.post_logout_redirect_uri}`);
-
-        openIdImplicitFlowConfiguration.forbidden_route = '/forbidden';
-        openIdImplicitFlowConfiguration.unauthorized_route = '/unauthorized';
-        openIdImplicitFlowConfiguration.auto_userinfo = true;
-        openIdImplicitFlowConfiguration.log_console_warning_active = true;
-        openIdImplicitFlowConfiguration.log_console_debug_active = false;
-        openIdImplicitFlowConfiguration.max_id_token_iat_offset_allowed_in_seconds = 10;
-        openIdImplicitFlowConfiguration.log_console_debug_active = true;
-        openIdImplicitFlowConfiguration.log_console_warning_active = true;
-
-        this.oidcSecurityService.setupModule(openIdImplicitFlowConfiguration);
 
         if (this.oidcSecurityService.moduleSetup) {
             console.log(`Property [moduleSetup] of [OidcSecurityService] configured properly`);
