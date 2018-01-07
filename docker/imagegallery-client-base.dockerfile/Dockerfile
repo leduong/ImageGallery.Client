@@ -17,12 +17,14 @@ RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.6/install.sh
 #    nvm install $NODE_VERSION; \
 #    nvm use --delete-prefix $NODE_VERSION;
 
-RUN source ~/.nvm/nvm.sh; \
-    nvm install v8.9.1; \
-    nvm use --delete-prefix v8.9.1;
+#RUN source ~/.nvm/nvm.sh; \
+ #   nvm install v8.9.1; \
+ #   nvm use --delete-prefix v8.9.1;
 
 COPY .  /app
 
 WORKDIR /app
 
 RUN dotnet restore
+RUN node -v
+RUN npm -v
