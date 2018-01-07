@@ -31,4 +31,10 @@ RUN npm -v
 COPY .  /app
 WORKDIR /app
 
-#RUN dotnet restore
+##RUN dotnet restore
+
+WORKDIR /app/src/ImageGallery.Client
+RUN npm install
+
+
+
