@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
     tree \
  && rm -rf /var/lib/apt/lists/*
 
-RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash
+RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/${NVM_VERSION}/install.sh | bash
 
 
 # install node and npm
