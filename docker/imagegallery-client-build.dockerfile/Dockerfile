@@ -43,9 +43,9 @@ WORKDIR /publish
 COPY --from=build-env /publish .
 
 # Set environment variables
-ENV ASPNETCORE_URLS="http://*:44300"
+ENV ASPNETCORE_URLS="http://*:44600"
 ENV ASPNETCORE_ENVIRONMENT="Staging"
 
-EXPOSE 44300
+EXPOSE 44600
 
 ENTRYPOINT ["dotnet", "ImageGallery.Client.dll"]
