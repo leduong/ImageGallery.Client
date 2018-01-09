@@ -7,37 +7,29 @@
 **/obj/**/*
 **/obj
 
+**/Apis/**/*
+**/Apis
+
 **/Properties/**/*
 **/Properties
+
+**/Services/**/*
+**/Services
 
 **/Views/**/*
 **/Views
 
+**/ViewModels/**/*
+**/ViewModels
+
 **/wwwroot/**/*
 **/wwwroot
-
 
 .dockerignore
 
 **/*.cs
 **/*.js
 **/*.map
-
-*/*.js
-*/*/*.js
-*/*/*/*.js
-*/*/*/*/*.js
-*/*/*/*/*/*.js
-*/*/*/*/*/*/*.js
-*/*/*/*/*/*/*/*.js
-*/*/*/*/*/*/*/*/*.js
-*/*/*/*/*/*/*/*/*/*.js
-
-
-
-
-
-
 **/*.md
 
 **/appsettings*.json
