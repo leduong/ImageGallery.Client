@@ -2,9 +2,9 @@
 {
     public class ConfigurationOptions
     {
-        public string ApiUri { get; set; } = "https://localhost:44370/";
+        public string ApiUri { get; set; }
 
-        public string ImagesUri { get; set; } = "https://localhost:44370/Images/";
+        public string ImagesUri { get; set; } 
     
         public Dataprotection Dataprotection { get; set; }
 

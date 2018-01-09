@@ -45,6 +45,10 @@ namespace ImageGallery.Client
             Console.WriteLine($"DataprotectionRedis: {config.Dataprotection.RedisConnection}");
             Console.WriteLine($"RedisKey: {config.Dataprotection.RedisKey}");
 
+            Console.WriteLine($"Authority: {config.OpenIdConnectConfiguration.Authority}");
+            Console.WriteLine($"ClientId: {config.OpenIdConnectConfiguration.ClientId}");
+            Console.WriteLine($"ClientSecret: {config.OpenIdConnectConfiguration.ClientSecret}");
+
             if (config.Dataprotection.Enabled)
             {
                 var redis = ConnectionMultiplexer.Connect(config.Dataprotection.RedisConnection);
