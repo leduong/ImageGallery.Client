@@ -9,11 +9,7 @@ ENV NVM_DIR /usr/local/nvm
 ARG BUILD_NUMBER=0
 ENV BUILD_NUMBER ${BUILD_NUMBER}
 
-COPY src /app/src
-COPY ImageGallery.Client.sln /app/ImageGallery.Client.sln
-
-WORKDIR /app/src/ImageGallery.Client
-
+# Install Packages 
 RUN apt-get update && apt-get install -y \
     curl
 
@@ -30,6 +26,12 @@ ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 RUN node -v
 RUN npm -v
+
+# Copy Source
+COPY src /app/src
+COPY ImageGallery.Client.sln /app/ImageGallery.Client.sln
+
+WORKDIR /app/src/ImageGallery.Client
 
 RUN dotnet setversion 2.0.0.${BUILD_NUMBER};
 RUN dotnet publish -o /publish -c Release -f netcoreapp2.0 -r debian.8-x64
