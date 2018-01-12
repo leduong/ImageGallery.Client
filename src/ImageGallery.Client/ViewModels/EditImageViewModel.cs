@@ -1,5 +1,4 @@
-﻿using ImageGallery.Model;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace ImageGallery.Client.ViewModels
@@ -13,6 +12,6 @@ namespace ImageGallery.Client.ViewModels
         public string Category { get; set; }
 
         [Required]
-        public Guid Id { get; set; }  
+        public Guid Id { get; set; }
     }
 }

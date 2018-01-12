@@ -22,21 +22,20 @@ namespace ImageGallery.Client.Apis
     [Route("api/images")]
     public class GalleryApiCommandController : Controller
     {
-        private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
-        private readonly ILogger<GalleryApiCommandController> _logger;
-
         private const string InternalImagesRoute = "api/images";
 
-        private ConfigurationOptions ApplicationSettings { get; }
+        private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
 
-        public GalleryApiCommandController(IOptions<ConfigurationOptions> settings,
-            IImageGalleryHttpClient imageGalleryHttpClient, ILogger<GalleryApiCommandController> logger)
+        private readonly ILogger<GalleryApiCommandController> _logger;
+
+        public GalleryApiCommandController(IOptions<ConfigurationOptions> settings, IImageGalleryHttpClient imageGalleryHttpClient, ILogger<GalleryApiCommandController> logger)
         {
             _logger = logger;
             _imageGalleryHttpClient = imageGalleryHttpClient;
-
             ApplicationSettings = settings.Value;
         }
+
+        private ConfigurationOptions ApplicationSettings { get; }
 
         [HttpPost]
         [Route("edit")]
@@ -49,7 +48,7 @@ namespace ImageGallery.Client.Apis
             var imageForUpdate = new ImageForUpdate
             {
                 Title = editImageViewModel.Title,
-                Category = editImageViewModel.Category
+                Category = editImageViewModel.Category,
             };
 
             // serialize it
@@ -152,7 +151,6 @@ namespace ImageGallery.Client.Apis
             #region Revocation Token on Logout
 
             // get the metadata
-
             Console.WriteLine("ApplicationSettings.Authority" + ApplicationSettings.OpenIdConnectConfiguration.Authority);
 
             var discoveryClient = new DiscoveryClient(ApplicationSettings.OpenIdConnectConfiguration.Authority);
@@ -171,7 +169,7 @@ namespace ImageGallery.Client.Apis
 
             Console.WriteLine("ClientId:" + x + "ClientSecret:" + x1 + "AuthenticationStyle:" + x2);
 
-            // get the access token to revoke 
+            // get the access token to revoke
             var accessToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
 
             if (!string.IsNullOrWhiteSpace(accessToken))

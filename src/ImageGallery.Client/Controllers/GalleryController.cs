@@ -1,29 +1,29 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using ImageGallery.Client.ViewModels;
-using Newtonsoft.Json;
-using ImageGallery.Model;
-using System.Net.Http;
 using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using IdentityModel.Client;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Services;
+using ImageGallery.Client.ViewModels;
+using ImageGallery.Model;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Newtonsoft.Json;
 
 namespace ImageGallery.Client.Controllers
 {
     public class GalleryController : Controller
     {
         private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
+
         private readonly ILogger<GalleryController> _logger;
-        private ConfigurationOptions ApplicationSettings { get; }
 
         public GalleryController(IOptions<ConfigurationOptions> settings, IImageGalleryHttpClient imageGalleryHttpClient, ILogger<GalleryController> logger)
         {
@@ -31,6 +31,8 @@ namespace ImageGallery.Client.Controllers
             _imageGalleryHttpClient = imageGalleryHttpClient;
             _logger = logger;
         }
+
+        private ConfigurationOptions ApplicationSettings { get; }
 
         public IActionResult Index()
         {
@@ -121,7 +123,6 @@ namespace ImageGallery.Client.Controllers
                 return RedirectToAction("AccessDenied", "Authorization");
             }
 
-
             throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
         }
 
@@ -133,8 +134,9 @@ namespace ImageGallery.Client.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        // [Authorize(Roles = "PayingUser")]
-        //[Authorize(Policy = "CanOrderFrame")]
+        /* [Authorize(Roles = "PayingUser")]
+           [Authorize(Policy = "CanOrderFrame")]
+        */
         public async Task<IActionResult> AddImage(AddImageViewModel addImageViewModel)
         {
             if (!ModelState.IsValid)
@@ -186,7 +188,6 @@ namespace ImageGallery.Client.Controllers
             #region Revocation Token on Logout
 
             // get the metadata
-
             Console.WriteLine("ApplicationSettings.Authority" + ApplicationSettings.OpenIdConnectConfiguration.Authority);
 
             var discoveryClient = new DiscoveryClient(ApplicationSettings.OpenIdConnectConfiguration.Authority);
@@ -199,15 +200,13 @@ namespace ImageGallery.Client.Controllers
             // create a TokenRevocationClient
             var revocationClient = new TokenRevocationClient(metaDataResponse.RevocationEndpoint, ApplicationSettings.OpenIdConnectConfiguration.ClientId, ApplicationSettings.OpenIdConnectConfiguration.ClientSecret);
 
-
-
             var x = revocationClient.ClientId;
             var x1 = revocationClient.ClientSecret;
             var x2 = revocationClient.AuthenticationStyle;
 
             Console.WriteLine("ClientId:" + x + "ClientSecret:" + x1 + "AuthenticationStyle:" + x2);
 
-            // get the access token to revoke 
+            // get the access token to revoke
             var accessToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
 
             if (!string.IsNullOrWhiteSpace(accessToken))
@@ -219,8 +218,7 @@ namespace ImageGallery.Client.Controllers
 
                 if (revokeAccessTokenResponse.IsError)
                 {
-                    throw new Exception("Problem encountered while revoking the access token."
-                        , revokeAccessTokenResponse.Exception);
+                    throw new Exception("Problem encountered while revoking the access token.", revokeAccessTokenResponse.Exception);
                 }
             }
 
@@ -234,8 +232,7 @@ namespace ImageGallery.Client.Controllers
 
                 if (revokeRefreshTokenResponse.IsError)
                 {
-                    throw new Exception("Problem encountered while revoking the refresh token."
-                        , revokeRefreshTokenResponse.Exception);
+                    throw new Exception("Problem encountered while revoking the refresh token.", revokeRefreshTokenResponse.Exception);
                 }
             }
 
@@ -259,9 +256,7 @@ namespace ImageGallery.Client.Controllers
 
             if (response.IsError)
             {
-                throw new Exception(
-                    "Problem accessing the UserInfo endpoint."
-                    , response.Exception);
+                throw new Exception("Problem accessing the UserInfo endpoint.", response.Exception);
             }
 
             var address = response.Claims.FirstOrDefault(c => c.Type == "address")?.Value;

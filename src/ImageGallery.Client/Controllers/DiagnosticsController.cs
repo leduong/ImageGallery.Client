@@ -20,7 +20,8 @@ namespace ImageGallery.Client.Controllers
         private readonly IConfiguration _configuration;
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="DiagnosticsController"/> class.
+        ///
         /// </summary>
         /// <param name="env"></param>
         /// <param name="configuration"></param>
@@ -64,7 +65,8 @@ namespace ImageGallery.Client.Controllers
 
             diagnostics.MachineTimeZone = TimeZoneInfo.Local.IsDaylightSavingTime(diagnostics.MachineDate) ? TimeZoneInfo.Local.DaylightName : TimeZoneInfo.Local.StandardName;
             diagnostics.ApplicationVersionNumber = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
-            //GetType().GetTypeInfo().Assembly.GetName().Version.ToString();
+
+            /* GetType().GetTypeInfo().Assembly.GetName().Version.ToString(); */
 
             var ipAddresses = Dns.GetHostAddressesAsync(diagnostics.DnsHostName).Result.Where(x => x.AddressFamily == AddressFamily.InterNetwork).ToList().Distinct();
 

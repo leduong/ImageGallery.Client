@@ -20,21 +20,20 @@ namespace ImageGallery.Client.Apis
     [Route("api/images")]
     public class GalleryApiQueryController : Controller
     {
-        private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
-        private readonly ILogger<GalleryApiQueryController> _logger;
-
         private const string InternalImagesRoute = "api/images";
 
-        private ConfigurationOptions ApplicationSettings { get; }
+        private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
 
-        public GalleryApiQueryController(IOptions<ConfigurationOptions> settings,
-            IImageGalleryHttpClient imageGalleryHttpClient, ILogger<GalleryApiQueryController> logger)
+        private readonly ILogger<GalleryApiQueryController> _logger;
+
+        public GalleryApiQueryController(IOptions<ConfigurationOptions> settings, IImageGalleryHttpClient imageGalleryHttpClient, ILogger<GalleryApiQueryController> logger)
         {
             ApplicationSettings = settings.Value;
-
             _logger = logger;
             _imageGalleryHttpClient = imageGalleryHttpClient;
         }
+
+        private ConfigurationOptions ApplicationSettings { get; }
 
         [Authorize(Roles = "PayingUser")]
         [HttpGet]
@@ -54,11 +53,9 @@ namespace ImageGallery.Client.Apis
             {
                 var imagesAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                var galleryIndexViewModel = new GalleryIndexViewModel
-                    (
-                      JsonConvert.DeserializeObject<IList<Image>>(imagesAsString).ToList(),
-                      ApplicationSettings.ImagesUri
-                    );
+                var galleryIndexViewModel = new GalleryIndexViewModel(
+                        JsonConvert.DeserializeObject<IList<Image>>(imagesAsString).ToList(),
+                        ApplicationSettings.ImagesUri);
 
                 return Ok(galleryIndexViewModel);
             }
