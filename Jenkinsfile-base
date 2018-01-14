@@ -1,7 +1,7 @@
 node('docker') {
 
     stage('Git checkout') {
-        git branch: 'NG5', credentialsId: 'gihub-key', url: 'git@github.com:stuartshay/ImageGallery.Client.git'
+        git branch: 'master', credentialsId: 'gihub-key', url: 'git@github.com:stuartshay/ImageGallery.Client.git'
     }
 
 
