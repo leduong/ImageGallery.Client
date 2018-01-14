@@ -1,65 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using ImageGallery.Client.ViewModels;
-using Newtonsoft.Json;
-using ImageGallery.Model;
-using System.Net.Http;
 using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using IdentityModel.Client;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Services;
+using ImageGallery.Client.ViewModels;
+using ImageGallery.Model;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Newtonsoft.Json;
 
 namespace ImageGallery.Client.Controllers
 {
-    [Authorize]
     public class GalleryController : Controller
     {
         private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
-        private ConfigurationOptions ApplicationSettings { get; set; }
 
-        public GalleryController(IOptions<ConfigurationOptions> settings, IImageGalleryHttpClient imageGalleryHttpClient)
+        private readonly ILogger<GalleryController> _logger;
+
+        public GalleryController(IOptions<ConfigurationOptions> settings, IImageGalleryHttpClient imageGalleryHttpClient, ILogger<GalleryController> logger)
         {
             ApplicationSettings = settings.Value;
             _imageGalleryHttpClient = imageGalleryHttpClient;
+            _logger = logger;
         }
 
-        public async Task<IActionResult> Index()
+        private ConfigurationOptions ApplicationSettings { get; }
+
+        public IActionResult Index()
         {
-            await WriteOutIdentityInformation();
+            _logger.LogInformation($"Index() of {typeof(GalleryController)}");
 
-            // call the API
-            var httpClient = await _imageGalleryHttpClient.GetClient();
-
-            var response = await httpClient.GetAsync("api/images").ConfigureAwait(false);
-
-            if (response.IsSuccessStatusCode)
-            {
-                var imagesAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                var galleryIndexViewModel = new GalleryIndexViewModel
-                    (
-                      JsonConvert.DeserializeObject<IList<Image>>(imagesAsString).ToList(),
-                      ApplicationSettings.ImagesUri
-                    );
-
-                return View(galleryIndexViewModel);
-            }
-            else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized ||
-                     response.StatusCode == System.Net.HttpStatusCode.Forbidden)
-            {
-                return RedirectToAction("AccessDenied", "Authorization");
-            }
-
-
-            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+            return View();
         }
 
         public async Task<IActionResult> EditImage(Guid id)
@@ -144,7 +123,6 @@ namespace ImageGallery.Client.Controllers
                 return RedirectToAction("AccessDenied", "Authorization");
             }
 
-
             throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
         }
 
@@ -156,8 +134,9 @@ namespace ImageGallery.Client.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        // [Authorize(Roles = "PayingUser")]
-        [Authorize(Policy = "CanOrderFrame")]
+        /* [Authorize(Roles = "PayingUser")]
+           [Authorize(Policy = "CanOrderFrame")]
+        */
         public async Task<IActionResult> AddImage(AddImageViewModel addImageViewModel)
         {
             if (!ModelState.IsValid)
@@ -173,7 +152,7 @@ namespace ImageGallery.Client.Controllers
             };
 
             // take the first (only) file in the Files list
-            var imageFile = addImageViewModel.Files.First();
+            var imageFile = addImageViewModel.File;
 
             if (imageFile.Length > 0)
             {
@@ -209,7 +188,6 @@ namespace ImageGallery.Client.Controllers
             #region Revocation Token on Logout
 
             // get the metadata
-
             Console.WriteLine("ApplicationSettings.Authority" + ApplicationSettings.OpenIdConnectConfiguration.Authority);
 
             var discoveryClient = new DiscoveryClient(ApplicationSettings.OpenIdConnectConfiguration.Authority);
@@ -222,16 +200,14 @@ namespace ImageGallery.Client.Controllers
             // create a TokenRevocationClient
             var revocationClient = new TokenRevocationClient(metaDataResponse.RevocationEndpoint, ApplicationSettings.OpenIdConnectConfiguration.ClientId, ApplicationSettings.OpenIdConnectConfiguration.ClientSecret);
 
-           
-
             var x = revocationClient.ClientId;
             var x1 = revocationClient.ClientSecret;
             var x2 = revocationClient.AuthenticationStyle;
 
-            Console.WriteLine("ClientId:" + x + "ClientSecret:" + x1 + "AuthenticationStyle:"  + x2);
+            Console.WriteLine("ClientId:" + x + "ClientSecret:" + x1 + "AuthenticationStyle:" + x2);
 
-            // get the access token to revoke 
-            var accessToken = await HttpContext.Authentication.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
+            // get the access token to revoke
+            var accessToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
 
             if (!string.IsNullOrWhiteSpace(accessToken))
             {
@@ -242,14 +218,12 @@ namespace ImageGallery.Client.Controllers
 
                 if (revokeAccessTokenResponse.IsError)
                 {
-                    throw new Exception("Problem encountered while revoking the access token."
-                        , revokeAccessTokenResponse.Exception);
+                    throw new Exception("Problem encountered while revoking the access token.", revokeAccessTokenResponse.Exception);
                 }
             }
 
             // revoke the refresh token as well
-            var refreshToken = await HttpContext.Authentication
-                .GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
+            var refreshToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
 
             if (!string.IsNullOrWhiteSpace(refreshToken))
             {
@@ -258,15 +232,14 @@ namespace ImageGallery.Client.Controllers
 
                 if (revokeRefreshTokenResponse.IsError)
                 {
-                    throw new Exception("Problem encountered while revoking the refresh token."
-                        , revokeRefreshTokenResponse.Exception);
+                    throw new Exception("Problem encountered while revoking the refresh token.", revokeRefreshTokenResponse.Exception);
                 }
             }
 
             #endregion
 
-            await HttpContext.Authentication.SignOutAsync("Cookies");
-            await HttpContext.Authentication.SignOutAsync("oidc");
+            await HttpContext.SignOutAsync("Cookies");
+            await HttpContext.SignOutAsync("OpenIdConnect");
         }
 
         [Authorize(Roles = "PayingUser")]
@@ -277,16 +250,13 @@ namespace ImageGallery.Client.Controllers
 
             var userInfoClient = new UserInfoClient(metaDataResponse.UserInfoEndpoint);
 
-            var accessToken = await HttpContext.Authentication
-                .GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
+            var accessToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
 
             var response = await userInfoClient.GetAsync(accessToken);
 
             if (response.IsError)
             {
-                throw new Exception(
-                    "Problem accessing the UserInfo endpoint."
-                    , response.Exception);
+                throw new Exception("Problem accessing the UserInfo endpoint.", response.Exception);
             }
 
             var address = response.Claims.FirstOrDefault(c => c.Type == "address")?.Value;
@@ -297,8 +267,7 @@ namespace ImageGallery.Client.Controllers
         public async Task WriteOutIdentityInformation()
         {
             // get the saved identity token
-            var identityToken = await HttpContext.Authentication
-                .GetTokenAsync(OpenIdConnectParameterNames.IdToken);
+            var identityToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.IdToken);
 
             // write it out
             Debug.WriteLine($"Identity token: {identityToken}");
@@ -310,5 +279,4 @@ namespace ImageGallery.Client.Controllers
             }
         }
     }
-
 }

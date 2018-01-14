@@ -1,39 +1,32 @@
 ﻿using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using ImageGallery.Client.Configuration;
+using ImageGallery.Client.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Http;
-using ImageGallery.Client.Services;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.HttpOverrides;
-using Swashbuckle.AspNetCore.Swagger;
-using Microsoft.AspNetCore.DataProtection;
+using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
+using Swashbuckle.AspNetCore.Swagger;
 using ConfigurationOptions = ImageGallery.Client.Configuration.ConfigurationOptions;
 
 namespace ImageGallery.Client
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IHostingEnvironment env, IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-            Configuration = builder.Build();
+            Configuration = configuration;
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -46,16 +39,15 @@ namespace ImageGallery.Client
             services.Configure<Dataprotection>(Configuration.GetSection("dataprotection"));
             services.Configure<OpenIdConnectConfiguration>(Configuration.GetSection("openIdConnectConfiguration"));
 
-            services.AddSingleton<IConfiguration>(Configuration);
-
             var config = Configuration.Get<ConfigurationOptions>();
-
-            //config.OpenIdConnectConfiguration.ClientId = "";
-
 
             Console.WriteLine($"Dataprotection Enabled: {config.Dataprotection.Enabled}");
             Console.WriteLine($"DataprotectionRedis: {config.Dataprotection.RedisConnection}");
             Console.WriteLine($"RedisKey: {config.Dataprotection.RedisKey}");
+
+            Console.WriteLine($"Authority: {config.OpenIdConnectConfiguration.Authority}");
+            Console.WriteLine($"ClientId: {config.OpenIdConnectConfiguration.ClientId}");
+            Console.WriteLine($"ClientSecret: {config.OpenIdConnectConfiguration.ClientSecret}");
 
             if (config.Dataprotection.Enabled)
             {
@@ -69,9 +61,30 @@ namespace ImageGallery.Client
                 {
                     Title = "ImageGallery.Client",
                     Description = "ImageGallery.Client",
-                    Version = "v1"
+                    Version = "v1",
                 });
             });
+
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = config.OpenIdConnectConfiguration.Authority;
+                    options.RequireHttpsMetadata = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = true,
+                        ValidAudiences = new List<string>
+                        {
+                            $"{config.OpenIdConnectConfiguration.Authority}/resources",
+                            config.OpenIdConnectConfiguration.ClientId,
+                        },
+                    };
+                });
 
             services.AddAuthorization(authorizationOptions =>
             {
@@ -82,7 +95,7 @@ namespace ImageGallery.Client
                         policyBuilder.RequireAuthenticatedUser();
                         policyBuilder.RequireClaim("country", "be");
                         policyBuilder.RequireClaim("subscriptionlevel", "PayingUser");
-                        //policyBuilder.RequireRole("role", "PayingUser");
+                        policyBuilder.RequireRole("PayingUser");
                     });
             });
 
@@ -92,13 +105,17 @@ namespace ImageGallery.Client
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            Console.WriteLine($"EnvironmentName: {env.EnvironmentName}");
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                {
+                    HotModuleReplacement = true,
+                    HotModuleReplacementEndpoint = "/dist/__webpack_hmr",
+                });
             }
             else
             {
@@ -108,7 +125,7 @@ namespace ImageGallery.Client
             var forwardOptions = new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
-                RequireHeaderSymmetry = false
+                RequireHeaderSymmetry = false,
             };
 
             forwardOptions.KnownNetworks.Clear();
@@ -116,62 +133,10 @@ namespace ImageGallery.Client
 
             app.UseForwardedHeaders(forwardOptions);
 
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
-            {
-                AuthenticationScheme = "Cookies",
-                AccessDeniedPath = "/Authorization/AccessDenied"
-            });
-
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
             var config = Configuration.Get<ConfigurationOptions>();
             Console.WriteLine("Authority" + config.OpenIdConnectConfiguration.Authority);
 
-            app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
-            {
-                RequireHttpsMetadata = false,
-
-                AuthenticationScheme = "oidc",
-                Authority = config.OpenIdConnectConfiguration.Authority, 
-                ClientId = config.OpenIdConnectConfiguration.ClientId,
-                Scope = { "openid", "profile", "address", "roles", "imagegalleryapi", "subscriptionlevel", "country", "offline_access" },
-                ResponseType = "code id_token",
-                // CallbackPath = new PathString("...")
-                //SignedOutCallbackPath = new PathString("")
-                SignInScheme = "Cookies",
-                SaveTokens = true,
-                ClientSecret = config.OpenIdConnectConfiguration.ClientSecret,
-                GetClaimsFromUserInfoEndpoint = true,
-                Events = new OpenIdConnectEvents()
-                {
-                    OnTokenValidated = tokenValidatedContext =>
-                    {
-                        var identity = tokenValidatedContext.Ticket.Principal.Identity
-                            as ClaimsIdentity;
-
-                        var subjectClaim = identity.Claims.FirstOrDefault(z => z.Type == "sub");
-
-                        var newClaimsIdentity = new ClaimsIdentity(
-                            tokenValidatedContext.Ticket.AuthenticationScheme,
-                            "given_name",
-                            "role");
-
-                        newClaimsIdentity.AddClaim(subjectClaim);
-
-                        tokenValidatedContext.Ticket = new AuthenticationTicket(
-                            new ClaimsPrincipal(newClaimsIdentity),
-                            tokenValidatedContext.Ticket.Properties,
-                            tokenValidatedContext.Ticket.AuthenticationScheme);
-
-                        return Task.FromResult(0);
-                    },
-                    OnUserInformationReceived = userInformationReceivedContext =>
-                    {
-                        userInformationReceivedContext.User.Remove("address");
-                        return Task.FromResult(0);
-                    }
-                }
-            });
+            app.UseAuthentication();
 
             app.UseStaticFiles();
 
@@ -179,7 +144,7 @@ namespace ImageGallery.Client
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "ImageGallery.Client V1");
-                options.ConfigureOAuth2("swaggerui", "", "", "Swagger UI");
+                options.ConfigureOAuth2("swaggerui", string.Empty, string.Empty, "Swagger UI");
             });
 
             app.UseMvc(routes =>
@@ -187,7 +152,11 @@ namespace ImageGallery.Client
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Gallery}/{action=Index}/{id?}");
+
+                routes.MapSpaFallbackRoute(
+                    name: "spa-fallback",
+                    defaults: new { controller = "Gallery", action = "Index" });
             });
-        }         
+        }
     }
 }

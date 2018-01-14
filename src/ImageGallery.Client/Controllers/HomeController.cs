@@ -10,7 +10,5 @@ namespace ImageGallery.Client.Controllers
         {
             return View();
         }
-
-
     }
 }

@@ -1,0 +1,17 @@
+<h3>About Page </h3>
+
+<div class="bottomMarginDefault">
+    <strong>id_token</strong>
+    <span>{{id_token}})</span>
+</div>
+
+<div class="bottomMarginDefault">
+    <strong>access_token</strong>
+    <span>{{access_token}}</span>
+</div>
+
+
+<div *ngFor="let claim of (userData | keys)">
+    <strong>{{claim.key}}: </strong>
+    <span>{{claim.value}}</span>
+</div>

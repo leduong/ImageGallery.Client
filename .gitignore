@@ -164,7 +164,6 @@ AppPackages/
 
 # Others
 ClientBin/
-[Ss]tyle[Cc]op.*
 ~$*
 *~
 *.dbmdl
@@ -173,6 +172,9 @@ ClientBin/
 *.publishsettings
 node_modules/
 bower_components/
+dist/
+**/wwwroot/app/**/*.map
+**/wwwroot/app/**/*.js
 
 orleans.codegen.cs
 

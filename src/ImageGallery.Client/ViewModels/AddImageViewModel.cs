@@ -1,18 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace ImageGallery.Client.ViewModels
 {
     public class AddImageViewModel
     {
-        public List<IFormFile> Files { get; set; } = new List<IFormFile>();
+        public IFormFile File { get; set; }
 
         [Required]
         public string Title { get; set; }
 
         [Required]
         public string Category { get; set; }
-
     }
 }
