@@ -21,11 +21,12 @@
     },
     "ImageGallery.Client": {
       "commandName": "Project",
-      "launchBrowser": false,
-      "launchUrl": "http://localhost:18713",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Staging"
-      }
+      },
+      "applicationUrl": "http://localhost:5000"
     }
   }
 }
