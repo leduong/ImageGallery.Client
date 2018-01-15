@@ -5,6 +5,7 @@ import { IAddImageViewModel } from '../../../shared/interfaces';
 import { Observable } from 'rxjs/Observable';
 import { debug } from 'util';
 import { HasPayingUserRoleAuthenticationGuard } from '../../../guards/hasPayingUserRoleAuthenticationGuard';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -19,15 +20,15 @@ export class GalleryAddComponent implements OnInit {
 
     categories: string[] = ['Landscapes', 'Portraits', 'Animals'];
 
-    constructor(private readonly galleryService: GalleryService) { }
+    constructor(private readonly galleryService: GalleryService, private router: Router) { }
 
     ngOnInit() {
         console.log(`[ngOnInit] app-gallery-add`);
     }
 
     onUpload(event: EventTarget) {
-        let eventObj: MSInputMethodContext = <MSInputMethodContext> event;
-        let target: HTMLInputElement = <HTMLInputElement> eventObj.target;
+        let eventObj: MSInputMethodContext = <MSInputMethodContext>event;
+        let target: HTMLInputElement = <HTMLInputElement>eventObj.target;
         let files: FileList = target.files;
         this.addImageViewModel.file = files[0];
     }
@@ -38,6 +39,10 @@ export class GalleryAddComponent implements OnInit {
         this.galleryService.postImageViewModel(this.addImageViewModel)
             .subscribe((response) => { },
             (err: any) => console.log(err),
-            () => console.log('postImageViewModel() posted AddImageViewModel'));;
+            () => {
+                console.log('postImageViewModel() posted AddImageViewModel');
+
+                this.router.navigateByUrl("");
+            });
     }
 }
