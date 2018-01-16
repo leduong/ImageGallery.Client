@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Services;
+using log4net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
@@ -112,6 +113,8 @@ namespace ImageGallery.Client
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             Console.WriteLine($"EnvironmentName: {env.EnvironmentName}");
+
+            loggerFactory.AddLog4Net();
 
             if (env.IsDevelopment())
             {
