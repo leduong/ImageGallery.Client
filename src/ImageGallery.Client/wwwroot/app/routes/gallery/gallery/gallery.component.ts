@@ -34,7 +34,11 @@ export class GalleryComponent implements OnInit {
         this.galleryService.deleteImageViewModel(imageId)
             .subscribe((response) => { },
             (err: any) => console.log(err),
-            () => console.log('deleteImageViewModel() delete ImageViewModel'));;
+            () => {
+                this.galleryIndexViewModel.images = this.galleryIndexViewModel.images.filter(x => x.id != imageId);
+
+                console.log('deleteImageViewModel() delete ImageViewModel')
+            });
     }
 
     private getGalleryIndexViewModel() {

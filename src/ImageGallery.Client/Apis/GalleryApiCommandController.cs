@@ -68,7 +68,7 @@ namespace ImageGallery.Client.Apis
             throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteImage(Guid id)
         {
             _logger.LogInformation($"Delete image by Id {id}");

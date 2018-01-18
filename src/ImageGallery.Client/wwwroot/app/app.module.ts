@@ -55,7 +55,8 @@ export function createTranslateLoader(http: HttpClient) {
         { provide: 'ORIGIN_URL', useFactory: getBaseUrl },
         AuthService,
         OidcSecurityService,
-        HasPayingUserRoleAuthenticationGuard
+        HasPayingUserRoleAuthenticationGuard,
+        { provide: 'Window', useValue: window }
     ],
     bootstrap: [AppComponent]
 })
@@ -65,9 +66,18 @@ export class AppModule {
 
     constructor(private oidcSecurityService: OidcSecurityService,
         private http: HttpClient,
+        @Inject('Window') private window: Window,
         @Inject('ORIGIN_URL') originUrl: string
     ) {
         console.log('Ctor of [AuthService]');
+
+        var _LTracker = this.window["_LTracker"] || [];
+
+        _LTracker.push({
+            'logglyKey': 'e684fa66-cbc2-4907-a5d5-dbc6be243f96',
+            'sendConsoleErrors': true,
+            'tag': 'JavaScript'
+        });
 
         this.configClient().subscribe((config: any) => {
             this.clientConfiguration = config;
@@ -100,12 +110,12 @@ export class AppModule {
 
     configClient() {
 
-        console.log('window.location', window.location);
-        console.log('window.location.href', window.location.href);
-        console.log('window.location.origin', window.location.origin);
-        console.log(`${window.location.origin}/api/ClientAppSettings`);
+        console.log('window.location', this.window.location);
+        console.log('window.location.href', this.window.location.href);
+        console.log('window.location.origin', this.window.location.origin);
+        console.log(`${this.window.location.origin}/api/ClientAppSettings`);
 
-        return this.http.get(`${window.location.origin}/api/ClientAppSettings`);
+        return this.http.get(`${this.window.location.origin}/api/ClientAppSettings`);
     }
 }
 
