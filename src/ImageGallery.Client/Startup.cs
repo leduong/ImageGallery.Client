@@ -114,7 +114,7 @@ namespace ImageGallery.Client
         {
             Console.WriteLine($"EnvironmentName: {env.EnvironmentName}");
 
-            loggerFactory.AddLog4Net();
+            loggerFactory.AddLog4Net($"log4net.{env.EnvironmentName}.config");
 
             if (env.IsDevelopment())
             {
