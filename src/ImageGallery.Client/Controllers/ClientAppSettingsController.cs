@@ -8,16 +8,18 @@ namespace ImageGallery.Client.Controllers
     public class ClientAppSettingsController : Controller
     {
         private readonly OpenIdConnectConfiguration _clientAppSettings;
+        private readonly LogglyClientConfiguration _logglyClientConfiguration;
 
-        public ClientAppSettingsController(IOptions<OpenIdConnectConfiguration> clientAppSettings)
+        public ClientAppSettingsController(IOptions<OpenIdConnectConfiguration> clientAppSettings, IOptions<LogglyClientConfiguration> logglyClientConfiguration)
         {
             _clientAppSettings = clientAppSettings.Value;
+            _logglyClientConfiguration = logglyClientConfiguration.Value;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_clientAppSettings);
+            return Ok(new { OpenIdConnectConfiguration = _clientAppSettings, LogglyClientConfiguration = _logglyClientConfiguration });
         }
     }
 }
