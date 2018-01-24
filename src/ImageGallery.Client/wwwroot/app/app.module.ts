@@ -71,24 +71,28 @@ export class AppModule {
     ) {
         console.log('Ctor of [AuthService]');
 
-        var _LTracker = this.window["_LTracker"] || [];
-
-        _LTracker.push({
-            'logglyKey': 'e684fa66-cbc2-4907-a5d5-dbc6be243f96',
-            'sendConsoleErrors': true,
-            'tag': 'JavaScript'
-        });
-
         this.configClient().subscribe((config: any) => {
             this.clientConfiguration = config;
 
+            var _LTracker = this.window["_LTracker"] || [];
+
+            const logglyClientConfiguration = this.clientConfiguration.logglyClientConfiguration;
+
+            _LTracker.push({
+                'logglyKey': logglyClientConfiguration.logglyKey,
+                'sendConsoleErrors': true,
+                'tag': 'JavaScript'
+            });
+
+            const openIdConnectConfiguration = this.clientConfiguration.openIdConnectConfiguration;
+
             const openIdImplicitFlowConfiguration = new OpenIDImplicitFlowConfiguration();
-            openIdImplicitFlowConfiguration.stsServer = this.clientConfiguration.authority;
+            openIdImplicitFlowConfiguration.stsServer = openIdConnectConfiguration.authority;
             openIdImplicitFlowConfiguration.redirect_url = originUrl + 'callback';
 
             console.log(`redirect_url -> ${openIdImplicitFlowConfiguration.redirect_url}`)
 
-            openIdImplicitFlowConfiguration.client_id = this.clientConfiguration.clientId;
+            openIdImplicitFlowConfiguration.client_id = openIdConnectConfiguration.clientId;
             openIdImplicitFlowConfiguration.response_type = 'id_token token';
             openIdImplicitFlowConfiguration.scope = 'roles openid profile address country imagegalleryapi subscriptionlevel';
             openIdImplicitFlowConfiguration.post_logout_redirect_uri = originUrl;

@@ -9,6 +9,8 @@
         public Dataprotection Dataprotection { get; set; }
 
         public OpenIdConnectConfiguration OpenIdConnectConfiguration { get; set; }
+
+        public LogglyClientConfiguration LogglyClientConfiguration { get; set; }
     }
 
     public class Dataprotection
@@ -27,5 +29,10 @@
         public string ClientSecret { get; set; }
 
         public string ClientId { get; set; }
+    }
+
+    public class LogglyClientConfiguration
+    {
+        public string LogglyKey { get; set; }
     }
 }

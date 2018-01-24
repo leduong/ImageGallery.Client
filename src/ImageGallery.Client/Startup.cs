@@ -45,6 +45,7 @@ namespace ImageGallery.Client
             services.Configure<ConfigurationOptions>(Configuration.GetSection("applicationSettings"));
             services.Configure<Dataprotection>(Configuration.GetSection("dataprotection"));
             services.Configure<OpenIdConnectConfiguration>(Configuration.GetSection("openIdConnectConfiguration"));
+            services.Configure<LogglyClientConfiguration>(Configuration.GetSection("logglyClientConfiguration"));
 
             var config = Configuration.Get<ConfigurationOptions>();
 
@@ -55,6 +56,7 @@ namespace ImageGallery.Client
             Console.WriteLine($"Authority: {config.OpenIdConnectConfiguration.Authority}");
             Console.WriteLine($"ClientId: {config.OpenIdConnectConfiguration.ClientId}");
             Console.WriteLine($"ClientSecret: {config.OpenIdConnectConfiguration.ClientSecret}");
+            Console.WriteLine($"LogglyKey: {config.LogglyClientConfiguration.LogglyKey}");
 
             if (config.Dataprotection.Enabled)
             {
@@ -114,7 +116,7 @@ namespace ImageGallery.Client
         {
             Console.WriteLine($"EnvironmentName: {env.EnvironmentName}");
 
-            loggerFactory.AddLog4Net();
+            loggerFactory.AddLog4Net($"log4net.{env.EnvironmentName}.config");
 
             if (env.IsDevelopment())
             {
