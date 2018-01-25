@@ -34,7 +34,7 @@ node('docker') {
 
 
     stage('Mail') {
-        emailext attachLog: true, body: '', subject: 'Jenkins build status - navigator-identity-api', to: 'sshay@yahoo.com'
+        emailext attachLog: true, body: '', subject: 'Jenkins build status - imagegallery-client:2.0-build', to: 'sshay@yahoo.com'
     }
 
 }
