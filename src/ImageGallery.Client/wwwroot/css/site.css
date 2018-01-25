@@ -1,6 +1,8 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background: white!important;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif!important;
 }
 
 /* Wrapping element */
@@ -8,6 +10,7 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    padding-top:30px;
 }
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
@@ -36,7 +39,6 @@ textarea {
     display: none
   }
 }
-
 
 .defaultButton {
     width: 100px;
@@ -67,4 +69,51 @@ textarea {
     max-width: 400px;
     width: 100%;
     height: auto;
+}
+
+img{
+    max-width:100%;
+}
+
+.pull-left.col-md-4{
+    min-height: 400px;
+}
+
+.pull-left.col-md-4 > div{
+    width:320px;
+    margin:auto;
+}
+
+.pull-left.col-md-4 > div:first-child{
+    height: 240px;
+    overflow: hidden;
+}
+
+.navbar-inverse .navbar-brand{
+    color: #9d9d9d!important;
+}
+
+.navbar{
+    min-height: 50px!important;
+}
+
+.navbar-nav > li > a{
+    padding-top: 15px!important;
+    padding-bottom: 15px!important;
+}
+
+.navbar-brand{
+    padding:15px!important;
+}
+
+.navbar-fixed-top{
+    height: 51px;
+}
+
+.navbar-inverse .navbar-nav>li>a{
+    color: #9d9d9d!important;
+}
+
+.navbar-inverse .navbar-nav>li>a:hover{
+    color: white!important;
 }
