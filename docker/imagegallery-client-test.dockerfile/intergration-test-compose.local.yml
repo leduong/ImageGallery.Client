@@ -1,0 +1,28 @@
+version: '2.1'
+
+services:
+  
+  dotnet-test:
+    build: 
+      context: /.
+      dockerfile: Dockerfile
+    environment:
+      - TEST_FILTER="Category=Intergration"
+      - ASPNETCORE_ENVIRONMENT=Staging
+    command: "/wait_for_it.sh -h database -p 27017 -t 0 -- dotnet xunit -trait Category=Intergration -xml /artifacts/intergration-tests.xml"
+    depends_on:
+      - database
+    volumes: 
+      - /home/jenkins/artifacts/navigator-maps-api/test:/artifacts
+    networks:
+      - testing-network
+
+  database:
+    container_name: 'database'
+    image: "stuartshay/navigator-instance:latest"
+    networks:
+      - testing-network
+
+networks:
+  testing-network:
+

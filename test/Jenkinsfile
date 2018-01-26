@@ -1,0 +1,39 @@
+node('docker') {
+
+    stage('Git checkout') {
+        git branch: 'master', credentialsId: 'gihub-key', url: 'git@github.com:stuartshay/ImageGallery.Client.git'
+    }
+
+
+    stage('Build Unit Test Project') {
+           sh '''mv docker/imagegallery-client-test.dockerfile/.dockerignore .dockerignore
+           docker build -f docker/imagegallery-client-test.dockerfile/Dockerfile --build-arg BUILD_NUMBER=${BUILD_NUMBER} -t stuartshay/imagegallery-client:2.0.0-test .'''
+           withCredentials([usernamePassword(credentialsId: 'docker-hub-navigatordatastore', usernameVariable: 'DOCKER_HUB_LOGIN', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
+                sh "docker login -u ${DOCKER_HUB_LOGIN} -p ${DOCKER_HUB_PASSWORD}"
+           }
+          sh '''docker push stuartshay/imagegallery-client:2.0.0-test'''
+    }
+
+  // stage("Run Unit Test") {
+  //          sh 'sudo rm -rf /home/jenkins/artifacts/imagegallery-client/test test'
+  //          sh "docker-compose -f docker/imagegallery-client-test.dockerfile/intergration-test-compose.yml pull"
+  //          sh "docker-compose -f docker/imagegallery-client-test.dockerfile/intergration-test-compose.yml down -v"
+  //          try {
+  //              sh "docker-compose -f docker/imagegallery-client-test.dockerfile/intergration-test-compose.yml up --force-recreate --abort-on-container-exit"
+  //          } finally {
+  //              sh "docker-compose -f docker/imagegallery-client-test.dockerfile/intergration-test-compose.yml down -v"
+  //          }
+  //          sh 'mkdir test'
+  //          sh 'sudo cp /home/jenkins/artifacts/imagegallery-client/test/*.xml test '
+  //         step([$class: 'XUnitBuilder',
+  //                      thresholds: [[$class: 'FailedThreshold', unstableThreshold: '1']],
+  //                      tools: [[$class: 'XUnitDotNetTestType', pattern: 'test/*.xml']]])
+  //          archiveArtifacts 'test/*.xml'
+  //  }
+
+
+    stage('Mail') {
+        emailext attachLog: true, body: '', subject: 'Jenkins build status - imagegallery-client-test', to: 'sshay@yahoo.com'
+    }
+
+}
