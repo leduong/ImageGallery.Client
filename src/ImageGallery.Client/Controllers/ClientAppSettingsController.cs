@@ -7,19 +7,21 @@ namespace ImageGallery.Client.Controllers
     [Route("api/[controller]")]
     public class ClientAppSettingsController : Controller
     {
-        private readonly OpenIdConnectConfiguration _clientAppSettings;
-        private readonly LogglyClientConfiguration _logglyClientConfiguration;
+        private readonly ConfigurationOptions _configurationOptions;
 
-        public ClientAppSettingsController(IOptions<OpenIdConnectConfiguration> clientAppSettings, IOptions<LogglyClientConfiguration> logglyClientConfiguration)
+        public ClientAppSettingsController(IOptions<ConfigurationOptions> options)
         {
-            _clientAppSettings = clientAppSettings.Value;
-            _logglyClientConfiguration = logglyClientConfiguration.Value;
+            _configurationOptions = options.Value;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(new { OpenIdConnectConfiguration = _clientAppSettings, LogglyClientConfiguration = _logglyClientConfiguration });
+            return Ok(new
+            {
+                _configurationOptions.OpenIdConnectConfiguration,
+                _configurationOptions.LogglyClientConfiguration,
+            });
         }
     }
 }
