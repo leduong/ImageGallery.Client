@@ -20,8 +20,19 @@ node('docker') {
        echo "Docker vulnerability scanning"
     }
 
+
     stage('Mail') {
         emailext attachLog: true, body: '', subject: 'Jenkins build status - stuartshay/imagegallery-client:2.0-base', to: 'sshay@yahoo.com'
+    }
+
+
+    post {
+        success {
+            emailext attachLog: true, body: '', subject: 'Jenkins SUCCESS: - stuartshay/imagegallery-client:2.0-base', to: 'sshay@yahoo.com'
+        }
+        failure {
+            emailext attachLog: true, body: '', subject: 'Jenkins FAILURE: - stuartshay/imagegallery-client:2.0-base', to: 'sshay@yahoo.com'
+        }
     }
 
 }
