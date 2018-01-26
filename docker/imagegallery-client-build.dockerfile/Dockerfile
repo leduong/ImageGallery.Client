@@ -43,8 +43,8 @@ WORKDIR /publish
 COPY --from=build-env /publish .
 
 # Set environment variables
-ENV ASPNETCORE_URLS="http://*:44600"
-ENV ASPNETCORE_ENVIRONMENT="Staging"
+ENV ASPNETCORE_URLS http://*:44600
+ENV ASPNETCORE_ENVIRONMENT Staging
 
 EXPOSE 44600
 

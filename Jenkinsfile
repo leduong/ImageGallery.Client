@@ -19,11 +19,11 @@ node('docker') {
     }
 
 
-  //  stage ('Deploy to Rancher') {
-  //      withCredentials([usernamePassword(credentialsId: 'JENKINS_ENV_KEY', passwordVariable: 'RANCHER_SECRET_KEY', usernameVariable: 'RANCHER_ACCESS_KEY')]) {
-  //          sh 'rancher-compose --url https://rancher.navigatorglass.com/v2-beta/projects/1a5  -f docker/rancher/NavigatorIdentity/docker-compose.yml --project-name NavigatorIdentity up navigator-identity-api --force-upgrade -p -c -d'
-  //      }
-  //  }
+    stage ('Deploy Stack') {
+        withCredentials([usernamePassword(credentialsId: 'JENKINS_ENV_KEY', passwordVariable: 'RANCHER_SECRET_KEY', usernameVariable: 'RANCHER_ACCESS_KEY')]) {
+          sh 'rancher-compose --url https://rancher.navigatorglass.com/v2-beta/projects/1a5  -f docker/rancher/docker-compose.yml --project-name ImageGallery up imagegallery-client --force-upgrade -p -c -d'
+        }
+    }
 
 
    stage('Performance Metrics') {
@@ -34,7 +34,7 @@ node('docker') {
 
 
     stage('Mail') {
-        emailext attachLog: true, body: '', subject: 'Jenkins build status - imagegallery-client:2.0-build', to: 'sshay@yahoo.com'
+        emailext attachLog: true, body: '', subject: "Jenkins build status - ${currentBuild.fullDisplayName}", to: 'sshay@yahoo.com'
     }
 
 }

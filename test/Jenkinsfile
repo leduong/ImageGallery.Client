@@ -33,7 +33,7 @@ node('docker') {
 
 
     stage('Mail') {
-        emailext attachLog: true, body: '', subject: 'Jenkins build status - imagegallery-client-test', to: 'sshay@yahoo.com'
+        emailext attachLog: true, body: '', subject: "Jenkins build status - ${currentBuild.fullDisplayName}", to: 'sshay@yahoo.com'
     }
 
 }

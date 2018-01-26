@@ -1,0 +1,12 @@
+version: '2'
+services:
+  database:
+    start_on_create: true
+  imagegallery-client:
+    scale: 1
+    start_on_create: true
+  imagegallery-api:
+    scale: 1
+    start_on_create: true
+  redis:
+    start_on_create: true

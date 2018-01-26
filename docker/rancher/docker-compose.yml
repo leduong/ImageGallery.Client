@@ -1,0 +1,28 @@
+version: '2'
+services:
+  database:
+    image: rancher/dns-service
+    external_links:
+    - NavigatorIdentity/navigator-identity-sqlserver:navigator-identity-sqlserver
+  imagegallery-client:
+    image: stuartshay/imagegallery-client:2.0-build
+    stdin_open: true
+    volumes:
+    - imagegallery-images:/Images
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+  imagegallery-api:
+    image: stuartshay/imagegallery-api:2.0-build
+    stdin_open: true
+    external_links:
+    - NavigatorIdentity/navigator-identity-sqlserver:database
+    volumes:
+    - imagegallery-images:/Images
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+  redis:
+    image: rancher/dns-service
+    external_links:
+    - NavigatorIdentity/navigator-identity-redis:navigator-identity-redis
