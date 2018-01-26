@@ -2,12 +2,33 @@ FROM microsoft/dotnet:2.0.3-sdk
 
 RUN apt-get update && apt-get install -y \
         tree \
+        curl \
     && rm -rf /var/lib/apt/lists/* \
     && curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh > /wait_for_it.sh \
     && chmod +x /wait_for_it.sh
 
+# Declare constants
+ENV NVM_VERSION v0.33.6
+ENV NODE_VERSION v8.9.1
+ENV NVM_DIR /usr/local/nvm
+
 ARG BUILD_NUMBER=0
 ENV BUILD_NUMBER ${BUILD_NUMBER}
+
+# Install Packages 
+RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/${NVM_VERSION}/install.sh | bash
+
+# install node and npm
+RUN source $NVM_DIR/nvm.sh \
+    && nvm install $NODE_VERSION \
+    && nvm alias default $NODE_VERSION \
+&& nvm use default
+
+ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+
+RUN node -v
+RUN npm -v
 
 ARG TEST_FILTER=Category=Intergration
 ENV TEST_FILTER ${TEST_FILTER}
