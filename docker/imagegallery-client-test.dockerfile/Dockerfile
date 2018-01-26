@@ -47,7 +47,6 @@ RUN dotnet restore
 
 WORKDIR /app/src/ImageGallery.Client
 RUN npm install
-RUN npm run compile-app
 
 WORKDIR /app/test/ImageGallery.Client.Test
 
