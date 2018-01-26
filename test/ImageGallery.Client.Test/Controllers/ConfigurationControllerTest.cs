@@ -15,6 +15,7 @@ namespace ImageGallery.Client.Test.Controllers
     public class ConfigurationControllerTest
     {
         //https://andrewlock.net/introduction-to-integration-testing-with-xunit-and-testserver-in-asp-net-core/
+        //https://visualstudiomagazine.com/articles/2017/07/01/testserver.aspx
 
         private readonly TestServer _server;
         private readonly HttpClient _client;
