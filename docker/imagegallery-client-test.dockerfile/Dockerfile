@@ -1,8 +1,9 @@
 FROM microsoft/dotnet:2.0.3-sdk
 
 RUN apt-get update && apt-get install -y \
-        tree \
+        build-essential \
         curl \
+        tree \
     && rm -rf /var/lib/apt/lists/* \
     && curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh > /wait_for_it.sh \
     && chmod +x /wait_for_it.sh
@@ -16,6 +17,9 @@ ARG BUILD_NUMBER=0
 ENV BUILD_NUMBER ${BUILD_NUMBER}
 
 # Install Packages 
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash
+RUN apt-get install nodejs
+
 RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/${NVM_VERSION}/install.sh | bash
 
 # install node and npm
