@@ -11,6 +11,11 @@
         public OpenIdConnectConfiguration OpenIdConnectConfiguration { get; set; }
 
         public LogglyClientConfiguration LogglyClientConfiguration { get; set; }
+
+        public override string ToString()
+        {
+            return $"ApiUri:{ApiUri}|ImagesUri{ImagesUri}";
+        }
     }
 
     public class Dataprotection

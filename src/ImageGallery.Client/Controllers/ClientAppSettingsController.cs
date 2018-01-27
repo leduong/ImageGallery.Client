@@ -1,6 +1,7 @@
 ﻿using ImageGallery.Client.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Serilog;
 
 namespace ImageGallery.Client.Controllers
 {
@@ -17,6 +18,8 @@ namespace ImageGallery.Client.Controllers
         [HttpGet]
         public IActionResult Get()
         {
+            Log.Information("ConfigurationOptions:{@configurationOptions}", _configurationOptions.ToString());
+
             return Ok(new
             {
                 _configurationOptions.OpenIdConnectConfiguration,

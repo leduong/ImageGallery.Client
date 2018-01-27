@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Services;
-using log4net;
+using Serilog;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
@@ -57,6 +57,11 @@ namespace ImageGallery.Client
             Console.WriteLine($"ClientId: {config.OpenIdConnectConfiguration.ClientId}");
             Console.WriteLine($"ClientSecret: {config.OpenIdConnectConfiguration.ClientSecret}");
             Console.WriteLine($"LogglyKey: {config.LogglyClientConfiguration.LogglyKey}");
+
+            services.AddLogging(loggingBuilder =>
+            {
+                loggingBuilder.AddSerilog();
+            });
 
             if (config.Dataprotection.Enabled)
             {
@@ -115,8 +120,6 @@ namespace ImageGallery.Client
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             Console.WriteLine($"EnvironmentName: {env.EnvironmentName}");
-
-            loggerFactory.AddLog4Net($"log4net.{env.EnvironmentName}.config");
 
             if (env.IsDevelopment())
             {
