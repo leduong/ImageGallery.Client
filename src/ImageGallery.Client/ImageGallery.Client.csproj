@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Startup.cs~RF293b09c8.TMP\**" />
+    <Content Remove="Startup.cs~RF293b09c8.TMP\**" />
+    <EmbeddedResource Remove="Startup.cs~RF293b09c8.TMP\**" />
+    <None Remove="Startup.cs~RF293b09c8.TMP\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="wwwroot\**\*">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
