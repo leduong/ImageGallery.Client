@@ -51,6 +51,7 @@ RUN dotnet restore
 
 WORKDIR /app/src/ImageGallery.Client
 RUN npm install
+RUN bower install
 
 WORKDIR /app/test/ImageGallery.Client.Test
 
