@@ -118,6 +118,7 @@ namespace ImageGallery.Client
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            StartLoggly();
             Console.WriteLine($"EnvironmentName: {env.EnvironmentName}");
 
             if (env.IsDevelopment())
@@ -170,6 +171,35 @@ namespace ImageGallery.Client
                     name: "spa-fallback",
                     defaults: new { controller = "Gallery", action = "Index" });
             });
+        }
+
+        private static void StartLoggly()
+        {
+            var logglyToken = Environment.GetEnvironmentVariable("LOGGLY_TOKEN");
+            Console.WriteLine($"LogglyToken:{logglyToken}");
+
+            var config = LogglyConfig.Instance;
+            config.CustomerToken = "c3176aed-1b75-4315-9ee6-21cf1bd84dd8";
+            config.ApplicationName = "ImageGallery.Client";
+
+            config.Transport.EndpointHostname = "logs-01.loggly.com";
+            config.Transport.EndpointPort = 443;
+            config.Transport.LogTransport = LogTransport.Https;
+
+            var ct = new ApplicationNameTag
+            {
+                Formatter = "application-{0}",
+            };
+
+            config.TagConfig.Tags.Add(ct);
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Debug)
+                .Enrich.FromLogContext()
+                .WriteTo.Loggly()
+                .CreateLogger();
+            Log.Information("Loggly started");
         }
     }
 }

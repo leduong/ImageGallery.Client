@@ -22,14 +22,14 @@ namespace ImageGallery.Client
 
         public static int Main(string[] args)
         {
-            ConfigureLoggly();
+            //ConfigureLoggly();
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Debug)
                 .Enrich.FromLogContext()
                 .WriteTo.RollingFile(LogConfiguration.GetLoggingPath(Configuration))
-                .WriteTo.Loggly()
+             //   .WriteTo.Loggly()
                 .CreateLogger();
 
             Serilog.Debugging.SelfLog.Enable(msg =>
