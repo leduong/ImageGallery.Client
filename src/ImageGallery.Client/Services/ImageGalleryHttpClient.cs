@@ -18,13 +18,13 @@ namespace ImageGallery.Client.Services
 
         private readonly HttpClient _httpClient = new HttpClient();
 
-        public ImageGalleryHttpClient(IOptions<ConfigurationOptions> settings, IHttpContextAccessor httpContextAccessor)
+        public ImageGalleryHttpClient(IOptions<ApplicationOptions> settings, IHttpContextAccessor httpContextAccessor)
         {
             ApplicationSettings = settings.Value;
             _httpContextAccessor = httpContextAccessor;
         }
 
-        private ConfigurationOptions ApplicationSettings { get; }
+        private ApplicationOptions ApplicationSettings { get; }
 
         public async Task<HttpClient> GetClient()
         {

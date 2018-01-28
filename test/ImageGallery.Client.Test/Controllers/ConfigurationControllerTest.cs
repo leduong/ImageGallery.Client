@@ -43,13 +43,13 @@ namespace ImageGallery.Client.Test.Controllers
             response.EnsureSuccessStatusCode();
 
             var responseString = await response.Content.ReadAsStringAsync();
-            var configurationOptions = JsonConvert.DeserializeObject<ConfigurationOptions>(responseString);
+            var configurationOptions = JsonConvert.DeserializeObject<ApplicationOptions>(responseString);
 
             Console.WriteLine(responseString);
             _output.WriteLine(responseString);
 
             Assert.NotNull(configurationOptions);
-            Assert.IsType<ConfigurationOptions>(configurationOptions);
+            Assert.IsType<ApplicationOptions>(configurationOptions);
         }
     }
 }

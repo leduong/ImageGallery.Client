@@ -1,6 +1,6 @@
 ﻿namespace ImageGallery.Client.Configuration
 {
-    public class ConfigurationOptions
+    public class ApplicationOptions
     {
         public string ApiUri { get; set; }
 
@@ -11,6 +11,8 @@
         public OpenIdConnectConfiguration OpenIdConnectConfiguration { get; set; }
 
         public LogglyClientConfiguration LogglyClientConfiguration { get; set; }
+
+        public LoggingConfiguration LoggingConfiguration { get; set; }
 
         public override string ToString()
         {
@@ -34,6 +36,11 @@
         public string ClientSecret { get; set; }
 
         public string ClientId { get; set; }
+    }
+
+    public class LoggingConfiguration
+    {
+        public string RollingFilePath { get; set; }
     }
 
     public class LogglyClientConfiguration

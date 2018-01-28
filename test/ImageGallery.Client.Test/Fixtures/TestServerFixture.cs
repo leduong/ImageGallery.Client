@@ -72,8 +72,7 @@ namespace ImageGallery.Client.Test.Fixtures
                     nameof(response));
             }
 
-            string antiForgeryCookieValue = 
-                SetCookieHeaderValue.Parse(antiForgeryCookie).Value.ToString();
+            string antiForgeryCookieValue = SetCookieHeaderValue.Parse(antiForgeryCookie).Value.ToString();
 
             return antiForgeryCookieValue;
         }

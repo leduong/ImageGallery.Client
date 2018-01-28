@@ -19,7 +19,6 @@ using Serilog;
 using Serilog.Events;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Swagger;
-using ConfigurationOptions = ImageGallery.Client.Configuration.ConfigurationOptions;
 
 namespace ImageGallery.Client
 {
@@ -45,14 +44,14 @@ namespace ImageGallery.Client
             services.AddMvc();
 
             services.AddOptions();
-            services.Configure<ConfigurationOptions>(Configuration);
+            services.Configure<ApplicationOptions>(Configuration);
 
-            services.Configure<ConfigurationOptions>(Configuration.GetSection("applicationSettings"));
+            services.Configure<ApplicationOptions>(Configuration.GetSection("applicationSettings"));
             services.Configure<Dataprotection>(Configuration.GetSection("dataprotection"));
             services.Configure<OpenIdConnectConfiguration>(Configuration.GetSection("openIdConnectConfiguration"));
             services.Configure<LogglyClientConfiguration>(Configuration.GetSection("logglyClientConfiguration"));
 
-            var config = Configuration.Get<ConfigurationOptions>();
+            var config = Configuration.Get<ApplicationOptions>();
 
             Console.WriteLine($"Dataprotection Enabled: {config.Dataprotection.Enabled}");
             Console.WriteLine($"DataprotectionRedis: {config.Dataprotection.RedisConnection}");
@@ -147,7 +146,7 @@ namespace ImageGallery.Client
 
             app.UseForwardedHeaders(forwardOptions);
 
-            var config = Configuration.Get<ConfigurationOptions>();
+            var config = Configuration.Get<ApplicationOptions>();
             Console.WriteLine("Authority" + config.OpenIdConnectConfiguration.Authority);
 
             app.UseAuthentication();
@@ -175,8 +174,11 @@ namespace ImageGallery.Client
 
         private void StartLoggly()
         {
+            var logglyToken = Environment.GetEnvironmentVariable("LOGGLY_TOKEN");
+            Console.WriteLine($"LogglyToken:{logglyToken}");
+
             var config = LogglyConfig.Instance;
-            config.CustomerToken = "23f3beeb-232f-4c71-9c3c-715a1571edb9"; //Configuration.GetValue<string>("LogglyToken");
+            config.CustomerToken = "23f3beeb-232f-4c71-9c3c-715a1571edb9"; 
             config.ApplicationName = "ImageGallery.Client";
 
             config.Transport.EndpointHostname = "logs-01.loggly.com";
@@ -195,6 +197,5 @@ namespace ImageGallery.Client
                 .CreateLogger();
             Log.Information("Loggly started");
         }
-
     }
 }

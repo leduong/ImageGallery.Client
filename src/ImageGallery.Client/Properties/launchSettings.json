@@ -24,6 +24,7 @@
       "launchBrowser": true,
       "launchUrl": "http://localhost:5000",
       "environmentVariables": {
+        "LOGGLY_TOKEN": "23f3beeb-232f-4c71-9c3c-715a1571edb9",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:5000"

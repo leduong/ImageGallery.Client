@@ -26,14 +26,14 @@ namespace ImageGallery.Client.Apis
 
         private readonly ILogger<GalleryApiQueryController> _logger;
 
-        public GalleryApiQueryController(IOptions<ConfigurationOptions> settings, IImageGalleryHttpClient imageGalleryHttpClient, ILogger<GalleryApiQueryController> logger)
+        public GalleryApiQueryController(IOptions<ApplicationOptions> settings, IImageGalleryHttpClient imageGalleryHttpClient, ILogger<GalleryApiQueryController> logger)
         {
             ApplicationSettings = settings.Value;
             _logger = logger;
             _imageGalleryHttpClient = imageGalleryHttpClient;
         }
 
-        private ConfigurationOptions ApplicationSettings { get; }
+        private ApplicationOptions ApplicationSettings { get; }
 
         [Authorize(Roles = "PayingUser")]
         [HttpGet]

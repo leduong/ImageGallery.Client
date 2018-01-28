@@ -8,9 +8,9 @@ namespace ImageGallery.Client.Controllers
     [Route("api/[controller]")]
     public class ClientAppSettingsController : Controller
     {
-        private readonly ConfigurationOptions _configurationOptions;
+        private readonly ApplicationOptions _configurationOptions;
 
-        public ClientAppSettingsController(IOptions<ConfigurationOptions> options)
+        public ClientAppSettingsController(IOptions<ApplicationOptions> options)
         {
             _configurationOptions = options.Value;
         }

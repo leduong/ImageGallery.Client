@@ -28,14 +28,14 @@ namespace ImageGallery.Client.Apis
 
         private readonly ILogger<GalleryApiCommandController> _logger;
 
-        public GalleryApiCommandController(IOptions<ConfigurationOptions> settings, IImageGalleryHttpClient imageGalleryHttpClient, ILogger<GalleryApiCommandController> logger)
+        public GalleryApiCommandController(IOptions<ApplicationOptions> settings, IImageGalleryHttpClient imageGalleryHttpClient, ILogger<GalleryApiCommandController> logger)
         {
             _logger = logger;
             _imageGalleryHttpClient = imageGalleryHttpClient;
             ApplicationSettings = settings.Value;
         }
 
-        private ConfigurationOptions ApplicationSettings { get; }
+        private ApplicationOptions ApplicationSettings { get; }
 
         [HttpPost]
         [Route("edit")]

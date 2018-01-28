@@ -25,14 +25,14 @@ namespace ImageGallery.Client.Controllers
 
         private readonly ILogger<GalleryController> _logger;
 
-        public GalleryController(IOptions<ConfigurationOptions> settings, IImageGalleryHttpClient imageGalleryHttpClient, ILogger<GalleryController> logger)
+        public GalleryController(IOptions<ApplicationOptions> settings, IImageGalleryHttpClient imageGalleryHttpClient, ILogger<GalleryController> logger)
         {
             ApplicationSettings = settings.Value;
             _imageGalleryHttpClient = imageGalleryHttpClient;
             _logger = logger;
         }
 
-        private ConfigurationOptions ApplicationSettings { get; }
+        private ApplicationOptions ApplicationSettings { get; }
 
         public IActionResult Index()
         {

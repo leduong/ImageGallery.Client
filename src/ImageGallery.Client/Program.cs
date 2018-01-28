@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
+using ImageGallery.Client.Configuration;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Events;
 
@@ -9,13 +12,19 @@ namespace ImageGallery.Client
 {
     public class Program
     {
+        public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development"}.json", optional: true)
+            .Build();
+
         public static int Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Debug)
                 .Enrich.FromLogContext()
-                .WriteTo.RollingFile("ImageGallery.Client.log")
+                .WriteTo.RollingFile(LogConfiguration.GetLoggingPath(Configuration))
                 .CreateLogger();
 
             Serilog.Debugging.SelfLog.Enable(msg =>
