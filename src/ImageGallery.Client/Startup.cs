@@ -118,7 +118,7 @@ namespace ImageGallery.Client
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            StartLoggly();
+            StartLoggly(env);
             Console.WriteLine($"EnvironmentName: {env.EnvironmentName}");
 
             if (env.IsDevelopment())
@@ -173,13 +173,12 @@ namespace ImageGallery.Client
             });
         }
 
-        private static void StartLoggly()
+        private static void StartLoggly(IHostingEnvironment env)
         {
             var logglyToken = Environment.GetEnvironmentVariable("LOGGLY_TOKEN");
             Console.WriteLine($"LogglyToken:{logglyToken}");
 
             var config = LogglyConfig.Instance;
-            //config.CustomerToken = "c3176aed-1b75-4315-9ee6-21cf1bd84dd8";
             config.CustomerToken = "23f3beeb-232f-4c71-9c3c-715a1571edb9"; 
             config.ApplicationName = "ImageGallery.Client";
 
@@ -189,7 +188,7 @@ namespace ImageGallery.Client
 
             var ct = new ApplicationNameTag
             {
-                Formatter = "application-{0}",
+                Formatter = "application-{env.EnvironmentName}-{0}",
             };
 
             config.TagConfig.Tags.Add(ct);
