@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using ImageGallery.Client.Configuration;
 using Loggly;
@@ -8,7 +9,9 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Serilog;
+using Serilog.Enrichers;
 using Serilog.Events;
+using Serilog.Sinks.RollingFileAlternate;
 
 namespace ImageGallery.Client
 {
@@ -28,8 +31,22 @@ namespace ImageGallery.Client
                 .MinimumLevel.Debug()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Debug)
                 .Enrich.FromLogContext()
-                .WriteTo.RollingFile(LogConfiguration.GetLoggingPath(Configuration))
-             //   .WriteTo.Loggly()
+                .Enrich.WithProcessId()
+                .Enrich.WithThreadId()
+                .Enrich.With(new EnvironmentUserNameEnricher())
+                .Enrich.With(new MachineNameEnricher())
+                .WriteTo.Async(s => s.RollingFileAlternate(
+                        LogConfiguration.GetLoggingPath(Configuration),
+                        outputTemplate: "[{ProcessId}] {Timestamp} [{ThreadId}] [{Level}] [{SourceContext}] [{Category}] {Message}{NewLine}{Exception}",
+                        fileSizeLimitBytes: 10 * 1024 * 1024,
+                        retainedFileCountLimit: 100,
+                        formatProvider: CreateLoggingCulture())
+                    .MinimumLevel.Debug()
+                )
+
+
+                //.WriteTo.RollingFile(LogConfiguration.GetLoggingPath(Configuration))
+                //   .WriteTo.Loggly()
                 .CreateLogger();
 
             Serilog.Debugging.SelfLog.Enable(msg =>
@@ -84,5 +101,31 @@ namespace ImageGallery.Client
 
             config.TagConfig.Tags.Add(ct);
         }
+
+        private static CultureInfo CreateLoggingCulture()
+        {
+            var loggingCulture = new CultureInfo("");
+
+            //with this DateTime and DateTimeOffset string representations will be sortable. By default, 
+            // serialization without a culture or formater will use InvariantCulture. This may or may not be 
+            // desirable, depending on the sorting needs you require or even the region your in. In this sample
+            // the invariant culture is used as a base, but the DateTime format is changed to a specific representation.
+            // Instead of the dd/MM/yyyy hh:mm:ss, we'll force yyyy-MM-dd HH:mm:ss.fff which is sortable and obtainable
+            // by overriding ShortDatePattern and LongTimePattern.
+            //
+            //Do note that they don't include the TimeZone by default, so a datetime will not have the TZ
+            // while a DateTimeOffset will in it's string representation. 
+            // Both use the longTimePattern for time formatting, but including the time zone in the 
+            // pattern will duplicate the TZ representation when using DateTimeOffset which serilog does
+            // for the timestamp.
+            //
+            //If you do not require specific formats, this method will not be required. Just pass in null (the default) 
+            // for IFormatProvider in the Loggly() sink configuration method. 
+            loggingCulture.DateTimeFormat.ShortDatePattern = "yyyy-MM-dd";
+            loggingCulture.DateTimeFormat.LongTimePattern = "HH:mm:ss.fff";
+
+            return loggingCulture;
+        }
+
     }
 }

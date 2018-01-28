@@ -190,7 +190,7 @@ namespace ImageGallery.Client
             {
                 new ApplicationNameTag { Formatter = "application-{0}" },
                 new HostnameTag { Formatter = "host-{0}" },
-                new SimpleTag{ Value = env.EnvironmentName},
+                new SimpleTag { Value = env.EnvironmentName },
             });
 
             Log.Logger = new LoggerConfiguration()
