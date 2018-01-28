@@ -6,6 +6,8 @@ services:
     - NavigatorIdentity/navigator-identity-sqlserver:navigator-identity-sqlserver
   imagegallery-client:
     image: stuartshay/imagegallery-client:2.0-build
+    environment:
+      LOGGLY_TOKEN: c3176aed-1b75-4315-9ee6-21cf1bd84dd8
     stdin_open: true
     volumes:
     - imagegallery-images:/Images
