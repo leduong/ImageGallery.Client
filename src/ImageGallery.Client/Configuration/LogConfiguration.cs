@@ -18,14 +18,10 @@ namespace ImageGallery.Client.Configuration
                 Directory.CreateDirectory(loggingConfiguration.RollingFilePath);
             }
 
+            var logfile = $"ImageGallery.Client.{Environment.MachineName}.log";
+            var logfilePath = Path.Combine(loggingConfiguration.RollingFilePath, logfile);
 
-
-
-
-
-            string machineName = Environment.MachineName;
-
-            return $"ImageGallery.Client.{machineName}.log";
+            return logfilePath;
         }
     }
 }
