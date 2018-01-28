@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Microsoft.Extensions.Configuration;
 
 namespace ImageGallery.Client.Configuration
@@ -11,8 +12,16 @@ namespace ImageGallery.Client.Configuration
             configuration.GetSection("LoggingConfiguration").Bind(loggingConfiguration);
 
             // Check if Path Exists => Create Directory
-
             Console.WriteLine("RollingFilePath:" + loggingConfiguration.RollingFilePath);
+            if (!Directory.Exists(loggingConfiguration.RollingFilePath))
+            {
+                Directory.CreateDirectory(loggingConfiguration.RollingFilePath);
+            }
+
+
+
+
+
 
             string machineName = Environment.MachineName;
 
