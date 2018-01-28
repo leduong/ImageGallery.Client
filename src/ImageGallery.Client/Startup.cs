@@ -186,12 +186,12 @@ namespace ImageGallery.Client
             config.Transport.EndpointPort = 443;
             config.Transport.LogTransport = LogTransport.Https;
 
-            var ct = new ApplicationNameTag
+            config.TagConfig.Tags.AddRange(new ITag[]
             {
-                Formatter = "application-{env.EnvironmentName}-{0}",
-            };
-
-            config.TagConfig.Tags.Add(ct);
+                new ApplicationNameTag { Formatter = "application-{0}" },
+                new HostnameTag { Formatter = "host-{0}" },
+                new SimpleTag{ Value = env.EnvironmentName},
+            });
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
