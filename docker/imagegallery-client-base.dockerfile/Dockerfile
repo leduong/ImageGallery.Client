@@ -27,6 +27,7 @@ ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 RUN node -v
 RUN npm -v
 
+RUN npm ls
 
 COPY .  /app
 WORKDIR /app

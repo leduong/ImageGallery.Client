@@ -33,6 +33,7 @@ ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 RUN node -v
 RUN npm -v
+RUN npm ls
 
 ARG TEST_FILTER=Category=Intergration
 ENV TEST_FILTER ${TEST_FILTER}
