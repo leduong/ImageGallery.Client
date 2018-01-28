@@ -179,7 +179,8 @@ namespace ImageGallery.Client
             Console.WriteLine($"LogglyToken:{logglyToken}");
 
             var config = LogglyConfig.Instance;
-            config.CustomerToken = "c3176aed-1b75-4315-9ee6-21cf1bd84dd8";
+            //config.CustomerToken = "c3176aed-1b75-4315-9ee6-21cf1bd84dd8";
+            config.CustomerToken = "23f3beeb-232f-4c71-9c3c-715a1571edb9"; 
             config.ApplicationName = "ImageGallery.Client";
 
             config.Transport.EndpointHostname = "logs-01.loggly.com";
