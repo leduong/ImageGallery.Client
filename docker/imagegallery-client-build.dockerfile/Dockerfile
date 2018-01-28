@@ -9,6 +9,9 @@ ENV NVM_DIR /usr/local/nvm
 ARG BUILD_NUMBER=0
 ENV BUILD_NUMBER ${BUILD_NUMBER}
 
+ARG LOGGLY_TOKEN=0
+ENV LOGGLY_TOKEN ${BUILD_NUMBER}
+
 # Install Packages 
 RUN apt-get update && apt-get install -y \
     curl

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Services;
-using Serilog;
+using Loggly;
+using Loggly.Config;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
@@ -14,6 +15,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
+using Serilog.Events;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Swagger;
 using ConfigurationOptions = ImageGallery.Client.Configuration.ConfigurationOptions;
@@ -37,6 +40,8 @@ namespace ImageGallery.Client
 
         public void ConfigureServices(IServiceCollection services)
         {
+            StartLoggly();
+
             services.AddMvc();
 
             services.AddOptions();
@@ -57,11 +62,6 @@ namespace ImageGallery.Client
             Console.WriteLine($"ClientId: {config.OpenIdConnectConfiguration.ClientId}");
             Console.WriteLine($"ClientSecret: {config.OpenIdConnectConfiguration.ClientSecret}");
             Console.WriteLine($"LogglyKey: {config.LogglyClientConfiguration.LogglyKey}");
-
-            services.AddLogging(loggingBuilder =>
-            {
-                loggingBuilder.AddSerilog();
-            });
 
             if (config.Dataprotection.Enabled)
             {
@@ -172,5 +172,29 @@ namespace ImageGallery.Client
                     defaults: new { controller = "Gallery", action = "Index" });
             });
         }
+
+        private void StartLoggly()
+        {
+            var config = LogglyConfig.Instance;
+            config.CustomerToken = "23f3beeb-232f-4c71-9c3c-715a1571edb9"; //Configuration.GetValue<string>("LogglyToken");
+            config.ApplicationName = "ImageGallery.Client";
+
+            config.Transport.EndpointHostname = "logs-01.loggly.com";
+            config.Transport.EndpointPort = 443;
+            config.Transport.LogTransport = LogTransport.Https;
+
+            var ct = new ApplicationNameTag();
+            ct.Formatter = "application-{0}";
+            config.TagConfig.Tags.Add(ct);
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Debug)
+                .Enrich.FromLogContext()
+                .WriteTo.Loggly()
+                .CreateLogger();
+            Log.Information("Loggly started");
+        }
+
     }
 }
