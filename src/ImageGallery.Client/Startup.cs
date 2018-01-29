@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Services;
 using Loggly;
-using Loggly.Config;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
@@ -16,7 +15,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
-using Serilog.Events;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -114,13 +112,12 @@ namespace ImageGallery.Client
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IImageGalleryHttpClient, ImageGalleryHttpClient>();
+
+            services.AddSingleton<ILogglyClient, LogglyClient>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            // StartLoggly(env);
-            // Console.WriteLine($"EnvironmentName: {env.EnvironmentName}");
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -171,35 +168,6 @@ namespace ImageGallery.Client
                     name: "spa-fallback",
                     defaults: new { controller = "Gallery", action = "Index" });
             });
-        }
-
-        private static void StartLoggly(IHostingEnvironment env)
-        {
-            var logglyToken = Environment.GetEnvironmentVariable("LOGGLY_TOKEN");
-            Console.WriteLine($"LogglyToken:{logglyToken}");
-
-            var config = LogglyConfig.Instance;
-            config.CustomerToken = "23f3beeb-232f-4c71-9c3c-715a1571edb9"; 
-            config.ApplicationName = "ImageGallery.Client";
-
-            config.Transport.EndpointHostname = "logs-01.loggly.com";
-            config.Transport.EndpointPort = 443;
-            config.Transport.LogTransport = LogTransport.Https;
-
-            config.TagConfig.Tags.AddRange(new ITag[]
-            {
-                new ApplicationNameTag { Formatter = "application-{0}" },
-                new HostnameTag { Formatter = "host-{0}" },
-                new SimpleTag { Value = env.EnvironmentName },
-            });
-
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Debug)
-                .Enrich.FromLogContext()
-                .WriteTo.Loggly()
-                .CreateLogger();
-            Log.Information("Loggly started");
         }
     }
 }
