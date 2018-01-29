@@ -11,15 +11,14 @@ namespace ImageGallery.Client.Configuration
             LoggingConfiguration loggingConfiguration = new LoggingConfiguration();
             configuration.GetSection("LoggingConfiguration").Bind(loggingConfiguration);
 
-            // Check if Path Exists => Create Directory
             Console.WriteLine("RollingFilePath:" + loggingConfiguration.RollingFilePath);
             if (!Directory.Exists(loggingConfiguration.RollingFilePath))
             {
                 Directory.CreateDirectory(loggingConfiguration.RollingFilePath);
             }
 
-            var logfile = $"ImageGallery.Client.{Environment.MachineName}.log";
-            var logfilePath = Path.Combine(loggingConfiguration.RollingFilePath, logfile);
+            var localLogFilePath = $"ImageGallery.Client.{Environment.MachineName}";
+            var logfilePath = Path.Combine(loggingConfiguration.RollingFilePath, localLogFilePath);
 
             return logfilePath;
         }
