@@ -35,7 +35,7 @@ namespace ImageGallery.Client.Apis
 
         private ApplicationOptions ApplicationSettings { get; }
 
-        [Authorize(Roles = "PayingUser")]
+        [Authorize(Roles = "PayingUser, FreeUser")]
         [HttpGet]
         [ProducesResponseType(typeof(GalleryIndexViewModel), 200)]
         public async Task<ActionResult> GalleryIndexViewModel()
