@@ -25,7 +25,7 @@ namespace ImageGallery.Client
 
         public static int Main(string[] args)
         {
-            //ConfigureLoggly();
+            ConfigureLoggly();
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
@@ -41,12 +41,8 @@ namespace ImageGallery.Client
                         fileSizeLimitBytes: 10 * 1024 * 1024,
                         retainedFileCountLimit: 100,
                         formatProvider: CreateLoggingCulture())
-                    .MinimumLevel.Debug()
-                )
-
-
-                //.WriteTo.RollingFile(LogConfiguration.GetLoggingPath(Configuration))
-                //   .WriteTo.Loggly()
+                    .MinimumLevel.Debug())
+                .WriteTo.Loggly()
                 .CreateLogger();
 
             Serilog.Debugging.SelfLog.Enable(msg =>
@@ -76,35 +72,36 @@ namespace ImageGallery.Client
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .UseSerilog()
-                .UseSetting("detailedErrors", "true")
                 .CaptureStartupErrors(true)
                 .Build();
 
         private static void ConfigureLoggly()
         {
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             var logglyToken = Environment.GetEnvironmentVariable("LOGGLY_TOKEN");
             Console.WriteLine($"LogglyToken:{logglyToken}");
 
             var config = LogglyConfig.Instance;
-            //config.CustomerToken = "c3176aed-1b75-4315-9ee6-21cf1bd84dd8";
-            config.CustomerToken = "23f3beeb-232f-4c71-9c3c-715a1571edb9"; 
+
+            // Trial Loggy Token (Use ENV)
+            config.CustomerToken = "23f3beeb-232f-4c71-9c3c-715a1571edb9";
             config.ApplicationName = "ImageGallery.Client";
 
             config.Transport.EndpointHostname = "logs-01.loggly.com";
             config.Transport.EndpointPort = 443;
             config.Transport.LogTransport = LogTransport.Https;
 
-            var ct = new ApplicationNameTag
+            config.TagConfig.Tags.AddRange(new ITag[]
             {
-                Formatter = "application-{0}",
-            };
-
-            config.TagConfig.Tags.Add(ct);
+                new ApplicationNameTag { Formatter = "application-{0}" },
+                new HostnameTag { Formatter = "host-{0}" },
+                new SimpleTag { Value = environment },
+            });
         }
 
         private static CultureInfo CreateLoggingCulture()
         {
-            var loggingCulture = new CultureInfo("");
+            var loggingCulture = new CultureInfo($"");
 
             //with this DateTime and DateTimeOffset string representations will be sortable. By default, 
             // serialization without a culture or formater will use InvariantCulture. This may or may not be 
@@ -126,6 +123,5 @@ namespace ImageGallery.Client
 
             return loggingCulture;
         }
-
     }
 }

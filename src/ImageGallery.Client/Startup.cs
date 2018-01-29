@@ -118,8 +118,8 @@ namespace ImageGallery.Client
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            StartLoggly(env);
-            Console.WriteLine($"EnvironmentName: {env.EnvironmentName}");
+            // StartLoggly(env);
+            // Console.WriteLine($"EnvironmentName: {env.EnvironmentName}");
 
             if (env.IsDevelopment())
             {
