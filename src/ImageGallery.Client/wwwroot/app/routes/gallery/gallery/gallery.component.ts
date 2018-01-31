@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GalleryService } from '../../../gallery.service';
 import { IGalleryIndexViewModel } from '../../../shared/interfaces';
 import { AuthService } from '../../../services/auth.service';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 
 @Component({
@@ -15,14 +14,7 @@ export class GalleryComponent implements OnInit {
 
     galleryIndexViewModel: IGalleryIndexViewModel;
 
-    constructor(
-        private authService: AuthService,
-        private galleryService: GalleryService,
-        public toastr: ToastsManager, 
-        vcr: ViewContainerRef
-    ) { 
-        this.toastr.setRootViewContainerRef(vcr);
-    }
+    constructor(private authService: AuthService, private galleryService: GalleryService) { }
 
     ngOnInit() {
         console.log(`[ngOnInit] app-gallery`);
@@ -41,14 +33,11 @@ export class GalleryComponent implements OnInit {
 
         this.galleryService.deleteImageViewModel(imageId)
             .subscribe((response) => { },
-            (err: any) => {
-                this.toastr.error('Failed to delete image!', 'Oops!', {showCloseButton: true});
-                console.log(err);
-            },
+            (err: any) => console.log(err),
             () => {
-                this.toastr.success('Image has been deleted successfully!', 'Success!', {showCloseButton: true});
                 this.galleryIndexViewModel.images = this.galleryIndexViewModel.images.filter(x => x.id != imageId);
-                console.log('deleteImageViewModel() delete ImageViewModel');
+
+                console.log('deleteImageViewModel() delete ImageViewModel')
             });
     }
 
