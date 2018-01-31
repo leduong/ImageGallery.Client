@@ -146,6 +146,8 @@ namespace ImageGallery.Client.Apis
             throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
         }
 
+        [HttpGet]
+        [Route("logout")]
         public async Task Logout()
         {
             #region Revocation Token on Logout

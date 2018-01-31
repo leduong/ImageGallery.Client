@@ -111,7 +111,7 @@ namespace ImageGallery.Client.Apis
             throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
         }
 
-        public async Task WriteOutIdentityInformation()
+        private async Task WriteOutIdentityInformation()
         {
             // get the saved identity token
             var identityToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.IdToken);
