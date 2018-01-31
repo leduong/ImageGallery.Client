@@ -7,6 +7,9 @@ using Serilog;
 
 namespace ImageGallery.Client.Controllers
 {
+    /// <summary>
+    /// Client Configuration Controller
+    /// </summary>
     [Route("api/[controller]")]
     public class ClientAppSettingsController : Controller
     {
@@ -16,6 +19,11 @@ namespace ImageGallery.Client.Controllers
 
         private readonly LogglyEvent _logglyEvent;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClientAppSettingsController"/> class.
+        /// </summary>
+        /// <param name="options"></param>
+        /// <param name="logglyClient"></param>
         public ClientAppSettingsController(IOptions<ApplicationOptions> options, ILogglyClient logglyClient)
         {
             _configurationOptions = options.Value;
@@ -24,6 +32,10 @@ namespace ImageGallery.Client.Controllers
             _logglyEvent.Options.Tags.Add(new SimpleTag { Value = "ClientAppSettings" });
         }
 
+        /// <summary>
+        /// Get Client Configuration
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Get()
         {

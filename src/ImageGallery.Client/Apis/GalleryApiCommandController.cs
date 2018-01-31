@@ -19,6 +19,9 @@ using Newtonsoft.Json;
 
 namespace ImageGallery.Client.Apis
 {
+    /// <summary>
+    ///
+    /// </summary>
     [Route("api/images")]
     public class GalleryApiCommandController : Controller
     {
@@ -28,6 +31,12 @@ namespace ImageGallery.Client.Apis
 
         private readonly ILogger<GalleryApiCommandController> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GalleryApiCommandController"/> class.
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <param name="imageGalleryHttpClient"></param>
+        /// <param name="logger"></param>
         public GalleryApiCommandController(IOptions<ApplicationOptions> settings, IImageGalleryHttpClient imageGalleryHttpClient, ILogger<GalleryApiCommandController> logger)
         {
             _logger = logger;
@@ -37,8 +46,14 @@ namespace ImageGallery.Client.Apis
 
         private ApplicationOptions ApplicationSettings { get; }
 
+        /// <summary>
+        /// Edit Image
+        /// </summary>
+        /// <param name="editImageViewModel"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("edit")]
+        [Consumes("application/json")]
         public async Task<IActionResult> EditImage([FromBody] EditImageViewModel editImageViewModel)
         {
             if (!ModelState.IsValid)
@@ -68,6 +83,11 @@ namespace ImageGallery.Client.Apis
             throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
         }
 
+        /// <summary>
+        /// Delete Image
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteImage(Guid id)
         {
@@ -93,6 +113,10 @@ namespace ImageGallery.Client.Apis
             throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
         }
 
+        /// <summary>
+        /// Add Image
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [Route("add")]
         [Authorize(Roles = "PayingUser")]
@@ -101,9 +125,15 @@ namespace ImageGallery.Client.Apis
             return Ok();
         }
 
+        /// <summary>
+        /// Order Picture Frame
+        /// </summary>
+        /// <param name="addImageViewModel"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("order")]
         [Authorize(Policy = "CanOrderFrame")]
+        [Consumes("application/json")]
         public async Task<IActionResult> AddImage(AddImageViewModel addImageViewModel)
         {
             if (!ModelState.IsValid)
@@ -146,6 +176,12 @@ namespace ImageGallery.Client.Apis
             throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
         }
 
+        /// <summary>
+        /// Logout
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("logout")]
         public async Task Logout()
         {
             #region Revocation Token on Logout

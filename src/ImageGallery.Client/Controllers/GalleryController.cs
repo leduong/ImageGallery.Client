@@ -19,12 +19,21 @@ using Newtonsoft.Json;
 
 namespace ImageGallery.Client.Controllers
 {
+    /// <summary>
+    /// Gallery View Controller
+    /// </summary>
     public class GalleryController : Controller
     {
         private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
 
         private readonly ILogger<GalleryController> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GalleryController"/> class.
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <param name="imageGalleryHttpClient"></param>
+        /// <param name="logger"></param>
         public GalleryController(IOptions<ApplicationOptions> settings, IImageGalleryHttpClient imageGalleryHttpClient, ILogger<GalleryController> logger)
         {
             ApplicationSettings = settings.Value;
@@ -264,7 +273,7 @@ namespace ImageGallery.Client.Controllers
             return View(new OrderFrameViewModel(address));
         }
 
-        public async Task WriteOutIdentityInformation()
+        private async Task WriteOutIdentityInformation()
         {
             // get the saved identity token
             var identityToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.IdToken);

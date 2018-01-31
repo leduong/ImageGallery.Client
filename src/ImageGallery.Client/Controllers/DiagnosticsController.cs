@@ -13,6 +13,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace ImageGallery.Client.Controllers
 {
+    /// <summary>
+    ///
+    /// </summary>
     [Route("api/[controller]")]
     public class DiagnosticsController : Controller
     {
@@ -65,8 +68,6 @@ namespace ImageGallery.Client.Controllers
 
             diagnostics.MachineTimeZone = TimeZoneInfo.Local.IsDaylightSavingTime(diagnostics.MachineDate) ? TimeZoneInfo.Local.DaylightName : TimeZoneInfo.Local.StandardName;
             diagnostics.ApplicationVersionNumber = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
-
-            /* GetType().GetTypeInfo().Assembly.GetName().Version.ToString(); */
 
             var ipAddresses = Dns.GetHostAddressesAsync(diagnostics.DnsHostName).Result.Where(x => x.AddressFamily == AddressFamily.InterNetwork).ToList().Distinct();
 

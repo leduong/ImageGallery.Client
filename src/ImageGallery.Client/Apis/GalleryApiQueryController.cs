@@ -17,6 +17,9 @@ using Newtonsoft.Json;
 
 namespace ImageGallery.Client.Apis
 {
+    /// <summary>
+    ///
+    /// </summary>
     [Route("api/images")]
     public class GalleryApiQueryController : Controller
     {
@@ -26,6 +29,12 @@ namespace ImageGallery.Client.Apis
 
         private readonly ILogger<GalleryApiQueryController> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GalleryApiQueryController"/> class.
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <param name="imageGalleryHttpClient"></param>
+        /// <param name="logger"></param>
         public GalleryApiQueryController(IOptions<ApplicationOptions> settings, IImageGalleryHttpClient imageGalleryHttpClient, ILogger<GalleryApiQueryController> logger)
         {
             ApplicationSettings = settings.Value;
@@ -35,9 +44,14 @@ namespace ImageGallery.Client.Apis
 
         private ApplicationOptions ApplicationSettings { get; }
 
+        /// <summary>
+        /// Get Images
+        /// </summary>
+        /// <returns></returns>
         [Authorize(Roles = "PayingUser, FreeUser")]
         [HttpGet]
-        [ProducesResponseType(typeof(GalleryIndexViewModel), 200)]
+        [Produces("application/json", Type = typeof(IEnumerable<GalleryIndexViewModel>))]
+        [ProducesResponseType(typeof(IEnumerable<GalleryIndexViewModel>), 200)]
         public async Task<ActionResult> GalleryIndexViewModel()
         {
             await WriteOutIdentityInformation();
@@ -72,8 +86,15 @@ namespace ImageGallery.Client.Apis
             throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
         }
 
+        /// <summary>
+        /// Get Image
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpGet("{id}")]
+        [Produces("application/json", Type = typeof(IEnumerable<EditImageViewModel>))]
+        [ProducesResponseType(typeof(IEnumerable<EditImageViewModel>), 200)]
         public async Task<IActionResult> EditImage(Guid id)
         {
             // call the API
@@ -111,7 +132,7 @@ namespace ImageGallery.Client.Apis
             throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
         }
 
-        public async Task WriteOutIdentityInformation()
+        private async Task WriteOutIdentityInformation()
         {
             // get the saved identity token
             var identityToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.IdToken);

@@ -8,6 +8,7 @@ using Loggly.Config;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.PlatformAbstractions;
 using Serilog;
 using Serilog.Enrichers;
 using Serilog.Events;
@@ -15,14 +16,25 @@ using Serilog.Sinks.RollingFileAlternate;
 
 namespace ImageGallery.Client
 {
+    /// <summary>
+    ///
+    /// </summary>
     public class Program
     {
+        /// <summary>
+        ///
+        /// </summary>
         public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development"}.json", optional: true)
             .Build();
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public static int Main(string[] args)
         {
             ConfigureLoggly();
@@ -68,6 +80,11 @@ namespace ImageGallery.Client
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()

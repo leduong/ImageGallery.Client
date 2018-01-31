@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Services;
 using Loggly;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using StackExchange.Redis;
@@ -20,16 +22,28 @@ using Swashbuckle.AspNetCore.Swagger;
 
 namespace ImageGallery.Client
 {
+    /// <summary>
+    ///
+    /// </summary>
     public class Startup
     {
+        ///  <summary />
+        /// <param name="configuration"></param>
         public Startup(IConfiguration configuration)
         {
             Log.Information("Startup:ImageGallery.Client");
             Configuration = configuration;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
         public IConfiguration Configuration { get; }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddLogging(loggingBuilder =>
@@ -74,6 +88,7 @@ namespace ImageGallery.Client
                     Description = "ImageGallery.Client",
                     Version = "v1",
                 });
+                options.IncludeXmlComments(GetXmlCommentsPath(PlatformServices.Default.Application));
             });
 
             services.AddAuthentication(options =>
@@ -116,6 +131,12 @@ namespace ImageGallery.Client
             services.AddSingleton<ILogglyClient, LogglyClient>();
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
+        /// <param name="loggerFactory"></param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
@@ -168,6 +189,12 @@ namespace ImageGallery.Client
                     name: "spa-fallback",
                     defaults: new { controller = "Gallery", action = "Index" });
             });
+        }
+
+        private static string GetXmlCommentsPath(ApplicationEnvironment appEnvironment)
+        {
+            var documentationFile = $"{appEnvironment.ApplicationName}.xml";
+            return Path.Combine(appEnvironment.ApplicationBasePath, documentationFile);
         }
     }
 }
