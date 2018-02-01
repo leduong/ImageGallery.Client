@@ -132,8 +132,7 @@ namespace ImageGallery.Client.Apis
         /// <returns></returns>
         [HttpPost]
         [Route("order")]
-        [Authorize(Policy = "CanOrderFrame")]
-        [Consumes("application/json")]
+        [Authorize(Roles = "PayingUser")]
         public async Task<IActionResult> AddImage(AddImageViewModel addImageViewModel)
         {
             if (!ModelState.IsValid)
