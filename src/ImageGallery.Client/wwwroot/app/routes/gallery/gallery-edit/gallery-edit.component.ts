@@ -1,4 +1,4 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Params } from "@angular/router";
 
 import 'rxjs/add/operator/first';
@@ -7,6 +7,7 @@ import 'rxjs/add/operator/toPromise';
 import { GalleryService } from '../../../gallery.service';
 import { IEditImageViewModel } from '../../../shared/interfaces';
 import { Observable } from 'rxjs/Observable';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 
 @Component({
@@ -21,7 +22,12 @@ export class GalleryEditComponent implements OnInit {
 
     categories: string[] = ['Landscapes', 'Portraits', 'Animals'];
 
-    constructor(private readonly galleryService: GalleryService, private activatedRoute: ActivatedRoute) { }
+    constructor(private readonly galleryService: GalleryService, 
+        private activatedRoute: ActivatedRoute,
+        public toastr: ToastsManager, 
+        vcr: ViewContainerRef) {
+        this.toastr.setRootViewContainerRef(vcr);
+    }
 
     async ngOnInit() {
         console.log(`[ngOnInit] app-gallery-edit`);
@@ -38,8 +44,14 @@ export class GalleryEditComponent implements OnInit {
 
         this.galleryService.postEditImageViewModel(this.editImageViewModel)
             .subscribe((response) => { },
-            (err: any) => console.log(err),
-            () => console.log('postEditImageViewModel() posted EditImageViewModel'));;
+            (err: any) => {
+                this.toastr.error('Failed to edit image!', 'Oops!', {showCloseButton: true});
+                console.log(err);
+            },
+            () => {
+                this.toastr.success('Image has been edited successfully!', 'Success!', {showCloseButton: true});
+                console.log('postEditImageViewModel() posted EditImageViewModel');
+            });
     }
 
     private async getImageIdAsync(): Promise<string> {
