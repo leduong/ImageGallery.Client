@@ -177,65 +177,59 @@ namespace ImageGallery.Client.Apis
             throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
         }
 
-        /// <summary>
-        /// Logout
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("logout")]
-        public async Task Logout()
-        {
-            #region Revocation Token on Logout
+        ///// <summary>
+        ///// Logout
+        ///// </summary>
+        ///// <returns></returns>
+        //[HttpGet]
+        //[Route("logout")]
+        //public async Task Logout()
+        //{
+        //    #region Revocation Token on Logout
 
-            // get the metadata
-            Console.WriteLine("ApplicationSettings.Authority" + ApplicationSettings.OpenIdConnectConfiguration.Authority);
+        //    // get the metadata
+        //    Console.WriteLine("ApplicationSettings.Authority" + ApplicationSettings.OpenIdConnectConfiguration.Authority);
 
-            var discoveryClient = new DiscoveryClient(ApplicationSettings.OpenIdConnectConfiguration.Authority);
-            var metaDataResponse = await discoveryClient.GetAsync();
+        //    var discoveryClient = new DiscoveryClient(ApplicationSettings.OpenIdConnectConfiguration.Authority);
+        //    var metaDataResponse = await discoveryClient.GetAsync();
 
-            Console.WriteLine(metaDataResponse.TokenEndpoint);
-            Console.WriteLine(metaDataResponse.StatusCode);
-            Console.WriteLine(metaDataResponse.Error);
+        //    Console.WriteLine(metaDataResponse.TokenEndpoint);
+        //    Console.WriteLine(metaDataResponse.StatusCode);
+        //    Console.WriteLine(metaDataResponse.Error);
 
-            // create a TokenRevocationClient
-            var revocationClient = new TokenRevocationClient(metaDataResponse.RevocationEndpoint, ApplicationSettings.OpenIdConnectConfiguration.ClientId, ApplicationSettings.OpenIdConnectConfiguration.ClientSecret);
+        //    // create a TokenRevocationClient
+        //    var revocationClient = new TokenRevocationClient(metaDataResponse.RevocationEndpoint, ApplicationSettings.OpenIdConnectConfiguration.ClientId, ApplicationSettings.OpenIdConnectConfiguration.ClientSecret);
 
-            //var x = revocationClient.ClientId;
-            //var x1 = revocationClient.ClientSecret;
-            //var x2 = revocationClient.AuthenticationStyle;
+        //    // get the access token to revoke
+        //    var accessToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
 
-            //Console.WriteLine("ClientId:" + x + "ClientSecret:" + x1 + "AuthenticationStyle:" + x2);
+        //    if (!string.IsNullOrWhiteSpace(accessToken))
+        //    {
+        //        Console.WriteLine("Access Token:" + accessToken);
 
-            // get the access token to revoke
-            var accessToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
+        //        var revokeAccessTokenResponse =
+        //            await revocationClient.RevokeAccessTokenAsync(accessToken);
 
-            if (!string.IsNullOrWhiteSpace(accessToken))
-            {
-                Console.WriteLine("Access Token:" + accessToken);
+        //        if (revokeAccessTokenResponse.IsError)
+        //            throw new Exception("Problem encountered while revoking the access token.", revokeAccessTokenResponse.Exception);
+        //    }
 
-                var revokeAccessTokenResponse =
-                    await revocationClient.RevokeAccessTokenAsync(accessToken);
+        //    // revoke the refresh token as well
+        //    var refreshToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
 
-                if (revokeAccessTokenResponse.IsError)
-                    throw new Exception("Problem encountered while revoking the access token.", revokeAccessTokenResponse.Exception);
-            }
+        //    if (!string.IsNullOrWhiteSpace(refreshToken))
+        //    {
+        //        var revokeRefreshTokenResponse =
+        //            await revocationClient.RevokeRefreshTokenAsync(refreshToken);
 
-            // revoke the refresh token as well
-            var refreshToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
+        //        if (revokeRefreshTokenResponse.IsError)
+        //            throw new Exception("Problem encountered while revoking the refresh token.", revokeRefreshTokenResponse.Exception);
+        //    }
 
-            if (!string.IsNullOrWhiteSpace(refreshToken))
-            {
-                var revokeRefreshTokenResponse =
-                    await revocationClient.RevokeRefreshTokenAsync(refreshToken);
+        //    #endregion
 
-                if (revokeRefreshTokenResponse.IsError)
-                    throw new Exception("Problem encountered while revoking the refresh token.", revokeRefreshTokenResponse.Exception);
-            }
-
-            #endregion
-
-            await HttpContext.SignOutAsync("Cookies");
-            await HttpContext.SignOutAsync("OpenIdConnect");
-        }
+        //    await HttpContext.SignOutAsync("Cookies");
+        //    await HttpContext.SignOutAsync("OpenIdConnect");
+        //}
     }
 }
