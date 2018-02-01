@@ -87,6 +87,53 @@ namespace ImageGallery.Client.Apis
         }
 
         /// <summary>
+        /// Get Images Paging
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="limit"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "PayingUser, FreeUser")]
+        [HttpGet]
+        [Route("list")]
+        [Produces("application/json", Type = typeof(IEnumerable<GalleryIndexViewModel>))]
+        [ProducesResponseType(typeof(IEnumerable<GalleryIndexViewModel>), 200)]
+        public async Task<ActionResult> Get([FromQuery] GalleryRequestModel query, int limit, int page)
+        {
+            await WriteOutIdentityInformation();
+
+            // call the API
+            var httpClient = await _imageGalleryHttpClient.GetClient();
+
+            var route = $"{InternalImagesRoute}/{limit}/{page}";
+            var response = await httpClient.GetAsync(route).ConfigureAwait(false);
+
+            _logger.LogInformation($"Call {InternalImagesRoute} return {response.StatusCode}.");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var imagesAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                var galleryIndexViewModel = new GalleryIndexViewModel(
+                        JsonConvert.DeserializeObject<IList<Image>>(imagesAsString).ToList(),
+                        ApplicationSettings.ImagesUri);
+
+                return Ok(galleryIndexViewModel);
+            }
+
+            switch (response.StatusCode)
+            {
+                case System.Net.HttpStatusCode.Unauthorized:
+                    return Unauthorized();
+
+                case System.Net.HttpStatusCode.Forbidden:
+                    return new ForbidResult();
+            }
+
+            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+        }
+
+        /// <summary>
         /// Get Image
         /// </summary>
         /// <param name="id"></param>

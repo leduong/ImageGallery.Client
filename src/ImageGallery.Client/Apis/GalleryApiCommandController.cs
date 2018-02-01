@@ -54,6 +54,7 @@ namespace ImageGallery.Client.Apis
         [HttpPost]
         [Route("edit")]
         [Consumes("application/json")]
+        [Authorize(Roles = "PayingUser")] //TEST FREE USER VALIDATION
         public async Task<IActionResult> EditImage([FromBody] EditImageViewModel editImageViewModel)
         {
             if (!ModelState.IsValid)
@@ -89,6 +90,7 @@ namespace ImageGallery.Client.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "PayingUser")] //TEST FREE USER VALIDATION
         public async Task<IActionResult> DeleteImage(Guid id)
         {
             _logger.LogInformation($"Delete image by Id {id}");

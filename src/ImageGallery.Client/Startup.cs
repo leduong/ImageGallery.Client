@@ -88,6 +88,19 @@ namespace ImageGallery.Client
                     Description = "ImageGallery.Client",
                     Version = "v1",
                 });
+
+                // Handle OAuth
+                options.AddSecurityDefinition("oauth2", new OAuth2Scheme
+                {
+                    Type = "oauth2",
+                    Flow = "implicit",
+                    AuthorizationUrl = config.OpenIdConnectConfiguration.Authority + "connect/authorize",
+                    TokenUrl = config.OpenIdConnectConfiguration.Authority + "connect/token",
+                    Scopes = new Dictionary<string, string>()
+                    {
+                        { "imagegalleryapi", "Image Gallery API" },
+                    },
+                });
                 options.IncludeXmlComments(GetXmlCommentsPath(PlatformServices.Default.Application));
             });
 
