@@ -58,6 +58,7 @@ namespace ImageGallery.Client
             services.AddOptions();
             services.Configure<ApplicationOptions>(Configuration);
 
+            //REMOVE NOT NEEDED
             services.Configure<ApplicationOptions>(Configuration.GetSection("applicationSettings"));
             services.Configure<Dataprotection>(Configuration.GetSection("dataprotection"));
             services.Configure<OpenIdConnectConfiguration>(Configuration.GetSection("openIdConnectConfiguration"));
@@ -66,7 +67,7 @@ namespace ImageGallery.Client
             var config = Configuration.Get<ApplicationOptions>();
 
             Console.WriteLine($"Dataprotection Enabled: {config.Dataprotection.Enabled}");
-            Console.WriteLine($"DataprotectionRedis: {config.Dataprotection.RedisConnection}");
+            Console.WriteLine($"Dataprotection Redis: {config.Dataprotection.RedisConnection}");
             Console.WriteLine($"RedisKey: {config.Dataprotection.RedisKey}");
 
             Console.WriteLine($"Authority: {config.OpenIdConnectConfiguration.Authority}");
@@ -94,8 +95,8 @@ namespace ImageGallery.Client
                 {
                     Type = "oauth2",
                     Flow = "implicit",
-                    AuthorizationUrl = config.OpenIdConnectConfiguration.Authority + "connect/authorize",
-                    TokenUrl = config.OpenIdConnectConfiguration.Authority + "connect/token",
+                    AuthorizationUrl = ValidateUrl($"{config.OpenIdConnectConfiguration.Authority}/connect/authorize"),
+                    TokenUrl = ValidateUrl($"{config.OpenIdConnectConfiguration.Authority}/connect/token"),
                     Scopes = new Dictionary<string, string>()
                     {
                         { "imagegalleryapi", "Image Gallery API" },
@@ -179,17 +180,15 @@ namespace ImageGallery.Client
             app.UseForwardedHeaders(forwardOptions);
 
             var config = Configuration.Get<ApplicationOptions>();
-            Console.WriteLine("Authority" + config.OpenIdConnectConfiguration.Authority);
 
             app.UseAuthentication();
-
             app.UseStaticFiles();
 
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "ImageGallery.Client V1");
-                options.ConfigureOAuth2("swaggerui", string.Empty, string.Empty, "Swagger UI");
+                options.ConfigureOAuth2(config.SwaggerUiConfiguration.ClientId, string.Empty, string.Empty, "Swagger UI");
             });
 
             app.UseMvc(routes =>
@@ -209,5 +208,12 @@ namespace ImageGallery.Client
             var documentationFile = $"{appEnvironment.ApplicationName}.xml";
             return Path.Combine(appEnvironment.ApplicationBasePath, documentationFile);
         }
+
+        private string ValidateUrl(string url)
+        {
+            // ADD LOGIC - THROW EXCEPTION IF NOT VALID 
+            return url;
+        }
+
     }
 }

@@ -107,6 +107,7 @@ namespace ImageGallery.Client.Apis
 
             var route = $"{InternalImagesRoute}/{limit}/{page}";
             var response = await httpClient.GetAsync(route).ConfigureAwait(false);
+            string inlinecount = response.Headers.GetValues("x-inlinecount").FirstOrDefault();
 
             _logger.LogInformation($"Call {InternalImagesRoute} return {response.StatusCode}.");
 
@@ -117,6 +118,9 @@ namespace ImageGallery.Client.Apis
                 var galleryIndexViewModel = new GalleryIndexViewModel(
                         JsonConvert.DeserializeObject<IList<Image>>(imagesAsString).ToList(),
                         ApplicationSettings.ImagesUri);
+
+                HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "X-InlineCount");
+                HttpContext.Response.Headers.Add("X-InlineCount", inlinecount);
 
                 return Ok(galleryIndexViewModel);
             }
