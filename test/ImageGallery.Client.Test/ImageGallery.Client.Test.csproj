@@ -29,7 +29,6 @@
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
 
-
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.1" />
     <DotNetCliToolReference Include="dotnet-setversion" Version="1.0.2" />
@@ -47,6 +46,5 @@
     <ProjectReference Include="..\..\src\ImageGallery.Client\ImageGallery.Client.csproj" />
     <ProjectReference Include="..\..\src\ImageGallery.Model\ImageGallery.Model.csproj" />
   </ItemGroup>
-  
 
 </Project>
