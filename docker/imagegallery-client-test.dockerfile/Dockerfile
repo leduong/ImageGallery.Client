@@ -52,8 +52,8 @@ WORKDIR /app
 RUN dotnet restore
 
 WORKDIR /app/src/ImageGallery.Client
-RUN npm install
-RUN bower install
+RUN npm install --unsafe-perm
+RUN node node_modules/webpack/bin/webpack.js --config webpack.config.js --env.prod
 
 WORKDIR /app/test/ImageGallery.Client.Test
 
