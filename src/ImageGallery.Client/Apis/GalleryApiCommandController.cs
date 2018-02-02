@@ -54,7 +54,7 @@ namespace ImageGallery.Client.Apis
         [HttpPost]
         [Route("edit")]
         [Consumes("application/json")]
-        [Authorize(Roles = "PayingUser")] //TEST FREE USER VALIDATION
+        [Authorize(Roles = "PayingUser")] /* TEST FREE USER VALIDATION */
         public async Task<IActionResult> EditImage([FromBody] EditImageViewModel editImageViewModel)
         {
             if (!ModelState.IsValid)
@@ -90,7 +90,7 @@ namespace ImageGallery.Client.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        [Authorize(Roles = "PayingUser")] //TEST FREE USER VALIDATION
+        [Authorize(Roles = "PayingUser")] /* TEST FREE USER VALIDATION */
         public async Task<IActionResult> DeleteImage(Guid id)
         {
             _logger.LogInformation($"Delete image by Id {id}");
@@ -176,60 +176,5 @@ namespace ImageGallery.Client.Apis
 
             throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
         }
-
-        ///// <summary>
-        ///// Logout
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpGet]
-        //[Route("logout")]
-        //public async Task Logout()
-        //{
-        //    #region Revocation Token on Logout
-
-        //    // get the metadata
-        //    Console.WriteLine("ApplicationSettings.Authority" + ApplicationSettings.OpenIdConnectConfiguration.Authority);
-
-        //    var discoveryClient = new DiscoveryClient(ApplicationSettings.OpenIdConnectConfiguration.Authority);
-        //    var metaDataResponse = await discoveryClient.GetAsync();
-
-        //    Console.WriteLine(metaDataResponse.TokenEndpoint);
-        //    Console.WriteLine(metaDataResponse.StatusCode);
-        //    Console.WriteLine(metaDataResponse.Error);
-
-        //    // create a TokenRevocationClient
-        //    var revocationClient = new TokenRevocationClient(metaDataResponse.RevocationEndpoint, ApplicationSettings.OpenIdConnectConfiguration.ClientId, ApplicationSettings.OpenIdConnectConfiguration.ClientSecret);
-
-        //    // get the access token to revoke
-        //    var accessToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
-
-        //    if (!string.IsNullOrWhiteSpace(accessToken))
-        //    {
-        //        Console.WriteLine("Access Token:" + accessToken);
-
-        //        var revokeAccessTokenResponse =
-        //            await revocationClient.RevokeAccessTokenAsync(accessToken);
-
-        //        if (revokeAccessTokenResponse.IsError)
-        //            throw new Exception("Problem encountered while revoking the access token.", revokeAccessTokenResponse.Exception);
-        //    }
-
-        //    // revoke the refresh token as well
-        //    var refreshToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
-
-        //    if (!string.IsNullOrWhiteSpace(refreshToken))
-        //    {
-        //        var revokeRefreshTokenResponse =
-        //            await revocationClient.RevokeRefreshTokenAsync(refreshToken);
-
-        //        if (revokeRefreshTokenResponse.IsError)
-        //            throw new Exception("Problem encountered while revoking the refresh token.", revokeRefreshTokenResponse.Exception);
-        //    }
-
-        //    #endregion
-
-        //    await HttpContext.SignOutAsync("Cookies");
-        //    await HttpContext.SignOutAsync("OpenIdConnect");
-        //}
     }
 }
