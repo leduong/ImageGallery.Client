@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { debug } from 'util';
 import { HasPayingUserRoleAuthenticationGuard } from '../../../guards/hasPayingUserRoleAuthenticationGuard';
 import { Router } from '@angular/router';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 
 @Component({
@@ -20,7 +21,11 @@ export class GalleryAddComponent implements OnInit {
 
     categories: string[] = ['Landscapes', 'Portraits', 'Animals'];
 
-    constructor(private readonly galleryService: GalleryService, private router: Router) { }
+    constructor(
+        private readonly galleryService: GalleryService, 
+        private router: Router,
+        private toastr: ToastsManager
+    ) { }
 
     ngOnInit() {
         console.log(`[ngOnInit] app-gallery-add`);
@@ -38,9 +43,13 @@ export class GalleryAddComponent implements OnInit {
 
         this.galleryService.postImageViewModel(this.addImageViewModel)
             .subscribe((response) => { },
-            (err: any) => console.log(err),
+            (err: any) => {
+                console.log(err);
+                this.toastr.error('Failed to edit image!', 'Oops!', {showCloseButton: true});
+            },
             () => {
                 console.log('postImageViewModel() posted AddImageViewModel');
+                localStorage.setItem('isAdded', 'yes');
 
                 this.router.navigateByUrl("");
             });

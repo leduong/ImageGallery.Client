@@ -1,5 +1,5 @@
 ﻿import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/toPromise';
@@ -24,6 +24,7 @@ export class GalleryEditComponent implements OnInit {
 
     constructor(private readonly galleryService: GalleryService, 
         private activatedRoute: ActivatedRoute,
+        private router: Router,
         public toastr: ToastsManager, 
         vcr: ViewContainerRef) {
         this.toastr.setRootViewContainerRef(vcr);
@@ -49,8 +50,9 @@ export class GalleryEditComponent implements OnInit {
                 console.log(err);
             },
             () => {
-                this.toastr.success('Image has been edited successfully!', 'Success!', {showCloseButton: true});
                 console.log('postEditImageViewModel() posted EditImageViewModel');
+                localStorage.setItem('isEdited', 'yes');
+                this.router.navigate(['/']);
             });
     }
 

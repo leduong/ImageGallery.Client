@@ -36,6 +36,16 @@ export class GalleryComponent implements OnInit {
             });
     }
 
+    ngAfterViewInit() {
+        if (localStorage.getItem('isEdited') == 'yes') {
+            this.toastr.success('Image has been edited successfully!', 'Success!', {showCloseButton: true});
+            localStorage.removeItem('isEdited');
+        } else if (localStorage.getItem('isAdded') == 'yes') {
+            this.toastr.success('Image has been added successfully!', 'Success!', {showCloseButton: true});
+            localStorage.removeItem('isAdded');
+        }
+    }
+
     public deleteImage(imageId: string) {
         console.log(`[deleteImage] app-gallery-edit`);
 
