@@ -22,14 +22,16 @@ namespace ImageGallery.Client.Test.UI.Fixtures
 
             string appPath = Directory.GetCurrentDirectory();
             string artifactsPath = @"../../../../../artifacts";
+            if (env == "Staging" || env == "Tesing")
+            {
+                artifactsPath = @"../../../../../../artifacts";
+            }
 
             // Create Artifacts Directory
             ArtifactsDirectory = Path.GetFullPath(Path.Combine(appPath, artifactsPath));
+
             Navigator.Common.Helpers.FileHelper.CheckFilePath(ArtifactsDirectory);
-
             Console.WriteLine($"ArtifactsDirectory:{ArtifactsDirectory}");
-
-
         }
 
         public string ArtifactsDirectory { get; private set; }
