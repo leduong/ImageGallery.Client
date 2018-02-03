@@ -65,24 +65,7 @@ node('docker') {
             thresholds: [[$class: 'FailedThreshold', unstableThreshold: '1']],
             tools: [[$class: 'XUnitDotNetTestType', pattern: 'test/*.xml']]])
             archiveArtifacts 'test/*.xml'
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
     stage('Mail') {
         emailext attachLog: true, body: '', subject: "Jenkins build status - ${currentBuild.fullDisplayName}", to: 'sshay@yahoo.com'
