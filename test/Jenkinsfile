@@ -55,7 +55,7 @@ node('docker') {
             ansiColor('xterm') {
                  sh "docker-compose -f docker/imagegallery-client-test.dockerfile/intergration-test-compose.yml down -v"
             }         
-            if ((dotnet_test_1 != 0) || (dotnet_test_2 != 0))){
+            if ((dotnet_test_1 != 0) || (dotnet_test_2 != 0)) {
                 currentBuild.result = 'FAILURE'
             }
         }
