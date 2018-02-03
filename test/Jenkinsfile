@@ -38,11 +38,13 @@ node('docker') {
             }
         }
         sh 'mkdir test'
-        sh 'sudo cp /home/jenkins/artifacts/imagegallery-client/test/*.xml test'
+        sh '''sudo cp /home/jenkins/artifacts/imagegallery-client/test/*.xml test
+              sudo cp /home/jenkins/artifacts/imagegallery-client/data/*.png data
+            '''
          step([$class: 'XUnitBuilder',
             thresholds: [[$class: 'FailedThreshold', unstableThreshold: '1']],
             tools: [[$class: 'XUnitDotNetTestType', pattern: 'test/*.xml']]])
-            archiveArtifacts 'test/*.xml, test/*.png'
+            archiveArtifacts 'test/*.xml, data/*.png'
     }
 
     stage('Mail') {
