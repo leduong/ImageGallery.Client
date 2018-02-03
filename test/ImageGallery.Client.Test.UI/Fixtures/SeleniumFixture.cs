@@ -17,8 +17,11 @@ namespace ImageGallery.Client.Test.UI.Fixtures
             Console.WriteLine("Selenium-ENV:" + env);
 
             //var location = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            //AppDomain.CurrentDomain.BaseDirectory
 
-            var driverService = PhantomJSDriverService.CreateDefaultService(AppDomain.CurrentDomain.BaseDirectory);
+            var location = "/usr/local/bin/";
+
+            var driverService = PhantomJSDriverService.CreateDefaultService(location);
             driverService.HideCommandPromptWindow = true;
             driverService.LoadImages = false;
 
