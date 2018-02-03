@@ -39,7 +39,7 @@ node('docker') {
 
     stage("Run Unit Test") {
         sh 'sudo rm -rf /home/jenkins/artifacts/imagegallery-client/test test'
-        ansiColor('xterm') {
+        ansiColor('css') {
             sh "docker-compose -f docker/imagegallery-client-test.dockerfile/intergration-test-compose.yml pull"
             sh "docker-compose -f docker/imagegallery-client-test.dockerfile/intergration-test-compose.yml down -v"
         }
