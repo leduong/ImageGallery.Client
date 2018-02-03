@@ -16,10 +16,11 @@ namespace ImageGallery.Client.Test.UI.Fixtures
             var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
             Console.WriteLine("Selenium-ENV:" + env);
 
-            //var location = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            //AppDomain.CurrentDomain.BaseDirectory
-
-            var location = "/usr/local/bin/";
+            var location = AppDomain.CurrentDomain.BaseDirectory;
+            if (env == "Staging")
+            {
+                location = "/usr/local/bin/";
+            }
 
             var driverService = PhantomJSDriverService.CreateDefaultService(location);
             driverService.HideCommandPromptWindow = true;
@@ -27,17 +28,12 @@ namespace ImageGallery.Client.Test.UI.Fixtures
 
             var options = new PhantomJSOptions();
             options.AddAdditionalCapability("IsJavaScriptEnabled", true);
-
             options.AddAdditionalCapability("phantomjs.page.settings.userAgent", "Mozilla / 5.0(Windows NT 6.1) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 40.0.2214.94 Safari / 537.36");
 
             Driver = new PhantomJSDriver(driverService, options);
             Driver.Manage().Window.Size = new System.Drawing.Size(1280, 1024);
 
-
-
-
             // Driver = new ChromeDriver(location);
-
             //Driver = new PhantomJSDriver(location,);
         }
 

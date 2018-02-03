@@ -23,7 +23,7 @@ services:
     environment:
       - TEST_FILTER="Category=Intergration"
       - ASPNETCORE_ENVIRONMENT=Staging
-    command: "/wait_for_it.sh -h database -p 1433 -t 0 -- dotnet xunit -trait Category=Intergration -xml /artifacts/intergration-tests.xml"
+    command: "/wait_for_it.sh -h database -p 1433 -t 0 -- dotnet xunit -trait Category=Intergration -xml /artifacts/ui-tests.xml"
     depends_on:
       - database
     volumes: 
