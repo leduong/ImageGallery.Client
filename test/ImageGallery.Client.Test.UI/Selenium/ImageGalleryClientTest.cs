@@ -9,14 +9,17 @@ using Xunit.Abstractions;
 
 namespace ImageGallery.Client.Test.UI.Selenium
 {
-    public class ImageGalleryClientTest : IClassFixture<SeleniumFixture>
+    public class ImageGalleryClientTest : IClassFixture<ConfigFixture>, IClassFixture<SeleniumFixture>
     {
         private readonly IWebDriver _driver;
 
         private readonly ITestOutputHelper _output;
 
-        public ImageGalleryClientTest(SeleniumFixture fixture, ITestOutputHelper output)
+        private readonly string _artifactsDirectory;
+
+        public ImageGalleryClientTest(ConfigFixture configFixture, SeleniumFixture fixture, ITestOutputHelper output)
         {
+            _artifactsDirectory = configFixture.ArtifactsDirectory;
             _driver = fixture.Driver;
             _output = output;
         }
@@ -29,7 +32,8 @@ namespace ImageGallery.Client.Test.UI.Selenium
 
             Screenshot ss = ((ITakesScreenshot)_driver).GetScreenshot();
 
-            ss.SaveAsFile($"D://SeleniumTestingScreenshot_{DateTime.Now.Ticks}.png", ScreenshotImageFormat.Png);
+            string filePath = Path.Combine(_artifactsDirectory, $"Selenium_Smoke_Test_{DateTime.Now.Ticks}.png");
+            ss.SaveAsFile(filePath, ScreenshotImageFormat.Png);
 
             Assert.Equal("Google", _driver.Title);
         }
