@@ -47,6 +47,7 @@ ENV ASPNETCORE_ENVIRONMENT Staging
 
 COPY . /app
 COPY _stylecop _stylecop
+COPY ImageGallery.Client.sln /app/ImageGallery.Client.sln
 
 WORKDIR /app
 RUN dotnet restore
@@ -55,7 +56,16 @@ WORKDIR /app/src/ImageGallery.Client
 RUN npm install --unsafe-perm
 RUN node node_modules/webpack/bin/webpack.js --config webpack.config.js --env.prod
 
-WORKDIR /app/test/ImageGallery.Client.Test
 
-RUN dotnet setversion 2.0.0.${BUILD_NUMBER};
+WORKDIR /app
+
+RUN dotnet restore
 RUN dotnet build
+
+WORKDIR /app/test/
+
+
+
+#WORKDIR /app/test/ImageGallery.Client.Test
+#RUN dotnet setversion 2.0.0.${BUILD_NUMBER};
+#RUN dotnet build

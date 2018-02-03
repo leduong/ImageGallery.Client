@@ -4,6 +4,7 @@ services:
   
   dotnet-test:
     image: stuartshay/imagegallery-client:2.0.0-test
+    working_dir: /app/test/ImageGallery.Client.Test
     environment:
       - TEST_FILTER="Category=Intergration"
       - ASPNETCORE_ENVIRONMENT=Staging
