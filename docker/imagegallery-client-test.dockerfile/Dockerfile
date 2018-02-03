@@ -79,9 +79,3 @@ RUN dotnet restore
 RUN dotnet build
 
 WORKDIR /app/test/
-
-
-
-#WORKDIR /app/test/ImageGallery.Client.Test
-#RUN dotnet setversion 2.0.0.${BUILD_NUMBER};
-#RUN dotnet build

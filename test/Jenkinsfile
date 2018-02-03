@@ -37,7 +37,7 @@ node('docker') {
                 currentBuild.result = 'FAILURE'
             }
         }
-        sh 'mkdir test'
+        sh 'mkdir test data'
         sh '''sudo cp /home/jenkins/artifacts/imagegallery-client/test/*.xml test
               sudo cp /home/jenkins/artifacts/imagegallery-client/data/*.png data
             '''
