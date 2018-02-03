@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium;
@@ -14,6 +15,13 @@ namespace ImageGallery.Client.Test.UI.Fixtures
         public SeleniumFixture()
         {
             var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env}.json", optional: true)
+                .AddEnvironmentVariables()
+                .Build();
+
             Console.WriteLine("Selenium-ENV:" + env);
 
             var location = AppDomain.CurrentDomain.BaseDirectory;
@@ -34,7 +42,6 @@ namespace ImageGallery.Client.Test.UI.Fixtures
             Driver.Manage().Window.Size = new System.Drawing.Size(1280, 1024);
 
             // Driver = new ChromeDriver(location);
-            //Driver = new PhantomJSDriver(location,);
         }
 
         public IWebDriver Driver { get; set; }

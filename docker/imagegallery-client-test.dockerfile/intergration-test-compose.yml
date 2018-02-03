@@ -13,6 +13,7 @@ services:
       - database
     volumes: 
       - /home/jenkins/artifacts/imagegallery-client/test:/artifacts
+      - /home/jenkins/artifacts/imagegallery-client/data:/app/artifacts
     networks:
       - testing-imagegallery-client-network
 
@@ -28,6 +29,7 @@ services:
       - database
     volumes: 
       - /home/jenkins/artifacts/imagegallery-client/test:/artifacts
+      - /home/jenkins/artifacts/imagegallery-client/data:/app/artifacts
     networks:
       - testing-imagegallery-client-network
 

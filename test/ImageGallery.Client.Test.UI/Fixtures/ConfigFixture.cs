@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using Microsoft.Extensions.Configuration;
-using Microsoft.VisualStudio.TestPlatform.Utilities.Helpers;
-using Navigator.Common.Helpers;
 
 namespace ImageGallery.Client.Test.UI.Fixtures
 {
@@ -22,10 +20,6 @@ namespace ImageGallery.Client.Test.UI.Fixtures
 
             string appPath = Directory.GetCurrentDirectory();
             string artifactsPath = @"../../../../../artifacts";
-            if (env == "Staging" || env == "Tesing")
-            {
-                artifactsPath = @"../../../../../../artifacts";
-            }
 
             // Create Artifacts Directory
             ArtifactsDirectory = Path.GetFullPath(Path.Combine(appPath, artifactsPath));
