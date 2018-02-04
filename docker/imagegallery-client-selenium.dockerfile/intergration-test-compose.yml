@@ -10,8 +10,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Staging
     command: "dotnet xunit -trait Category=Intergration -xml /artifacts/intergration-tests.xml"
     volumes: 
-      - /home/jenkins/artifacts/imagegallery-client/test:/artifacts
-      - /home/jenkins/artifacts/imagegallery-client/data:/app/artifacts
+      - /home/jenkins/artifacts/imagegallery-client-selenium/test:/artifacts
+      - /home/jenkins/artifacts/imagegallery-client-selenium/data:/app/artifacts
     networks:
       - selenium_grid_internal
 
