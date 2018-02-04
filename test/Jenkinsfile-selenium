@@ -8,16 +8,16 @@ node('docker') {
     stage("Run Unit Test") {
         sh 'sudo rm -rf /home/jenkins/artifacts/imagegallery-client-selenium/test test'
         ansiColor('xterm') {
-            sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/selenium-grid-compose.yml pull"
-            sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/selenium-grid-compose.yml down -v"
+         //   sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/selenium-grid-compose.yml pull"
+         //   sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/selenium-grid-compose.yml down -v"
             sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/intergration-test-compose.yml pull"
             sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/intergration-test-compose.yml down -v"
         }
         try {
-            sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/selenium-grid-compose.yml up --force-recreate --abort-on-container-exit"
+         //   sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/selenium-grid-compose.yml up --force-recreate --abort-on-container-exit"
             sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/intergration-test-compose.yml up --force-recreate --abort-on-container-exit"
         } finally {
-            sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/selenium-grid-compose.yml down -v"
+         //   sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/selenium-grid-compose.yml down -v"
             sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/intergration-test-compose.yml down -v"
         }
         sh 'mkdir -p test data'
