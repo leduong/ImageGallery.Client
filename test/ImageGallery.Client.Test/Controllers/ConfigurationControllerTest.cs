@@ -37,7 +37,8 @@ namespace ImageGallery.Client.Test.Controllers
             _output = output;
         }
 
-        [SkippableFact(Skip = "Failing Test")]
+        //[SkippableFact(Skip = "Failing Test")]
+        [Fact]
         [Trait("Category", "Intergration")]
         public async Task Get_Client_Configuration()
         {
