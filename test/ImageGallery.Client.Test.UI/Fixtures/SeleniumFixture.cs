@@ -39,9 +39,8 @@ namespace ImageGallery.Client.Test.UI.Fixtures
 
             if (env == "Local" || env == "Testing")
             {
-                location = "/usr/local/bin/";
-                // Driver = SeleniumGrid();
-                Driver = SeleniumLocal(location);
+                Driver = SeleniumGrid();
+                //Driver = SeleniumLocal(location);
             }
         }
 
@@ -71,14 +70,14 @@ namespace ImageGallery.Client.Test.UI.Fixtures
 
         private IWebDriver SeleniumGrid()
         {
-           IWebDriver _driver;
+           var seleniumHub = "selenium_hub:4444";
 
            DesiredCapabilities capabilities = new DesiredCapabilities();
            capabilities = DesiredCapabilities.Chrome();
            capabilities.SetCapability(CapabilityType.BrowserName, "chrome");
            capabilities.SetCapability(CapabilityType.Platform, new Platform(PlatformType.Windows));
 
-           _driver = new RemoteWebDriver(new Uri("http://192.168.99.100:4444/wd/hub"), capabilities);
+           var _driver = new RemoteWebDriver(new Uri($"http://{seleniumHub}/wd/hub"), capabilities);
 
            return _driver;
         }
