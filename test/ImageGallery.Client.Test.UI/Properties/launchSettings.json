@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ImageGallery.Client.Test.UI": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Local"
+      }
+    }
+  }
+}
