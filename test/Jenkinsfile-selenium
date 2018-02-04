@@ -5,12 +5,17 @@ node('docker') {
     }
 
 
- //   stage("Run Unit Test") {
- //       sh 'sudo rm -rf /home/jenkins/artifacts/imagegallery-client/test test'
- //       ansiColor('xterm') {
- //           sh "docker-compose -f docker/imagegallery-client-test.dockerfile/intergration-test-compose.yml pull"
- //           sh "docker-compose -f docker/imagegallery-client-test.dockerfile/intergration-test-compose.yml down -v"
- //       }
+    stage("Run Unit Test") {
+        sh 'sudo rm -rf /home/jenkins/artifacts/imagegallery-client/test test'
+        ansiColor('xterm') {
+            sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/selenium-grid-compose.yml pull"
+            sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/selenium-grid-compose.yml down -v"
+            sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/intergration-test-compose.yml pull"
+            sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/intergration-test-compose.yml down -v"
+        }
+ 
+ 
+ 
  //        def dotnet_test_1 = 0
  //        def dotnet_test_2 = 0
 
@@ -35,7 +40,7 @@ node('docker') {
  //           thresholds: [[$class: 'FailedThreshold', unstableThreshold: '1']],
  //           tools: [[$class: 'XUnitDotNetTestType', pattern: 'test/*.xml']]])
  //           archiveArtifacts 'test/*.xml, data/*.png'
-  //  }
+   }
 
     stage('Mail') {
         emailext attachLog: true, body: '', subject: "Jenkins build status - ${currentBuild.fullDisplayName}", to: 'sshay@yahoo.com'
