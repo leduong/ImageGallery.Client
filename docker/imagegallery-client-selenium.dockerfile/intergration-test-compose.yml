@@ -1,0 +1,17 @@
+version: '2.1'
+
+services:
+  
+  dotnet-test-1:
+    image: stuartshay/imagegallery-client:2.0.0-test
+    working_dir: /app/test/ImageGallery.Client.Test.UI
+    environment:
+      - TEST_FILTER="Category=Intergration"
+      - ASPNETCORE_ENVIRONMENT=Staging
+    command: "/wait_for_it.sh -h database -p 1433 -t 0 -- dotnet xunit -trait Category=Intergration -xml /artifacts/ui-tests.xml"
+    volumes: 
+      - /home/jenkins/artifacts/imagegallery-client/test:/artifacts
+      - /home/jenkins/artifacts/imagegallery-client/data:/app/artifacts
+    networks:
+      - selenium_grid_internal:
+
