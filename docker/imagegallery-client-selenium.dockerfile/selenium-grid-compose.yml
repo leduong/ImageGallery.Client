@@ -26,7 +26,7 @@ services:
             - HUB_PORT_4444_TCP_ADDR=selenium_hub
             - HUB_PORT_4444_TCP_PORT=4444
         networks:
-            - selenium_grid_internal
+          - selenium_grid_internal
 
     nodechrome2:
         image: selenium/node-chrome-debug:3.8.1-aluminum
@@ -41,8 +41,8 @@ services:
             - HUB_PORT_4444_TCP_ADDR=selenium_hub
             - HUB_PORT_4444_TCP_PORT=4444
         networks:
-            - selenium_grid_internal
+          - selenium_grid_internal
 
 networks:
-selenium_grid_internal:
+    selenium_grid_internal:
 

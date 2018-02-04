@@ -10,8 +10,8 @@ node('docker') {
         ansiColor('xterm') {
             sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/selenium-grid-compose.yml pull"
             sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/selenium-grid-compose.yml down -v"
-            sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/intergration-test-compose.yml pull"
-            sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/intergration-test-compose.yml down -v"
+            //sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/intergration-test-compose.yml pull"
+            //sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/intergration-test-compose.yml down -v"
         }
  
  
