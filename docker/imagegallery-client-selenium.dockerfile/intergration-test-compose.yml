@@ -4,16 +4,16 @@ services:
   
   dotnet-test-1:
     image: stuartshay/imagegallery-client:2.0.0-test
-    working_dir: /app/test/ImageGallery.Client.Test.UI
+    working_dir: /app/test/ImageGallery.Client.Test
     environment:
       - TEST_FILTER="Category=Intergration"
       - ASPNETCORE_ENVIRONMENT=Staging
-    command: "dotnet xunit -trait Category=Intergration -xml /artifacts/ui-tests.xml"
+    command: "dotnet xunit -trait Category=Intergration -xml /artifacts/intergration-tests.xml"
     volumes: 
       - /home/jenkins/artifacts/imagegallery-client/test:/artifacts
       - /home/jenkins/artifacts/imagegallery-client/data:/app/artifacts
     networks:
-      - selenium_grid_internal:
+      - selenium_grid_internal
 
 networks:
-    selenium_grid_internal:
+  selenium_grid_internal:
