@@ -21,8 +21,8 @@ node('docker') {
             sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/intergration-test-compose.yml down -v"
         }
         sh 'mkdir -p test data'
-        sh  '''sudo cp /home/jenkins/artifacts/imagegallery-client/test/*.xml test
-               sudo cp /home/jenkins/artifacts/imagegallery-client/data/*.png data
+        sh  '''sudo cp /home/jenkins/artifacts/imagegallery-client-selenium/test/*.xml test
+               sudo cp /home/jenkins/artifacts/imagegallery-client-selenium/data/*.png data
             '''
         step([$class: 'XUnitBuilder',
                         thresholds: [[$class: 'FailedThreshold', unstableThreshold: '1']],
