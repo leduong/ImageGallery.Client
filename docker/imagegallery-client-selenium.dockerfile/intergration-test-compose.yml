@@ -2,7 +2,6 @@ version: '2.1'
 
 services:
   
-
     selenium_hub:
         image: selenium/hub:3.8.1-aluminum
         container_name: selenium_hub
@@ -45,20 +44,20 @@ services:
         networks:
           - selenium_grid_internal
 
-  dotnet-test-1:
-    image: stuartshay/imagegallery-client:2.0.0-test
-    working_dir: /app/test/ImageGallery.Client.Test.UI
-     depends_on:
-      - selenium_hub
-    environment:
-      - TEST_FILTER="Category=Intergration"
-      - ASPNETCORE_ENVIRONMENT=Staging
-    command: "dotnet xunit -trait Category=Intergration -xml /artifacts/intergration-tests.xml"
-    volumes: 
-      - /home/jenkins/artifacts/imagegallery-client-selenium/test:/artifacts
-      - /home/jenkins/artifacts/imagegallery-client-selenium/data:/app/artifacts
-    networks:
-      - selenium_grid_internal
+    dotnet-test-1:
+      image: stuartshay/imagegallery-client:2.0.0-test
+      working_dir: /app/test/ImageGallery.Client.Test.UI
+      depends_on:
+        - selenium_hub
+      environment:
+        - TEST_FILTER="Category=Intergration"
+        - ASPNETCORE_ENVIRONMENT=Staging
+      command: "dotnet xunit -trait Category=Intergration -xml /artifacts/intergration-tests.xml"
+      volumes: 
+        - /home/jenkins/artifacts/imagegallery-client-selenium/test:/artifacts
+        - /home/jenkins/artifacts/imagegallery-client-selenium/data:/app/artifacts
+      networks:
+        - selenium_grid_internal
 
 networks:
   selenium_grid_internal:
