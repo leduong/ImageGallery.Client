@@ -1,13 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium;
 using OpenQA.Selenium.PhantomJS;
 using OpenQA.Selenium.Remote;
-using OpenQA.Selenium.Support.UI;
 
 namespace ImageGallery.Client.Test.UI.Fixtures
 {
@@ -31,16 +28,28 @@ namespace ImageGallery.Client.Test.UI.Fixtures
                 Driver = new ChromeDriver(location);
             }
 
+            if (env == "Local")
+            {
+                // Driver = SeleniumGrid();
+                location = AppDomain.CurrentDomain.BaseDirectory;
+                Driver = SeleniumLocal(location);
+            }
+
             if (env == "Staging")
             {
                 location = "/usr/local/bin/";
                 Driver = SeleniumLocal(location);
             }
 
-            if (env == "Local" || env == "Testing")
+            if (env == "Testing")
             {
-                Driver = SeleniumGrid();
-                //Driver = SeleniumLocal(location);
+                /*
+                 Selenium Grid - Remote Expermental
+                */
+
+                // Driver = SeleniumGrid();
+                location = "/usr/local/bin/";
+                Driver = SeleniumLocal(location);
             }
         }
 
@@ -71,15 +80,18 @@ namespace ImageGallery.Client.Test.UI.Fixtures
         private IWebDriver SeleniumGrid()
         {
            var seleniumHub = "selenium_hub:4444";
+           seleniumHub = "192.168.99.100:4444";
+
+           Uri uri = new Uri($"http://{seleniumHub}/wd/hub");
 
            DesiredCapabilities capabilities = new DesiredCapabilities();
-           capabilities = DesiredCapabilities.Chrome();
            capabilities.SetCapability(CapabilityType.BrowserName, "chrome");
-           capabilities.SetCapability(CapabilityType.Platform, new Platform(PlatformType.Windows));
+           capabilities.SetCapability(CapabilityType.Version, "62.0.3202.94");
+           capabilities.SetCapability(CapabilityType.Platform, "LINUX");
 
-           var _driver = new RemoteWebDriver(new Uri($"http://{seleniumHub}/wd/hub"), capabilities);
+           IWebDriver driver = new RemoteWebDriver(uri, capabilities);
 
-           return _driver;
+           return driver;
         }
     }
 }
