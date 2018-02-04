@@ -8,10 +8,12 @@ services:
     environment:
       - TEST_FILTER="Category=Intergration"
       - ASPNETCORE_ENVIRONMENT=Staging
-    command: "/wait_for_it.sh -h database -p 1433 -t 0 -- dotnet xunit -trait Category=Intergration -xml /artifacts/ui-tests.xml"
+    command: "dotnet xunit -trait Category=Intergration -xml /artifacts/ui-tests.xml"
     volumes: 
       - /home/jenkins/artifacts/imagegallery-client/test:/artifacts
       - /home/jenkins/artifacts/imagegallery-client/data:/app/artifacts
     networks:
       - selenium_grid_internal:
 
+networks:
+    selenium_grid_internal:
