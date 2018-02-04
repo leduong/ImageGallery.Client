@@ -1,10 +1,8 @@
 using System;
-using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using ImageGallery.Client.Configuration;
-using ImageGallery.Client.Test.Helpers;
-using Microsoft.AspNetCore.Hosting;
+using ImageGallery.Client.Test.Fixtures;
 using Microsoft.AspNetCore.TestHost;
 using Newtonsoft.Json;
 using Xunit;
@@ -12,32 +10,24 @@ using Xunit.Abstractions;
 
 namespace ImageGallery.Client.Test.Controllers
 {
-    public class ConfigurationControllerTest
+    public class ConfigurationControllerTest : IClassFixture<TestServerFixture>
     {
         /*
         https://andrewlock.net/introduction-to-integration-testing-with-xunit-and-testserver-in-asp-net-core/
         https://visualstudiomagazine.com/articles/2017/07/01/testserver.aspx
+        https://ardalis.com/configuring-aspnet-core-apps-with-webhostbuilder
+        https://github.com/ardalis/ConfigureWithWebHostBuilder
         */
 
-        private readonly TestServer _server;
         private readonly HttpClient _client;
         private readonly ITestOutputHelper _output;
 
-        public ConfigurationControllerTest(ITestOutputHelper output)
+        public ConfigurationControllerTest(TestServerFixture fixture, ITestOutputHelper output)
         {
-            var applicationPath = WebTestHelpers.GetWebApplicationPath();
-            var builder = new WebHostBuilder()
-                .UseContentRoot(applicationPath)
-                .UseEnvironment("Development")
-                .UseStartup<Startup>()
-                .UseApplicationInsights();
-
-            _server = new TestServer(builder);
-            _client = _server.CreateClient();
+            _client = fixture.Client;
             _output = output;
         }
 
-        //[SkippableFact(Skip = "Failing Test")]
         [Fact]
         [Trait("Category", "Intergration")]
         public async Task Get_Client_Configuration()

@@ -4,8 +4,10 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using ImageGallery.Client.Test.Helpers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.Net.Http.Headers;
@@ -22,21 +24,25 @@ namespace ImageGallery.Client.Test.Fixtures
 
         public TestServerFixture()
         {
-            var builder = new WebHostBuilder()
-                .UseContentRoot(GetContentRootPath())
-                .UseEnvironment("Development")
-                .UseStartup<Startup>()
+            var environment = "Testing";
+            var applicationPath = WebTestHelpers.GetWebApplicationPath();
+
+            _testServer = new TestServer(new WebHostBuilder()
+                .UseEnvironment(environment)
+                .UseContentRoot(applicationPath)
                 .ConfigureServices(x =>
                 {
                     x.AddAntiforgery(t =>
                     {
-                        t.CookieName = AntiForgeryCookieName;
+                        t.Cookie.Name = AntiForgeryCookieName;
                         t.FormFieldName = AntiForgeryFieldName;
                     });
                 })
-                .UseApplicationInsights();
-
-            _testServer = new TestServer(builder);
+                .UseConfiguration(new ConfigurationBuilder()
+                    .SetBasePath(applicationPath)
+                    .AddJsonFile($"appsettings.{environment}.json")
+                    .Build())
+                .UseStartup<Startup>());
 
             Client = _testServer.CreateClient();
         }

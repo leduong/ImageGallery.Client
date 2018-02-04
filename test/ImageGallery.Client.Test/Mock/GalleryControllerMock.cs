@@ -4,7 +4,7 @@ namespace ImageGallery.Client.Test.Mock
 {
     public class GalleryControllerMock
     {
-        [Fact]
+        [SkippableFact(Skip = "TODO: Setup MockTesting")]
         [Trait("Category", "Intergration")]
         public void Test1()
         {

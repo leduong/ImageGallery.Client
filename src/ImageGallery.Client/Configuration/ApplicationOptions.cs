@@ -93,6 +93,11 @@
         ///
         /// </summary>
         public string Realm { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public bool Enabled { get; set; }
     }
 
     /// <summary>
