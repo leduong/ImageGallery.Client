@@ -7,11 +7,13 @@ import { GalleryAddComponent } from './gallery-add/gallery-add.component';
 import { AboutComponent } from './about/about.component';
 import { KeysPipe } from '../../pipes/keys.pipe';
 import { PaginationModule } from 'ngx-bootstrap';
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 
 @NgModule({
     imports: [
         SharedModule,
         PaginationModule.forRoot(),
+        Ng4LoadingSpinnerModule.forRoot(),
     ],
     declarations: [GalleryComponent, GalleryEditComponent, GalleryAddComponent, AboutComponent, KeysPipe],
     exports: [
@@ -20,7 +22,8 @@ import { PaginationModule } from 'ngx-bootstrap';
         GalleryEditComponent,
         GalleryAddComponent,
         AboutComponent,
-        PaginationModule
+        PaginationModule,
+        Ng4LoadingSpinnerModule,
     ]
 })
 export class GalleryModule { }

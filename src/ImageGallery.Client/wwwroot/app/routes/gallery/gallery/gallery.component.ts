@@ -3,6 +3,7 @@ import { GalleryService } from '../../../gallery.service';
 import { IGalleryIndexViewModel } from '../../../shared/interfaces';
 import { AuthService } from '../../../services/auth.service';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 
 @Component({
@@ -23,7 +24,8 @@ export class GalleryComponent implements OnInit {
         private authService: AuthService,
         private galleryService: GalleryService,
         public toastr: ToastsManager, 
-        vcr: ViewContainerRef
+        vcr: ViewContainerRef,
+        private spinnerService: Ng4LoadingSpinnerService
     ) { 
         this.toastr.setRootViewContainerRef(vcr);
     }
@@ -66,6 +68,8 @@ export class GalleryComponent implements OnInit {
     }
 
     private getGalleryIndexViewModel(event?) {
+        this.spinnerService.show();
+
         if (typeof event == 'string') {
             this.limit = parseInt(event);
         } else if (typeof event == 'object') {
@@ -77,6 +81,9 @@ export class GalleryComponent implements OnInit {
             .then((response: any) => {
                 this.galleryIndexViewModel = response.images;
                 this.totalItems = response.totalCount;
+                this.spinnerService.hide();
+            }).catch(err => {
+                this.spinnerService.hide();
             });
     }
 }
