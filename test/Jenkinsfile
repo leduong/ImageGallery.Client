@@ -14,23 +14,38 @@ node('docker') {
           sh '''docker push stuartshay/imagegallery-client:2.0.0-test'''
     }
 
-  // stage("Run Unit Test") {
-  //          sh 'sudo rm -rf /home/jenkins/artifacts/imagegallery-client/test test'
-  //          sh "docker-compose -f docker/imagegallery-client-test.dockerfile/intergration-test-compose.yml pull"
-  //          sh "docker-compose -f docker/imagegallery-client-test.dockerfile/intergration-test-compose.yml down -v"
-  //          try {
-  //              sh "docker-compose -f docker/imagegallery-client-test.dockerfile/intergration-test-compose.yml up --force-recreate --abort-on-container-exit"
-  //          } finally {
-  //              sh "docker-compose -f docker/imagegallery-client-test.dockerfile/intergration-test-compose.yml down -v"
-  //          }
-  //          sh 'mkdir test'
-  //          sh 'sudo cp /home/jenkins/artifacts/imagegallery-client/test/*.xml test '
-  //         step([$class: 'XUnitBuilder',
-  //                      thresholds: [[$class: 'FailedThreshold', unstableThreshold: '1']],
-  //                      tools: [[$class: 'XUnitDotNetTestType', pattern: 'test/*.xml']]])
-  //          archiveArtifacts 'test/*.xml'
-  //  }
 
+    stage("Run Unit Test") {
+        sh 'sudo rm -rf /home/jenkins/artifacts/imagegallery-client/test test'
+        ansiColor('xterm') {
+            sh "docker-compose -f docker/imagegallery-client-test.dockerfile/intergration-test-compose.yml pull"
+            sh "docker-compose -f docker/imagegallery-client-test.dockerfile/intergration-test-compose.yml down -v"
+        }
+         def dotnet_test_1 = 0
+         def dotnet_test_2 = 0
+
+        try {
+            ansiColor('xterm') {
+                dotnet_test_1 = sh(returnStatus: true, script: 'docker-compose -f docker/imagegallery-client-test.dockerfile/intergration-test-compose.yml up --force-recreate --exit-code-from dotnet-test-1 dotnet-test-1')
+                dotnet_test_2 = sh(returnStatus: true, script: 'docker-compose -f docker/imagegallery-client-test.dockerfile/intergration-test-compose.yml up --force-recreate --exit-code-from dotnet-test-2 dotnet-test-2')
+            }
+        } finally {
+            ansiColor('xterm') {
+                 sh "docker-compose -f docker/imagegallery-client-test.dockerfile/intergration-test-compose.yml down -v"
+            }         
+            if ((dotnet_test_1 != 0) || (dotnet_test_2 != 0)) {
+                currentBuild.result = 'FAILURE'
+            }
+        }
+        sh 'mkdir -p test data'
+        sh '''sudo cp /home/jenkins/artifacts/imagegallery-client/test/*.xml test
+              sudo cp /home/jenkins/artifacts/imagegallery-client/data/*.png data
+            '''
+         step([$class: 'XUnitBuilder',
+            thresholds: [[$class: 'FailedThreshold', unstableThreshold: '1']],
+            tools: [[$class: 'XUnitDotNetTestType', pattern: 'test/*.xml']]])
+            archiveArtifacts 'test/*.xml, data/*.png'
+    }
 
     stage('Mail') {
         emailext attachLog: true, body: '', subject: "Jenkins build status - ${currentBuild.fullDisplayName}", to: 'sshay@yahoo.com'

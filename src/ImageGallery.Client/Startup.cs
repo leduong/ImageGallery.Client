@@ -27,7 +27,7 @@ namespace ImageGallery.Client
     /// </summary>
     public class Startup
     {
-        ///  <summary />
+        /// <summary />
         /// <param name="configuration"></param>
         public Startup(IConfiguration configuration)
         {
@@ -81,29 +81,32 @@ namespace ImageGallery.Client
                 services.AddDataProtection().PersistKeysToRedis(redis, config.Dataprotection.RedisKey);
             }
 
-            services.AddSwaggerGen(options =>
+            if (config.SwaggerUiConfiguration.Enabled)
             {
-                options.SwaggerDoc("v1", new Info
+                services.AddSwaggerGen(options =>
                 {
-                    Title = "ImageGallery.Client",
-                    Description = "ImageGallery.Client",
-                    Version = "v1",
-                });
-
-                // Handle OAuth
-                options.AddSecurityDefinition("oauth2", new OAuth2Scheme
-                {
-                    Type = "oauth2",
-                    Flow = "implicit",
-                    AuthorizationUrl = ValidateUrl($"{config.OpenIdConnectConfiguration.Authority}/connect/authorize"),
-                    TokenUrl = ValidateUrl($"{config.OpenIdConnectConfiguration.Authority}/connect/token"),
-                    Scopes = new Dictionary<string, string>()
+                    options.SwaggerDoc("v1", new Info
                     {
-                        { "imagegalleryapi", "Image Gallery API" },
-                    },
+                        Title = "ImageGallery.Client",
+                        Description = "ImageGallery.Client",
+                        Version = "v1",
+                    });
+
+                    // Handle OAuth
+                    options.AddSecurityDefinition("oauth2", new OAuth2Scheme
+                    {
+                        Type = "oauth2",
+                        Flow = "implicit",
+                        AuthorizationUrl = ValidateUrl($"{config.OpenIdConnectConfiguration.Authority}/connect/authorize"),
+                        TokenUrl = ValidateUrl($"{config.OpenIdConnectConfiguration.Authority}/connect/token"),
+                        Scopes = new Dictionary<string, string>()
+                        {
+                            { "imagegalleryapi", "Image Gallery API" },
+                        },
+                    });
+                    options.IncludeXmlComments(GetXmlCommentsPath(PlatformServices.Default.Application));
                 });
-                options.IncludeXmlComments(GetXmlCommentsPath(PlatformServices.Default.Application));
-            });
+            }
 
             services.AddAuthentication(options =>
                 {
@@ -184,12 +187,15 @@ namespace ImageGallery.Client
             app.UseAuthentication();
             app.UseStaticFiles();
 
-            app.UseSwagger();
-            app.UseSwaggerUI(options =>
+            if (config.SwaggerUiConfiguration.Enabled)
             {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "ImageGallery.Client V1");
-                options.ConfigureOAuth2(config.SwaggerUiConfiguration.ClientId, string.Empty, string.Empty, "Swagger UI");
-            });
+                app.UseSwagger();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "ImageGallery.Client V1");
+                    options.ConfigureOAuth2(config.SwaggerUiConfiguration.ClientId, string.Empty, string.Empty, "Swagger UI");
+                });
+            }
 
             app.UseMvc(routes =>
             {
@@ -214,6 +220,5 @@ namespace ImageGallery.Client
             // ADD LOGIC - THROW EXCEPTION IF NOT VALID 
             return url;
         }
-
     }
 }
