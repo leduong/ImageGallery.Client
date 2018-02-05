@@ -14,7 +14,7 @@
     </div>
 </div>
 <div class="row pagination" *ngIf="totalItems > 0">
-    <div class="col-md-6 col-sm-6 page-num-info">
+    <div class="col-md-3 col-sm-12 page-num-info">
         <div class="inline">
             <select [ngModel]="limit" (ngModelChange)="getGalleryIndexViewModel($event)">
             <option [value]="p" *ngFor="let p of perPage">{{p}}</option>
@@ -22,16 +22,19 @@
             per page
         </div>
     </div>
-    <div class="col-md-6 col-sm-6 text-right pagination-container">
+    <div class="col-md-6 col-sm-12 text-center pagination-container">
         <pagination 
             [totalItems]="totalItems"
             [itemsPerPage]="limit"
             [maxSize]="5" 
-            [ngModel]="page"
+            [(ngModel)]="page"
             [boundaryLinks]="true"
             [rotate]="false"
             (pageChanged)="getGalleryIndexViewModel($event)" class="pagination-sm">
         </pagination>
+    </div>
+    <div class="col-md-3 col-sm-12 text-right">
+        Total Records: {{totalItems}}
     </div>
 </div>
 
