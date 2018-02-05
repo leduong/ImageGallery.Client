@@ -14,6 +14,10 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 export class GalleryComponent implements OnInit {
 
     galleryIndexViewModel: IGalleryIndexViewModel;
+    page = 1;
+    limit = 10;
+    perPage = [10, 20, 50, 100];
+    totalItems = 10;
 
     constructor(
         private authService: AuthService,
@@ -61,12 +65,18 @@ export class GalleryComponent implements OnInit {
             });
     }
 
-    private getGalleryIndexViewModel() {
-        this.galleryService.getGalleryIndexViewModel()
-            .subscribe((response: IGalleryIndexViewModel) => {
-                this.galleryIndexViewModel = response;
-            },
-            (err: any) => console.log(err),
-            () => console.log('getGalleryIndexViewModel() retrieved GalleryIndexViewModel'));
+    private getGalleryIndexViewModel(event?) {
+        if (typeof event == 'string') {
+            this.limit = parseInt(event);
+        } else if (typeof event == 'object') {
+            this.limit = event.itemsPerPage;
+            this.page = event.page;
+        }
+
+        this.galleryService.getGalleryIndexViewModel(this.limit, this.page)
+            .then((response: any) => {
+                this.galleryIndexViewModel = response.images;
+                this.totalItems = response.totalCount;
+            });
     }
 }

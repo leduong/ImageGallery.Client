@@ -6,10 +6,12 @@ import { SharedModule } from '../../shared/shared.module';
 import { GalleryAddComponent } from './gallery-add/gallery-add.component';
 import { AboutComponent } from './about/about.component';
 import { KeysPipe } from '../../pipes/keys.pipe';
+import { PaginationModule } from 'ngx-bootstrap';
 
 @NgModule({
     imports: [
-        SharedModule
+        SharedModule,
+        PaginationModule.forRoot(),
     ],
     declarations: [GalleryComponent, GalleryEditComponent, GalleryAddComponent, AboutComponent, KeysPipe],
     exports: [
@@ -17,7 +19,8 @@ import { KeysPipe } from '../../pipes/keys.pipe';
         GalleryComponent,
         GalleryEditComponent,
         GalleryAddComponent,
-        AboutComponent
+        AboutComponent,
+        PaginationModule
     ]
 })
 export class GalleryModule { }

@@ -5,35 +5,41 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 
 import { IGalleryIndexViewModel, IEditImageViewModel, IAddImageViewModel } from './shared/interfaces';
-import { HttpClient } from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpInterceptor, HttpResponse, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class GalleryService {
 
     private baseUrl: string = '/api/images';
 
-    constructor(private http: HttpClient) {
+    constructor(private httpClient: HttpClient) {
     }
 
-    public getGalleryIndexViewModel(): Observable<IGalleryIndexViewModel> {
-        return this.http.get<IGalleryIndexViewModel>(this.baseUrl)
-            .catch(this.handleError);
+    public getGalleryIndexViewModel(limit: number, page: number) {
+        return new Promise((resolve, reject) => {
+            this.httpClient.get(`${this.baseUrl}/list?limit=${limit}&page=${page}`, { observe: 'response' })
+                .subscribe(res => {
+                    resolve({
+                        totalCount: res.headers.get('X-InlineCount'),
+                        images: res.body
+                    });
+                });
+        });
     }
 
     public getEditImageViewModel(id: string): Observable<IEditImageViewModel> {
-        return this.http.get<IEditImageViewModel>(`${this.baseUrl}/${id}`)
+        return this.httpClient.get<IEditImageViewModel>(`${this.baseUrl}/${id}`)
             .catch(this.handleError);
     }
 
     public postEditImageViewModel(model: IEditImageViewModel): Observable<Object> {
         let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-        return this.http.post(`${this.baseUrl}/edit`, JSON.stringify(model), { headers: headers })
+        return this.httpClient.post(`${this.baseUrl}/edit`, JSON.stringify(model), { headers: headers })
             .catch(this.handleError);
     }
 
     public deleteImageViewModel(id: string): Observable<Object> {
-        return this.http.delete(`${this.baseUrl}/${id}`)
+        return this.httpClient.delete(`${this.baseUrl}/${id}`)
             .catch(this.handleError);
     }
 
@@ -42,7 +48,7 @@ export class GalleryService {
         formData.append('Title', model.title);
         formData.append('Category', model.category);
         formData.append('File', model.file);
-        return this.http.post(`${this.baseUrl}/order`, formData)
+        return this.httpClient.post(`${this.baseUrl}/order`, formData)
             .catch(this.handleError);
     }
 
