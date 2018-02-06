@@ -20,6 +20,7 @@ using Serilog;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Swagger;
 
+//Test Jenkins
 namespace ImageGallery.Client
 {
     /// <summary>
