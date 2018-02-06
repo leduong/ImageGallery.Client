@@ -5,10 +5,6 @@ node('docker') {
         git branch: 'Auth', credentialsId: 'gihub-key', url: 'git@github.com:stuartshay/ImageGallery.Client.git'
     }
 
-    stage('Package Diff') {
-       echo "Package Diff Here  *.csproj or .json"
-       echo "Fail Build or Call Base Image Build"
-    }
 
     stage('Build & Deploy Docker') {
          sh '''mv docker/imagegallery-client-build.dockerfile/.dockerignore .dockerignore
@@ -19,12 +15,11 @@ node('docker') {
         sh '''docker push stuartshay/imagegallery-client:2.0-build-auth'''
     }
 
-    //stage ('Deploy Stack') {
-    //    withCredentials([usernamePassword(credentialsId: 'JENKINS_ENV_KEY', passwordVariable: 'RANCHER_SECRET_KEY', usernameVariable: 'RANCHER_ACCESS_KEY')]) {
-    //      sh 'rancher-compose --url https://rancher.navigatorglass.com/v2-beta/projects/1a5  -f docker/rancher/docker-compose.yml --project-name ImageGallery up imagegallery-client-development  --force-upgrade -p -c -d'
-    //    }
-   // }
-
+    stage ('Deploy Stack') {
+        withCredentials([usernamePassword(credentialsId: 'JENKINS_ENV_KEY', passwordVariable: 'RANCHER_SECRET_KEY', usernameVariable: 'RANCHER_ACCESS_KEY')]) {
+          sh 'rancher-compose --url https://rancher.navigatorglass.com/v2-beta/projects/1a5  -f docker/rancher/docker-compose.yml --project-name ImageGallery up imagegallery-client-development  --force-upgrade -p -c -d'
+        }
+    }
 
     stage('Mail') {
         emailext attachLog: true, body: '', subject: "Jenkins build status - ${currentBuild.fullDisplayName}", to: 'sshay@yahoo.com'
