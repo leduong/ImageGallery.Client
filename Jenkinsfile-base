@@ -1,18 +1,18 @@
 node('docker') {
 
     stage('Git checkout') {
-        git branch: 'master', credentialsId: 'gihub-key', url: 'git@github.com:stuartshay/ImageGallery.Client.git'
+        git branch: 'AuthFoIrmageGallery.Client', credentialsId: 'gihub-key', url: 'git@github.com:stuartshay/ImageGallery.Client.git'
     }
 
 
     stage('Docker build base image') {
          sh '''mv docker/imagegallery-client-base.dockerfile/.dockerignore .dockerignore 
-         docker build -f docker/imagegallery-client-base.dockerfile/Dockerfile --build-arg BUILD_NUMBER=${BUILD_NUMBER} -t stuartshay/imagegallery-client:2.0-base .'''
+         docker build -f docker/imagegallery-client-base.dockerfile/Dockerfile --build-arg BUILD_NUMBER=${BUILD_NUMBER} -t stuartshay/imagegallery-client:2.0-base-auth .'''
         
         withCredentials([usernamePassword(credentialsId: 'docker-hub-navigatordatastore', usernameVariable: 'DOCKER_HUB_LOGIN', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
             sh "docker login -u ${DOCKER_HUB_LOGIN} -p ${DOCKER_HUB_PASSWORD}"
         }
-        sh '''docker push stuartshay/imagegallery-client:2.0-base'''
+        sh '''docker push stuartshay/imagegallery-client:2.0-base-auth''
     }
 
 

@@ -2,38 +2,53 @@ import { Component, OnInit } from '@angular/core';
 import { SettingsService } from '../../../core/settings/settings.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { Router } from '@angular/router';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss']
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  valForm: FormGroup;
+  private alertMessage: string;
 
-    valForm: FormGroup;
-
-    constructor(public settings: SettingsService, fb: FormBuilder) {
-
-        this.valForm = fb.group({
-            'email': [null, Validators.compose([Validators.required, CustomValidators.email])],
-            'password': [null, Validators.required]
-        });
-
+  constructor(private oauthService: OAuthService, fb: FormBuilder, private router: Router) {
+    //oath
+    if (oauthService.hasValidAccessToken()) {
+      this.router.navigate(["home"]);
     }
 
-    submitForm($ev, value: any) {
-        $ev.preventDefault();
-        for (let c in this.valForm.controls) {
-            this.valForm.controls[c].markAsTouched();
-        }
-        if (this.valForm.valid) {
-            console.log('Valid!');
-            console.log(value);
-        }
+    //form validation
+    this.valForm = fb.group({
+      'login': [null, Validators.compose([Validators.required])],
+      'password': [null, Validators.required]
+    });
+  }
+
+  submitForm($ev, value: any) {
+    $ev.preventDefault();
+    for (let c in this.valForm.controls) {
+      this.valForm.controls[c].markAsTouched();
     }
-
-    ngOnInit() {
-
+    if (this.valForm.valid) {
+      this.loginWithPassword(value.login, value.password);
     }
+  }
 
+  loginWithPassword(login: string, password: string) {
+    console.log(`login: ${login} + password: ${password}`);
+    this
+      .oauthService
+      .fetchTokenUsingPasswordFlowAndLoadUserProfile(login, password)
+      .then(() => {
+        this.router.navigate(['/']);
+      })
+      .catch((err) => {
+        this.alertMessage = "Invalid request";
+      });
+  }
+
+  ngOnInit() {}
 }

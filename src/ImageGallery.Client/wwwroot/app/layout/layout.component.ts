@@ -1,64 +1,56 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { RolesConstants } from '../roles.constants';
 
 @Component({
-    selector: 'app-layout',
-    templateUrl: './layout.component.html',
-    styleUrls: ['./layout.component.scss'],
-    providers: [AuthService]
+  selector: 'app-layout',
+  templateUrl: './layout.component.html',
+  styleUrls: ['./layout.component.scss'],
+  providers: [AuthService]
 })
 export class LayoutComponent implements OnInit, OnDestroy {
-    isAuthorizedSubscription: Subscription;
-    isAuthorized: boolean;
+  isAuthorizedSubscription: Subscription;
+  isAuthorized: boolean;
 
-    userDataSubscription: Subscription;
-    hasPayingUserRole: boolean;
+  isUserInRoleSubscription: Subscription;
+  hasPayingUserRole: boolean;
 
-    constructor(private authService: AuthService, private oidcSecurityService: OidcSecurityService) {
-    }
+  constructor(private authService: AuthService) {
+  }
 
-    ngOnInit() {
-        console.log(`[ngOnInit]`);
+  ngOnInit() {
+    console.log(`[ngOnInit]`);
 
-        this.isAuthorizedSubscription = this.authService.getIsAuthorized().subscribe(
-            (isAuthorized: boolean) => {
-                console.log(`[AuthService] -> [getIsAuthorized] raised with ${isAuthorized}`);
+    this.isAuthorizedSubscription = this.authService.getIsAuthorized().subscribe(
+      (isAuthorized: boolean) => {
+        console.log(`[AuthService] -> [getIsAuthorized] raised with ${isAuthorized}`);
 
-                this.isAuthorized = isAuthorized;
-            });
+        this.isAuthorized = isAuthorized;
+      });
 
-        this.userDataSubscription = this.oidcSecurityService.getUserData().subscribe(
-            (userData: any) => {
-                console.log('[OidcSecurityService] -> [getUserData] raised with userData');
+    this.isUserInRoleSubscription = this.authService.checkUserRole(RolesConstants.PayingUser).subscribe(
+      (isInRole: boolean) => {
+        console.log(`[AuthService] -> [checkUserRole] raised with ${isInRole}`);
 
-                if (userData && userData !== '' && userData.role !== '') {
-                    let roleName = userData.role;
-                    console.log(`Role name is ${roleName}`)
+        this.hasPayingUserRole = isInRole;
+      });
+  }
 
-                    if (roleName === RolesConstants.PayingUser) {
-                        this.hasPayingUserRole = true;
-                    }
-                }
-            });
-    }
+  ngOnDestroy(): void {
+    console.log(`[ngOnDestroy]`)
 
-    ngOnDestroy(): void {
-        console.log(`[ngOnDestroy]`)
+    this.isAuthorizedSubscription.unsubscribe();
+    this.isUserInRoleSubscription.unsubscribe();
+  }
 
-        this.isAuthorizedSubscription.unsubscribe();
-        this.userDataSubscription.unsubscribe()
-    }
+  public refreshSession() {
+    this.authService.refreshSession();
+  }
 
-    public refreshSession() {
-        this.authService.refreshSession();
-    }
+  public logout() {
+    console.log(`[AuthService] -> [logout]`)
 
-    public logout() {
-        console.log(`[AuthService] -> [logout]`)
-
-        this.authService.logout();
-    }
+    this.authService.logout();
+  }
 }
