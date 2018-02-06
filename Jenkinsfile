@@ -1,3 +1,4 @@
+
 node('docker') {
 
     stage('Git checkout') {
@@ -17,7 +18,6 @@ node('docker') {
         }
         sh '''docker push stuartshay/imagegallery-client:2.0-build'''
     }
-
 
     stage ('Deploy Stack') {
         withCredentials([usernamePassword(credentialsId: 'JENKINS_ENV_KEY', passwordVariable: 'RANCHER_SECRET_KEY', usernameVariable: 'RANCHER_ACCESS_KEY')]) {
