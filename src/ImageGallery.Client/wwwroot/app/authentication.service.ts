@@ -12,11 +12,11 @@ export class AuthenticationService {
 
     baseUrl: string = '/api/images';
 
-    constructor(private http: HttpClient) {
+    constructor(private httpClient: HttpClient) {
     }
 
     public logout(): Observable<Object> {
-        return this.http.get(`${this.baseUrl}/logout`)
+        return this.httpClient.get(`${this.baseUrl}/logout`)
             .catch(this.handleError);
     }
 

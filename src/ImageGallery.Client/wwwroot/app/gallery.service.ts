@@ -1,11 +1,11 @@
 ﻿import { Injectable } from '@angular/core';
-import { Http, Headers, Response, RequestOptions } from '@angular/http';
+import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 
-import { IGalleryIndexViewModel, IEditImageViewModel, IAddImageViewModel } from './shared/interfaces';
-import { HttpClient, HttpInterceptor, HttpResponse, HttpHeaders } from '@angular/common/http';
+import { IEditImageViewModel, IAddImageViewModel } from './shared/interfaces';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class GalleryService {
