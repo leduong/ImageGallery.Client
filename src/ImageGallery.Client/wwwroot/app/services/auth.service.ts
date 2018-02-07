@@ -10,7 +10,7 @@ export class AuthService implements OnInit, OnDestroy {
     isAuthorized: boolean;
 
     constructor(private oidcSecurityService: OidcSecurityService) {
-        console.log(`Ctor of [AuthService]`)
+        console.log(`Ctor of [AuthService]`);
 
         if (this.oidcSecurityService.moduleSetup) {
             console.log(`Property [moduleSetup] of [OidcSecurityService] configured properly`);
@@ -77,7 +77,7 @@ export class AuthService implements OnInit, OnDestroy {
             if (!token) {
                 console.log(`[AuthService] -> [login] call`);
 
-                this.login()
+                this.login();
             }
         }
     }
