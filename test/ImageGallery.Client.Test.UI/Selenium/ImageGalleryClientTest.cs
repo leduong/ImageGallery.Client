@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using ImageGallery.Client.Test.UI.Fixtures;
+using ImageGallery.Client.Test.UI.Fixtures.TestData;
 using ImageGallery.Client.Test.UI.Pages;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
@@ -110,6 +111,26 @@ namespace ImageGallery.Client.Test.UI.Selenium
 
                 Assert.Equal(InvalidLoginMessage, validationText);
             }
+        }
+
+        [Theory]
+        [UserDataCsvData(FileName = "users.csv")]
+        [Trait("Category", "UI")]
+        public void UserRolesTest(string userName, string password, string role)
+        {
+            using (var galleryPage = new GalleryPage(_driver, HomePageUrl))
+            {
+                galleryPage.Login(userName, password);
+                TakeScreenshot(galleryPage);
+                string actualRole = GetRole(galleryPage);
+
+                Assert.Equal(role, actualRole);
+            }
+        }
+
+        private string GetRole(GalleryPage galleryPage)
+        {
+            return galleryPage.IsAddImageButtonAvailable() ? "basic" : "admin";
         }
 
         private void TakeScreenshot(BasePage page)
