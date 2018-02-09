@@ -128,6 +128,26 @@ namespace ImageGallery.Client.Test.UI.Selenium
             }
         }
 
+        [Theory]
+        [ImageDataCsvData(FileName = "images.csv")]
+        [Trait("Category", "UI")]
+        public void GalleryImageAddRemoveTest(
+            string userName,
+            string password,
+            string imageTitle,
+            string imageType,
+            string imageFilePath)
+        {
+            using (var galleryPage = new GalleryPage(_driver, HomePageUrl))
+            {
+                galleryPage.Login(userName, password);
+                galleryPage.AddImageToGallery(imageTitle, imageType, imageFilePath);
+                TakeScreenshot(galleryPage);
+                var successMessage = galleryPage.GetSuccessMessage();
+                Assert.Equal("Image has been added successfully!", successMessage);
+            }
+        }
+
         private string GetRole(GalleryPage galleryPage)
         {
             return galleryPage.IsAddImageButtonAvailable() ? "basic" : "admin";

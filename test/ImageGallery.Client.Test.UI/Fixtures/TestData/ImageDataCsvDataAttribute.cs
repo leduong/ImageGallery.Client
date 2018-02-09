@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace ImageGallery.Client.Test.UI.Fixtures.TestData
 {
-    public class UserDataCsvDataAttribute : CsvDataAttribute
+    public class ImageDataCsvDataAttribute : CsvDataAttribute
     {
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
@@ -20,7 +20,14 @@ namespace ImageGallery.Client.Test.UI.Fixtures.TestData
                 Select(u =>
                 {
                     var userData = u.Split(new char[] { ';' });
-                    return new object[] { userData[0], userData[1], bool.Parse(userData[2]) };
+                    return new object[]
+                    {
+                        userData[0],
+                        userData[1],
+                        userData[2],
+                        userData[3],
+                        userData[4],
+                    };
                 });
         }
     }
