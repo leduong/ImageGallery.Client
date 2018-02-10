@@ -5,8 +5,6 @@ services:
     dotnet-test-1:
       image: stuartshay/imagegallery-client:2.0.0-test-ui
       working_dir: /app/test/ImageGallery.Client.Test.UI
-      depends_on:
-        - selenium_hub
       environment:
         - TEST_FILTER="Category=Intergration"
         - ASPNETCORE_ENVIRONMENT=Testing
