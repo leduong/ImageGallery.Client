@@ -19,8 +19,8 @@ namespace ImageGallery.Client.Test.UI.Fixtures.TestData
             return File.ReadAllLines(filePath).
                 Select(u =>
                 {
-                    var userData = u.Split(new char[] { ';' });
-                    return new object[] { userData[0], userData[1], bool.Parse(userData[2]) };
+                    var userData = u.Split(new char[] { '|' });
+                    return new object[] { userData[0], userData[1], userData[2] };
                 });
         }
     }

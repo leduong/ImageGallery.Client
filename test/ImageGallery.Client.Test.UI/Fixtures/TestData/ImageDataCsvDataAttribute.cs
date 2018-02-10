@@ -16,10 +16,10 @@ namespace ImageGallery.Client.Test.UI.Fixtures.TestData
                 throw new ArgumentException($"File {filePath} cannot be found.");
             }
 
-            return File.ReadAllLines(filePath).
+            var results = File.ReadAllLines(filePath).
                 Select(u =>
                 {
-                    var userData = u.Split(new char[] { ';' });
+                    var userData = u.Split(new char[] { '|' });
                     return new object[]
                     {
                         userData[0],
@@ -29,6 +29,8 @@ namespace ImageGallery.Client.Test.UI.Fixtures.TestData
                         userData[4],
                     };
                 });
+
+            return results;
         }
     }
 }

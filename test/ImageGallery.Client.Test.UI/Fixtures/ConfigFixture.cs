@@ -15,11 +15,15 @@ namespace ImageGallery.Client.Test.UI.Fixtures
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env}.json", optional: true)
-                .AddEnvironmentVariables()
-                .Build();
+                .AddEnvironmentVariables();
+
+            Configuration = builder.Build();
 
             string appPath = Directory.GetCurrentDirectory();
             string artifactsPath = @"../../../../../artifacts";
+
+            var appSetting = Configuration.GetSection("ApplicationSettings");
+            ApplicationUrl = appSetting["ApplicationUrl"];
 
             // Create Artifacts Directory
             ArtifactsDirectory = Path.GetFullPath(Path.Combine(appPath, artifactsPath));
@@ -29,6 +33,10 @@ namespace ImageGallery.Client.Test.UI.Fixtures
         }
 
         public string ArtifactsDirectory { get; private set; }
+
+        public string ApplicationUrl { get; private set; }
+
+        private IConfiguration Configuration { get; set; }
 
         public void Dispose()
         {

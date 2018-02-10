@@ -11,7 +11,7 @@ using Xunit.Abstractions;
 
 namespace ImageGallery.Client.Test.UI.Selenium
 {
-    public class ImageGalleryClientTest
+    public class ImageGalleryClientTest : IClassFixture<ConfigFixture>, IDisposable
     {
         private const string BasicUserName = "Frank";
         private const string BasicUserPassword = "password";
@@ -21,7 +21,6 @@ namespace ImageGallery.Client.Test.UI.Selenium
         private const string LoginRequiredMessage = "The Username field is required.";
         private const string PasswordRequiredessage = "The Password field is required.";
         private const string InvalidLoginMessage = "Invalid username or password";
-        private const string HomePageUrl = "https://imagegallery-client.informationcart.com/";
 
         private readonly IWebDriver _driver;
 
@@ -29,11 +28,13 @@ namespace ImageGallery.Client.Test.UI.Selenium
 
         private readonly string _artifactsDirectory;
 
-        public ImageGalleryClientTest(ITestOutputHelper output)
+        private readonly string _applicationUrl;
+
+        public ImageGalleryClientTest(ConfigFixture config, ITestOutputHelper output)
         {
-            ConfigFixture configFixture = new ConfigFixture();
             SeleniumFixture fixture = new SeleniumFixture();
-            _artifactsDirectory = configFixture.ArtifactsDirectory;
+            _artifactsDirectory = config.ArtifactsDirectory;
+            _applicationUrl = config.ApplicationUrl;
             _driver = fixture.Driver;
             _output = output;
         }
@@ -56,7 +57,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
         [Trait("Category", "UI")]
         public void BasicUserLoginTest()
         {
-            using (var galleryPage = new GalleryPage(_driver, HomePageUrl))
+            using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
             {
                 galleryPage.Login(BasicUserName, BasicUserPassword);
                 TakeScreenshot(galleryPage);
@@ -71,7 +72,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
         [Trait("Category", "UI")]
         public void PrivilegedUserLoginTest()
         {
-            using (var galleryPage = new GalleryPage(_driver, HomePageUrl))
+            using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
             {
                 galleryPage.Login(PrivilegedUserName, PrivilegedUserPassword);
                 TakeScreenshot(galleryPage);
@@ -86,7 +87,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
         [Trait("Category", "UI")]
         public void EmptyuUsernamePasswordTest()
         {
-            using (var galleryPage = new GalleryPage(_driver, HomePageUrl))
+            using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
             {
                 galleryPage.Login(string.Empty, string.Empty);
                 TakeScreenshot(galleryPage);
@@ -102,7 +103,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
         [Trait("Category", "UI")]
         public void IncorrectLoginAttemptTest()
         {
-            using (var galleryPage = new GalleryPage(_driver, HomePageUrl))
+            using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
             {
                 galleryPage.Login(BasicUserName, IncorrectPassword);
                 TakeScreenshot(galleryPage);
@@ -114,11 +115,11 @@ namespace ImageGallery.Client.Test.UI.Selenium
         }
 
         [Theory]
-        [UserDataCsvData(FileName = "users.csv")]
+        [UserDataCsvData(FileName = "Data/users.csv")]
         [Trait("Category", "UI")]
         public void UserRolesTest(string userName, string password, string role)
         {
-            using (var galleryPage = new GalleryPage(_driver, HomePageUrl))
+            using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
             {
                 galleryPage.Login(userName, password);
                 TakeScreenshot(galleryPage);
@@ -129,7 +130,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
         }
 
         [Theory]
-        [ImageDataCsvData(FileName = "images.csv")]
+        [ImageDataCsvData(FileName = "Data/images.csv")]
         [Trait("Category", "UI")]
         public void GalleryImageAddRemoveTest(
             string userName,
@@ -138,7 +139,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
             string imageType,
             string imageFilePath)
         {
-            using (var galleryPage = new GalleryPage(_driver, HomePageUrl))
+            using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
             {
                 galleryPage.Login(userName, password);
                 galleryPage.AddImageToGallery(imageTitle, imageType, imageFilePath);
@@ -146,6 +147,12 @@ namespace ImageGallery.Client.Test.UI.Selenium
                 var successMessage = galleryPage.GetSuccessMessage();
                 Assert.Equal("Image has been added successfully!", successMessage);
             }
+        }
+
+        public void Dispose()
+        {
+            _driver.Quit();
+            _driver?.Dispose();
         }
 
         private string GetRole(GalleryPage galleryPage)
