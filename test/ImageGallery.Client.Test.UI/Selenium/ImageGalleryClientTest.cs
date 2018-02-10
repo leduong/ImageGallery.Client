@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using ImageGallery.Client.Test.UI.Fixtures;
+using ImageGallery.Client.Test.UI.Fixtures.TestData;
 using ImageGallery.Client.Test.UI.Pages;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
@@ -110,6 +111,46 @@ namespace ImageGallery.Client.Test.UI.Selenium
 
                 Assert.Equal(InvalidLoginMessage, validationText);
             }
+        }
+
+        [Theory]
+        [UserDataCsvData(FileName = "users.csv")]
+        [Trait("Category", "UI")]
+        public void UserRolesTest(string userName, string password, string role)
+        {
+            using (var galleryPage = new GalleryPage(_driver, HomePageUrl))
+            {
+                galleryPage.Login(userName, password);
+                TakeScreenshot(galleryPage);
+                string actualRole = GetRole(galleryPage);
+
+                Assert.Equal(role, actualRole);
+            }
+        }
+
+        [Theory]
+        [ImageDataCsvData(FileName = "images.csv")]
+        [Trait("Category", "UI")]
+        public void GalleryImageAddRemoveTest(
+            string userName,
+            string password,
+            string imageTitle,
+            string imageType,
+            string imageFilePath)
+        {
+            using (var galleryPage = new GalleryPage(_driver, HomePageUrl))
+            {
+                galleryPage.Login(userName, password);
+                galleryPage.AddImageToGallery(imageTitle, imageType, imageFilePath);
+                TakeScreenshot(galleryPage);
+                var successMessage = galleryPage.GetSuccessMessage();
+                Assert.Equal("Image has been added successfully!", successMessage);
+            }
+        }
+
+        private string GetRole(GalleryPage galleryPage)
+        {
+            return galleryPage.IsAddImageButtonAvailable() ? "basic" : "admin";
         }
 
         private void TakeScreenshot(BasePage page)

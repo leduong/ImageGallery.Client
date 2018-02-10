@@ -55,9 +55,29 @@ namespace ImageGallery.Client.Test.UI.Pages
             var findsBy = findsByArray[0] as FindsByAttribute;
             var findsByLocator = MapFindBy(findsBy);
             IWebElement element = null;
-            WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
+            WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
             wait.IgnoreExceptionTypes(new Type[] { typeof(NoSuchElementException) });
             element = wait.Until<IWebElement>(ExpectedConditions.ElementIsVisible(findsByLocator));
+            return element;
+        }
+
+        protected IWebElement LoadClickableElement(string propertyName)
+        {
+            var propertyInfo = GetType().GetProperty(
+                propertyName,
+                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
+            var findsByArray = propertyInfo.GetCustomAttributes(typeof(FindsByAttribute), true);
+            if (findsByArray.Length == 0)
+            {
+                return null;
+            }
+
+            var findsBy = findsByArray[0] as FindsByAttribute;
+            var findsByLocator = MapFindBy(findsBy);
+            IWebElement element = null;
+            WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
+            wait.IgnoreExceptionTypes(new Type[] { typeof(NoSuchElementException) });
+            element = wait.Until<IWebElement>(ExpectedConditions.ElementToBeClickable(findsByLocator));
             return element;
         }
 
