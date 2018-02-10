@@ -34,13 +34,18 @@ ENV TEST_FILTER ${TEST_FILTER}
 
 ENV ASPNETCORE_ENVIRONMENT Testing
 
-COPY  /test/ImageGallery.Client.Test.UI  /app/test
-COPY _stylecop _stylecop
+COPY  /test/ImageGallery.Client.Test.UI  /app/test/ImageGallery.Client.Test.UI
+COPY _stylecop /app/_stylecop
+COPY _stylecop /_stylecop
+COPY NuGet.config /app/NuGet.config
 COPY ImageGallery.Client.sln /app/ImageGallery.Client.sln
+
 
 WORKDIR /app
 
-RUN dotnet restore
+RUN dotnet restore --ignore-failed-sources
+
+WORKDIR /app/test/ImageGallery.Client.Test.UI
 RUN dotnet build
 
 WORKDIR /app/test/
