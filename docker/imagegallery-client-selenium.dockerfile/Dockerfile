@@ -42,7 +42,7 @@ COPY ImageGallery.Client.sln /app/ImageGallery.Client.sln
 
 WORKDIR /app
 
-RUN dotnet restore
+RUN dotnet restore --ignore-failed-sources
 RUN dotnet build
 
 WORKDIR /app/test/
