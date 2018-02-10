@@ -43,12 +43,14 @@ namespace ImageGallery.Client.Test.UI.Fixtures
 
             if (env == "Testing")
             {
+                Console.WriteLine("Running Selenium Testing");
                 /*
                  Selenium Grid - Remote Expermental
                 */
 
                 // Driver = SeleniumGrid();
                 location = "/usr/local/bin/";
+                Console.WriteLine(location);
                 Driver = SeleniumLocal(location);
             }
         }

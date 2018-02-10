@@ -18,30 +18,30 @@ node('docker') {
 
 
 
-    //stage("Run Unit Test") {
-    //    sh 'sudo rm -rf /home/jenkins/artifacts/imagegallery-client-selenium/test test'
-    //    ansiColor('xterm') {
+    stage("Run Unit Test") {
+        sh 'sudo rm -rf /home/jenkins/artifacts/imagegallery-client-selenium/test test'
+        ansiColor('xterm') {
          //   sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/selenium-grid-compose.yml pull"
          //   sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/selenium-grid-compose.yml down -v"
          //   sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/intergration-test-compose.yml pull"
          //   sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/intergration-test-compose.yml down -v"
-     //   }
-     //   try {
+        }
+        try {
          //   sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/selenium-grid-compose.yml up --force-recreate --abort-on-container-exit"
      //       sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/intergration-test-compose.yml up --force-recreate --abort-on-container-exit"
-     //   } finally {
+        } finally {
          //   sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/selenium-grid-compose.yml down -v"
      //       sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/intergration-test-compose.yml down -v"
-     //   }
-     //   sh 'mkdir -p test data'
-      //  sh  '''sudo cp /home/jenkins/artifacts/imagegallery-client-selenium/test/*.xml test
-      //         sudo cp /home/jenkins/artifacts/imagegallery-client-selenium/data/*.png data
-      //      '''
-      //  step([$class: 'XUnitBuilder',
-      //                  thresholds: [[$class: 'FailedThreshold', unstableThreshold: '1']],
-      //                  tools: [[$class: 'XUnitDotNetTestType', pattern: 'test/*.xml']]])
-      //  archiveArtifacts 'test/*.xml, data/*.png'
-   //}
+       }
+       sh 'mkdir -p test data'
+       sh  '''sudo cp /home/jenkins/artifacts/imagegallery-client-selenium/test/*.xml test
+              sudo cp /home/jenkins/artifacts/imagegallery-client-selenium/data/*.png data
+           '''
+       step([$class: 'XUnitBuilder',
+                        thresholds: [[$class: 'FailedThreshold', unstableThreshold: '1']],
+                        tools: [[$class: 'XUnitDotNetTestType', pattern: 'test/*.xml']]])
+        archiveArtifacts 'test/*.xml, data/*.png'
+   }
 
 
     stage('Mail') {

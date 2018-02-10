@@ -68,86 +68,86 @@ namespace ImageGallery.Client.Test.UI.Selenium
             }
         }
 
-        [Fact]
-        [Trait("Category", "UI")]
-        public void PrivilegedUserLoginTest()
-        {
-            using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
-            {
-                galleryPage.Login(PrivilegedUserName, PrivilegedUserPassword);
-                TakeScreenshot(galleryPage);
+        //[Fact]
+        //[Trait("Category", "UI")]
+        //public void PrivilegedUserLoginTest()
+        //{
+        //    using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
+        //    {
+        //        galleryPage.Login(PrivilegedUserName, PrivilegedUserPassword);
+        //        TakeScreenshot(galleryPage);
 
-                Assert.True(
-                    galleryPage.IsAddImageButtonAvailable(),
-                    "User is logged in with elevated permissions, so 'Add Image' button should be available.");
-            }
-        }
+        //        Assert.True(
+        //            galleryPage.IsAddImageButtonAvailable(),
+        //            "User is logged in with elevated permissions, so 'Add Image' button should be available.");
+        //    }
+        //}
 
-        [Fact]
-        [Trait("Category", "UI")]
-        public void EmptyuUsernamePasswordTest()
-        {
-            using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
-            {
-                galleryPage.Login(string.Empty, string.Empty);
-                TakeScreenshot(galleryPage);
+        //[Fact]
+        //[Trait("Category", "UI")]
+        //public void EmptyuUsernamePasswordTest()
+        //{
+        //    using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
+        //    {
+        //        galleryPage.Login(string.Empty, string.Empty);
+        //        TakeScreenshot(galleryPage);
 
-                var validationText = galleryPage.GetValidationErrorText();
+        //        var validationText = galleryPage.GetValidationErrorText();
 
-                Assert.Contains(LoginRequiredMessage, validationText);
-                Assert.Contains(PasswordRequiredessage, validationText);
-            }
-        }
+        //        Assert.Contains(LoginRequiredMessage, validationText);
+        //        Assert.Contains(PasswordRequiredessage, validationText);
+        //    }
+        //}
 
-        [Fact]
-        [Trait("Category", "UI")]
-        public void IncorrectLoginAttemptTest()
-        {
-            using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
-            {
-                galleryPage.Login(BasicUserName, IncorrectPassword);
-                TakeScreenshot(galleryPage);
+        //[Fact]
+        //[Trait("Category", "UI")]
+        //public void IncorrectLoginAttemptTest()
+        //{
+        //    using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
+        //    {
+        //        galleryPage.Login(BasicUserName, IncorrectPassword);
+        //        TakeScreenshot(galleryPage);
 
-                var validationText = galleryPage.GetValidationErrorText();
+        //        var validationText = galleryPage.GetValidationErrorText();
 
-                Assert.Equal(InvalidLoginMessage, validationText);
-            }
-        }
+        //        Assert.Equal(InvalidLoginMessage, validationText);
+        //    }
+        //}
 
-        [Theory]
-        [UserDataCsvData(FileName = "Data/users.csv")]
-        [Trait("Category", "UI")]
-        public void UserRolesTest(string userName, string password, string role)
-        {
-            using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
-            {
-                galleryPage.Login(userName, password);
-                TakeScreenshot(galleryPage);
-                string actualRole = GetRole(galleryPage);
+        //[Theory]
+        //[UserDataCsvData(FileName = "Data/users.csv")]
+        //[Trait("Category", "UI")]
+        //public void UserRolesTest(string userName, string password, string role)
+        //{
+        //    using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
+        //    {
+        //        galleryPage.Login(userName, password);
+        //        TakeScreenshot(galleryPage);
+        //        string actualRole = GetRole(galleryPage);
 
-                Assert.Equal(role, actualRole);
-            }
-        }
+        //        Assert.Equal(role, actualRole);
+        //    }
+        //}
 
-        [Theory]
-        [ImageDataCsvData(FileName = "Data/images.csv")]
-        [Trait("Category", "UI")]
-        public void GalleryImageAddRemoveTest(
-            string userName,
-            string password,
-            string imageTitle,
-            string imageType,
-            string imageFilePath)
-        {
-            using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
-            {
-                galleryPage.Login(userName, password);
-                galleryPage.AddImageToGallery(imageTitle, imageType, imageFilePath);
-                TakeScreenshot(galleryPage);
-                var successMessage = galleryPage.GetSuccessMessage();
-                Assert.Equal("Image has been added successfully!", successMessage);
-            }
-        }
+        //[Theory]
+        //[ImageDataCsvData(FileName = "Data/images.csv")]
+        //[Trait("Category", "UI")]
+        //public void GalleryImageAddRemoveTest(
+        //    string userName,
+        //    string password,
+        //    string imageTitle,
+        //    string imageType,
+        //    string imageFilePath)
+        //{
+        //    using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
+        //    {
+        //        galleryPage.Login(userName, password);
+        //        galleryPage.AddImageToGallery(imageTitle, imageType, imageFilePath);
+        //        TakeScreenshot(galleryPage);
+        //        var successMessage = galleryPage.GetSuccessMessage();
+        //        Assert.Equal("Image has been added successfully!", successMessage);
+        //    }
+        //}
 
         public void Dispose()
         {
