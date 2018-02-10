@@ -17,9 +17,10 @@ namespace ImageGallery.Client.Test.UI.Fixtures.TestData
             }
 
             var results = File.ReadAllLines(filePath).
-                Select(u =>
+                Where(i => i.Split(new char[] { '|' }).Length == 5).
+                Select(i =>
                 {
-                    var userData = u.Split(new char[] { '|' });
+                    var userData = i.Split(new char[] { '|' });
                     return new object[]
                     {
                         userData[0],

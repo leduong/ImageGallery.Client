@@ -63,15 +63,13 @@ namespace ImageGallery.Client.Test.UI.Fixtures
 
         private IWebDriver SeleniumLocal(string location)
         {
-            var driverService = PhantomJSDriverService.CreateDefaultService(location);
+            var driverService = ChromeDriverService.CreateDefaultService(location);
             driverService.HideCommandPromptWindow = true;
-            driverService.LoadImages = false;
 
-            var options = new PhantomJSOptions();
-            options.AddAdditionalCapability("IsJavaScriptEnabled", true);
-            options.AddAdditionalCapability("phantomjs.page.settings.userAgent", "Mozilla / 5.0(Windows NT 6.1) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 40.0.2214.94 Safari / 537.36");
+            var chromeOptions = new ChromeOptions();
+            chromeOptions.AddArgument("headless");
 
-            var driver = new PhantomJSDriver(driverService, options);
+            var driver = new ChromeDriver(driverService, chromeOptions);
             driver.Manage().Window.Size = new System.Drawing.Size(1280, 1024);
 
             return driver;

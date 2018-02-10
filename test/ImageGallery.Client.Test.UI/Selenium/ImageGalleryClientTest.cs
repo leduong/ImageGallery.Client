@@ -139,10 +139,11 @@ namespace ImageGallery.Client.Test.UI.Selenium
             string imageType,
             string imageFilePath)
         {
+            var imageFullPath = Path.Combine(GetBaseDirectory(), imageFilePath);
             using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
             {
                 galleryPage.Login(userName, password);
-                galleryPage.AddImageToGallery(imageTitle, imageType, imageFilePath);
+                galleryPage.AddImageToGallery(imageTitle, imageType, imageFullPath);
                 TakeScreenshot(galleryPage);
                 var successMessage = galleryPage.GetSuccessMessage();
                 Assert.Equal("Image has been added successfully!", successMessage);
@@ -157,7 +158,14 @@ namespace ImageGallery.Client.Test.UI.Selenium
 
         private string GetRole(GalleryPage galleryPage)
         {
-            return galleryPage.IsAddImageButtonAvailable() ? "basic" : "admin";
+            return galleryPage.IsAddImageButtonAvailable() ? "admin" : "basic";
+        }
+
+        private string GetBaseDirectory()
+        {
+            var assemblyName = Assembly.GetExecutingAssembly().Location;
+            var assemblyDirectory = Path.GetDirectoryName(assemblyName);
+            return assemblyDirectory;
         }
 
         private void TakeScreenshot(BasePage page)
