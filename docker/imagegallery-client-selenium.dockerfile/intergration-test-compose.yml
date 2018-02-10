@@ -52,7 +52,7 @@ services:
       environment:
         - TEST_FILTER="Category=Intergration"
         - ASPNETCORE_ENVIRONMENT=Testing
-      command: "/wait_for_it.sh -h selenium_hub -p 4444 -t 0 -- dotnet xunit -trait Category=Intergration -xml /artifacts/intergration-tests.xml"
+      command: "/wait_for_it.sh -h selenium_hub -p 4444 -t 0 -- dotnet xunit -trait Category=Intergration -trait Category=UI  -xml /artifacts/intergration-tests.xml"
       volumes: 
         - /home/jenkins/artifacts/imagegallery-client-selenium/test:/artifacts
         - /home/jenkins/artifacts/imagegallery-client-selenium/data:/app/artifacts
