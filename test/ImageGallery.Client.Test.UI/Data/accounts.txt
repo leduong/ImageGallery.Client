@@ -1,0 +1,10 @@
+Juan|password
+Mike|password
+Chris|password
+Francisco|password
+Lisa|password
+Susan|password
+Steve|password
+William|password
+Peter|password
+Mary|password
