@@ -50,6 +50,9 @@ namespace ImageGallery.Client.Test.UI.Selenium
             string filePath = Path.Combine(_artifactsDirectory, $"Selenium_Smoke_Test_{DateTime.Now.Ticks}.png");
             ss.SaveAsFile(filePath, ScreenshotImageFormat.Png);
 
+            _driver.Quit();
+            _driver.Close();
+
             Assert.Equal("Google", _driver.Title);
         }
 
