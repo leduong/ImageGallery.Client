@@ -37,6 +37,7 @@ ENV ASPNETCORE_ENVIRONMENT Testing
 COPY  /test/ImageGallery.Client.Test.UI  /app/test/ImageGallery.Client.Test.UI
 COPY _stylecop _stylecop
 COPY ImageGallery.Client.sln /app/ImageGallery.Client.sln
+COPY NuGet.config /app/NuGet.config
 
 WORKDIR /app
 
