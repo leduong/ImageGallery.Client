@@ -34,7 +34,7 @@ ENV TEST_FILTER ${TEST_FILTER}
 
 ENV ASPNETCORE_ENVIRONMENT Testing
 
-COPY  /test/ImageGallery.Client.Test.UI  /app/test
+COPY  /test/ImageGallery.Client.Test.UI  /app/test/ImageGallery.Client.Test.UI
 COPY _stylecop _stylecop
 COPY ImageGallery.Client.sln /app/ImageGallery.Client.sln
 
