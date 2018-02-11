@@ -3,6 +3,11 @@ FROM microsoft/dotnet:2.0.3-sdk
 RUN apt-get update && apt-get install -y \
        ## build-essential \
        ## chrpath \ 
+        unzip \ 
+        openjdk-8-jre-headless \ 
+        xvfb \ 
+        libxi6  \ 
+        libgconf-2-4 \
        ## libssl-dev  \ 
        ## libxft-dev \ 
        ## libfreetype6-dev  \ 
@@ -32,7 +37,7 @@ ENV BUILD_NUMBER ${BUILD_NUMBER}
 #RUN which phantomjs
 
 
-RUN apt-get install -y unzip openjdk-8-jre-headless xvfb libxi6 libgconf-2-4
+#RUN apt-get install -y unzip openjdk-8-jre-headless xvfb libxi6 libgconf-2-4
 
 # Install Chrome for Selenium
 RUN curl https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o /chrome.deb
