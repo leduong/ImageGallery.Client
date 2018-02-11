@@ -16,6 +16,9 @@ RUN apt-get update && apt-get install -y \
     && curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh > /wait_for_it.sh \
     && chmod +x /wait_for_it.sh
   
+
+
+
 # Declare constants
 #ENV PHANTOMJS_VERSION 2.1.1
 
@@ -27,6 +30,9 @@ ENV BUILD_NUMBER ${BUILD_NUMBER}
 #RUN ln -s /usr/local/share/phantomjs-${PHANTOMJS_VERSION}-linux-x86_64/bin/phantomjs /usr/local/bin/
 #RUN phantomjs --version
 #RUN which phantomjs
+
+
+RUN  apt-get install -y fonts-liberation libappindicator1 xdg-utils
 
 # Install Chrome for Selenium
 RUN curl https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o /chrome.deb
