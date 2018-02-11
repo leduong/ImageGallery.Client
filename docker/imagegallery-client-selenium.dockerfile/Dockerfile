@@ -32,7 +32,7 @@ ENV BUILD_NUMBER ${BUILD_NUMBER}
 #RUN which phantomjs
 
 
-RUN  apt-get install -y fonts-liberation libappindicator1 xdg-utils
+RUN  apt-get install -y fonts-liberation libappindicator1 
 
 # Install Chrome for Selenium
 RUN curl https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o /chrome.deb
