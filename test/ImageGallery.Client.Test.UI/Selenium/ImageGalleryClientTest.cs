@@ -68,7 +68,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
             }
         }
 
-        [SkippableFact(Skip = "Ignore")]
+        [Fact]
         [Trait("Category", "UI")]
         public void PrivilegedUserLoginTest()
         {
@@ -83,7 +83,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
             }
         }
 
-        [SkippableFact(Skip = "Ignore")]
+        [Fact]
         [Trait("Category", "UI")]
         public void EmptyuUsernamePasswordTest()
         {
@@ -99,7 +99,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
             }
         }
 
-        [SkippableFact(Skip = "Ignore")]
+        [Fact]
         [Trait("Category", "UI")]
         public void IncorrectLoginAttemptTest()
         {
@@ -114,7 +114,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
             }
         }
 
-        [SkippableTheory(Skip = "Ignore")]
+        [Theory]
         [UserDataCsvData(FileName = "Data/users.csv")]
         [Trait("Category", "UI")]
         public void UserRolesTest(string userName, string password, string role)
@@ -129,7 +129,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
             }
         }
 
-        [SkippableTheory(Skip = "Ignore")]
+        [Theory]
         [ImageDataCsvData(FileName = "Data/images.csv")]
         [Trait("Category", "UI")]
         public void GalleryImageAddRemoveTest(

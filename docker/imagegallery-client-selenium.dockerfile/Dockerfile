@@ -44,14 +44,15 @@ ENV BUILD_NUMBER ${BUILD_NUMBER}
 #RUN dpkg -i /chrome.deb || apt-get install -yf
 #RUN rm /chrome.deb
 
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-RUN apt-get update && apt-get install -y google-chrome-stable
+# Install Firefox for Selenium
+RUN apt-get update && apt-get install firefox
 
-# Install chromedriver for Selenium
-RUN curl https://chromedriver.storage.googleapis.com/2.31/chromedriver_linux64.zip -o /usr/local/bin/chromedriver
-RUN chmod +x /usr/local/bin/chromedriver
-
+# Install geckodriver for Selenium
+RUN cd  /usr/local/bin/
+RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
+RUN tar -xvzf geckodriver*
+RUN chmod +x geckodriver
+RUN rm geckodriver-v0.19.1-linux64.tar.gz
 
 ARG TEST_FILTER=Category=Intergration
 ENV TEST_FILTER ${TEST_FILTER}

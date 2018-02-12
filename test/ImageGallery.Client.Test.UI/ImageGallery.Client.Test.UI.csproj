@@ -55,6 +55,7 @@
     <PackageReference Include="dotnet-setversion" Version="1.0.2" />
     <PackageReference Include="Navigator.Common" Version="1.1.0.5" />
     <PackageReference Include="Selenium.Chrome.WebDriver" Version="2.35.0" />
+    <PackageReference Include="Selenium.Firefox.WebDriver" Version="0.19.1" />
     <PackageReference Include="Selenium.Support" Version="3.9.0" />
     <PackageReference Include="Selenium.WebDriver" Version="3.9.0" />
     <PackageReference Include="Selenium.WebDriver.PhantomJS.CrossPlatform" Version="2.1.1" />
