@@ -38,6 +38,9 @@ namespace ImageGallery.Client.Test.UI.Pages
         [FindsBy(How = How.ClassName, Using = "toast-message")]
         protected IWebElement SuccessMessageSpan { get; set; }
 
+        [FindsBy(How = How.CssSelector, Using = ".col-md-3.col-sm-12.text-right")]
+        protected IWebElement TotalRecordNumberLabel { get; set; }
+
         public bool IsAddImageButtonAvailable()
         {
             bool buttonIsAvailable;
@@ -82,10 +85,23 @@ namespace ImageGallery.Client.Test.UI.Pages
             SubmitImageButton.Click();
         }
 
+        public void DeleteImageByTitle(string imageTitle)
+        {
+            var deleteButton = _driver.FindElement(
+                By.XPath($"//div[div[text()= '{imageTitle}']]/div/a[text() = 'Delete']"));
+            deleteButton.Click();
+        }
+
         public string GetSuccessMessage()
         {
             SuccessMessageSpan = LoadClickableElement(nameof(SuccessMessageSpan));
             return SuccessMessageSpan.Text;
+        }
+
+        public string GetTotalRecordsMessage()
+        {
+            TotalRecordNumberLabel = LoadElement(nameof(TotalRecordNumberLabel));
+            return TotalRecordNumberLabel.Text.Trim();
         }
     }
 }

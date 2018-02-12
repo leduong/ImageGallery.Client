@@ -159,19 +159,32 @@ namespace ImageGallery.Client.Test.UI.Selenium
             Assert.True(false, "Incomplete TODO");
         }
 
-        [SkippableFact(Skip = "Incomplete TODO")]
+        [Theory]
         [Trait("Category", "UI")]
-        public void PrivilegedUserAddPhoto()
+        [InlineData("William", "password", @"Data\images\bears.jpg", "Bears", "Landscapes")]
+        public void PrivilegedUserAddPhoto(
+            string userName,
+            string password,
+            string imageFilePath,
+            string imageTitle,
+            string imageType)
         {
-            /* Use this Account */
-            string userName = "William";
-            string password = "password";
+            var imageFullPath = Path.Combine(GetBaseDirectory(), imageFilePath);
+            using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
+            {
+                galleryPage.Login(userName, password);
+                galleryPage.AddImageToGallery(imageTitle, imageType, imageFullPath);
+                TakeScreenshot(galleryPage);
+                var successMessage = galleryPage.GetSuccessMessage();
+                Assert.Equal("Image has been added successfully!", successMessage);
 
-            // Get Total Photos
-            int totalPhotos = 1;
+                var totalRecordsActual = galleryPage.GetTotalRecordsMessage();
+                Assert.Equal("Total Records: 1", totalRecordsActual);
 
-            // Add Photo bears.jpg
-            // Validate Total Photos = totalPhotos + 1
+                galleryPage.DeleteImageByTitle(imageTitle);
+                successMessage = galleryPage.GetSuccessMessage();
+                Assert.Equal("Image has been deleted successfully!", successMessage);
+            }
         }
 
         [SkippableTheory(Skip = "Ignore for Now")]
