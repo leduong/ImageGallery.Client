@@ -1,5 +1,7 @@
 FROM stuartshay/imagegallery-client:2.0.0-test-base
 
+USER root
+
 RUN apt-get update && apt-get install -y \
        ## build-essential \
        ## chrpath \ 
