@@ -15,8 +15,10 @@ namespace ImageGallery.Client.Test.UI.Selenium
     {
         private const string BasicUserName = "Frank";
         private const string BasicUserPassword = "password";
+        private const int BasicUserTotalPhotos = 6;
         private const string PrivilegedUserName = "Claire";
         private const string PrivilegedUserPassword = "password";
+
         private const string IncorrectPassword = "WRONG_PASSWORD";
         private const string LoginRequiredMessage = "The Username field is required.";
         private const string PasswordRequiredessage = "The Password field is required.";
@@ -64,11 +66,18 @@ namespace ImageGallery.Client.Test.UI.Selenium
 
                 Assert.False(
                     galleryPage.IsAddImageButtonAvailable(),
-                    "User is logged in with elevated permissions, so 'Add Image' button should be available.");
+                    "User is logged in as free user, so 'Add Image' button should not be available.");
             }
         }
 
-        [SkippableFact(Skip = "Ignore")]
+        [SkippableFact(Skip = "Incomplete TODO")]
+        [Trait("Category", "UI")]
+        public void BasicUserLogoutTest()
+        {
+            Assert.True(false, "Incomplete TODO");
+        }
+
+        [Fact]
         [Trait("Category", "UI")]
         public void PrivilegedUserLoginTest()
         {
@@ -81,6 +90,13 @@ namespace ImageGallery.Client.Test.UI.Selenium
                     galleryPage.IsAddImageButtonAvailable(),
                     "User is logged in with elevated permissions, so 'Add Image' button should be available.");
             }
+        }
+
+        [SkippableFact(Skip = "Incomplete TODO")]
+        [Trait("Category", "UI")]
+        public void PrivilegedUserLogoutTest()
+        {
+            Assert.True(false, "Incomplete TODO");
         }
 
         [SkippableFact(Skip = "Ignore")]
@@ -114,6 +130,35 @@ namespace ImageGallery.Client.Test.UI.Selenium
             }
         }
 
+        [SkippableFact(Skip = "Incomplete TODO")]
+        [Trait("Category", "UI")]
+        public void GetUsersTotalPhotosCountTest()
+        {
+            var totalPhotos = BasicUserTotalPhotos;
+            using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
+            {
+                galleryPage.Login(BasicUserName, BasicUserPassword);
+                TakeScreenshot(galleryPage);
+            }
+
+            Assert.True(false, "Incomplete TODO");
+        }
+
+        [SkippableFact(Skip = "Incomplete TODO")]
+        [Trait("Category", "UI")]
+        public void PrivilegedUserAddPhoto()
+        {
+            /* Use this Account */
+            string userName = "William";
+            string password = "password";
+
+            // Get Total Photos
+            int totalPhotos = 1;
+
+            // Add Photo bears.jpg
+            // Validate Total Photos = totalPhotos + 1
+        }
+
         [SkippableTheory(Skip = "Ignore")]
         [UserDataCsvData(FileName = "Data/users.csv")]
         [Trait("Category", "UI")]
@@ -129,6 +174,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
             }
         }
 
+         
         [SkippableTheory(Skip = "Ignore")]
         [ImageDataCsvData(FileName = "Data/images.csv")]
         [Trait("Category", "UI")]
@@ -158,7 +204,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
 
         private string GetRole(GalleryPage galleryPage)
         {
-            return galleryPage.IsAddImageButtonAvailable() ? "admin" : "basic";
+            return galleryPage.IsAddImageButtonAvailable() ? "FreeUser" : "PayingUser";
         }
 
         private string GetBaseDirectory()
