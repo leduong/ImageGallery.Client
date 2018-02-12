@@ -2,7 +2,6 @@ FROM selenium/standalone-chrome
 
 # Get Distro Properties
 RUN cat /etc/*-release
-RUN which selenium
 
 USER root
 
