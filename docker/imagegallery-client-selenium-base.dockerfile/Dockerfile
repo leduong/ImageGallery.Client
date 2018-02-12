@@ -1,5 +1,7 @@
 FROM selenium/standalone-chrome
 
+ENV NET_CORE_SDK_VERSION 2.0.3
+
 # Get Distro Properties
 RUN cat /etc/*-release
 
@@ -29,7 +31,8 @@ RUN mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
 RUN sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-xenial-prod xenial main" > /etc/apt/sources.list.d/dotnetdev.list'
 RUN apt-get update
 
-RUN apt-get install dotnet-sdk-2.1.3 -y
+RUN apt-get install dotnet-sdk-$NET_CORE_SDK_VERSION -y
+RUN dotnet --version
 
 USER seluser
 WORKDIR /
