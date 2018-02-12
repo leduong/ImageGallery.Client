@@ -1,6 +1,9 @@
-FROM selenium/standalone-firefox
+FROM selenium/standalone-firefox:latest
+
+## CHNAGE BASE IMAGE TAG TO MATCH GECKO_DRIVER
 
 ENV NET_CORE_SDK_VERSION 2.0.3
+ENV GECKO_DRIVER 0.19.1
 
 # Get Distro Properties
 RUN cat /etc/*-release
@@ -33,6 +36,8 @@ RUN apt-get update
 
 RUN apt-get install dotnet-sdk-$NET_CORE_SDK_VERSION -y
 RUN dotnet --version
+
+RUN ln -s /opt/geckodriver-$GECKO_DRIVER  /usr/local/bin/geckodriver
 
 USER seluser
 WORKDIR /
