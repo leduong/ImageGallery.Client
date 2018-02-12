@@ -46,7 +46,7 @@ ENV BUILD_NUMBER ${BUILD_NUMBER}
 
 # Install Firefox for Selenium
 RUN apt-get update
-RUN apt-get install software-properties-common
+RUN apt-get --assume-yes install software-properties-common
 RUN add-apt-repository ppa:mozillateam/firefox-next
 RUN apt-get update
 RUN apt-get install firefox
