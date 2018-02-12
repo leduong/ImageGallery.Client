@@ -1,4 +1,4 @@
-FROM selenium/standalone-chrome
+FROM selenium/standalone-firefox
 
 ENV NET_CORE_SDK_VERSION 2.0.3
 
