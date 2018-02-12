@@ -4,6 +4,7 @@ import { IGalleryIndexViewModel } from '../../../shared/interfaces';
 import { AuthService } from '../../../services/auth.service';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { setTimeout } from 'timers';
 
 
 @Component({
@@ -15,10 +16,12 @@ import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 export class GalleryComponent implements OnInit {
 
     galleryIndexViewModel: IGalleryIndexViewModel;
-    page = 1;
-    limit = 15;
+    pagination = {
+        page: 1,
+        limit: 15,
+        totalItems: 10
+    };
     perPage = [15, 30, 60, 90];
-    totalItems = 10;
 
     constructor(
         private authService: AuthService,
@@ -32,13 +35,13 @@ export class GalleryComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.limit = localStorage.getItem('limit') ? parseInt(localStorage.getItem('limit')) : 15;
-        this.page = localStorage.getItem('page') ? parseInt(localStorage.getItem('page')) : 1;
-
         this.authService.getIsAuthorized().subscribe(
             (isAuthorized: boolean) => {
-                if (isAuthorized)
-                    this.getGalleryIndexViewModel();
+                if (isAuthorized) {
+                    this.pagination.limit = localStorage.getItem('limit') ? parseInt(localStorage.getItem('limit')) : 15;
+                    this.pagination.page = localStorage.getItem('page') ? parseInt(localStorage.getItem('page')) : 1;
+                    this.getGalleryIndexViewModel();            
+                }
             });
     }
 
@@ -50,6 +53,10 @@ export class GalleryComponent implements OnInit {
             this.toastr.success('Image has been added successfully!', 'Success!', {showCloseButton: true});
             localStorage.removeItem('isAdded');
         }
+        setTimeout(() => {
+            this.pagination.page = localStorage.getItem('page') ? parseInt(localStorage.getItem('page')) : 1;
+            this.changeDetectorRef.detectChanges();
+        }, 1000);
     }
 
     public deleteImage(imageId: string) {
@@ -69,25 +76,26 @@ export class GalleryComponent implements OnInit {
         this.spinnerService.show();
 
         if (typeof event == 'string') {
-            this.limit = parseInt(event);
-            localStorage.setItem('limit', this.limit.toString());
+            this.pagination.limit = parseInt(event);
+            this.pagination.page = 1;
+            localStorage.setItem('limit', this.pagination.limit.toString());
+            localStorage.setItem('page', this.pagination.page.toString());
         } else if (typeof event == 'object') {
-            this.limit = event.itemsPerPage;
-            this.page = event.page;
-            localStorage.setItem('limit', this.limit.toString());
-            localStorage.setItem('page', this.page.toString());
+            this.pagination.limit = event.itemsPerPage;
+            this.pagination.page = event.page;
+            localStorage.setItem('limit', this.pagination.limit.toString());
+            localStorage.setItem('page', this.pagination.page.toString());
         }
-        this.changeDetectorRef.detectChanges();
 
-        this.galleryService.getGalleryIndexViewModel(this.limit, this.page)
-            .then((response: any) => {
-                this.galleryIndexViewModel = response.images;
-                this.totalItems = response.totalCount;
-                this.scrollToTop();
-                this.spinnerService.hide();
-            }).catch(err => {
-                this.spinnerService.hide();
-            });
+        this.galleryService.getGalleryIndexViewModel(this.pagination.limit, this.pagination.page)
+        .then((response: any) => {
+            this.galleryIndexViewModel = response.images;
+            this.pagination.totalItems = response.totalCount;
+            this.scrollToTop();
+            this.spinnerService.hide();
+        }).catch(err => {
+            this.spinnerService.hide();
+        });
     }
 
     private scrollToTop() {
