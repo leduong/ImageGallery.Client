@@ -3,6 +3,8 @@ import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { RolesConstants } from '../roles.constants';
+import { AuthenticationService } from '../authentication.service'
+
 
 @Component({
     selector: 'app-layout',
@@ -17,7 +19,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     userDataSubscription: Subscription;
     hasPayingUserRole: boolean;
 
-    constructor(private authService: AuthService, private oidcSecurityService: OidcSecurityService) {
+    constructor(private authService: AuthService, private oidcSecurityService: OidcSecurityService, private authenticationService: AuthenticationService) {
     }
 
     ngOnInit() {
@@ -36,7 +38,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
                 if (userData && userData !== '' && userData.role !== '') {
                     let roleName = userData.role;
-                    console.log(`Role name is ${roleName}`)
+                    console.log(`Role name is ${roleName}`);
 
                     if (roleName === RolesConstants.PayingUser) {
                         this.hasPayingUserRole = true;
@@ -46,10 +48,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        console.log(`[ngOnDestroy]`)
+        console.log(`[ngOnDestroy]`);
 
         this.isAuthorizedSubscription.unsubscribe();
-        this.userDataSubscription.unsubscribe()
+        this.userDataSubscription.unsubscribe();
     }
 
     public refreshSession() {
@@ -57,8 +59,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
     }
 
     public logout() {
-        console.log(`[AuthService] -> [logout]`)
+        console.log(`[AuthService] -> [logout]`);
 
-        this.authService.logout();
+        this.authenticationService.logout().subscribe(() => {
+            this.authService.logout();
+        });
     }
 }

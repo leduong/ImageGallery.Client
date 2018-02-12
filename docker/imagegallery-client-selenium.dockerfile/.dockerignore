@@ -1,4 +1,8 @@
-client/ImageGallery.Client/**/*
-client/ImageGallery.Web/**/*
+src/ImageGallery.Client/**/*
+src/ImageGallery.Model/**/*
+test/ImageGallery.Client.Test/**/*
+
+
+
 
 
