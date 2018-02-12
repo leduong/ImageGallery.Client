@@ -45,6 +45,7 @@ ENV BUILD_NUMBER ${BUILD_NUMBER}
 #RUN rm /chrome.deb
 
 # Install Firefox for Selenium
+RUN apt-get update
 RUN apt-get install software-properties-common
 RUN add-apt-repository ppa:mozillateam/firefox-next
 RUN apt-get update
