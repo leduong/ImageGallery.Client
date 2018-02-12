@@ -159,7 +159,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
             // Validate Total Photos = totalPhotos + 1
         }
 
-        [Theory]
+        [SkippableTheory(Skip = "Ignore for Now")]
         [UserDataCsvData(FileName = "Data/users.csv")]
         [Trait("Category", "UI")]
         public void UserRolesTest(string userName, string password, string role)
@@ -174,7 +174,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
             }
         }
 
-        [Theory]
+        [SkippableTheory(Skip = "Ignore for Now")]
         [ImageDataCsvData(FileName = "Data/images.csv")]
         [Trait("Category", "UI")]
         public void GalleryImageAddRemoveTest(
