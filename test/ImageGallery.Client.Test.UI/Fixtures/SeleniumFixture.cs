@@ -1,10 +1,9 @@
-﻿using System;
-using System.IO;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.PhantomJS;
+using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Remote;
+using System;
+using System.IO;
 
 namespace ImageGallery.Client.Test.UI.Fixtures
 {
@@ -25,7 +24,7 @@ namespace ImageGallery.Client.Test.UI.Fixtures
             var location = AppDomain.CurrentDomain.BaseDirectory;
             if (env == "Development")
             {
-                Driver = new ChromeDriver(location);
+                Driver = new FirefoxDriver(location);
             }
 
             if (env == "Local")
@@ -65,13 +64,13 @@ namespace ImageGallery.Client.Test.UI.Fixtures
 
         private IWebDriver SeleniumLocal(string location)
         {
-            var driverService = ChromeDriverService.CreateDefaultService(location);
+            var driverService = FirefoxDriverService.CreateDefaultService("/usr/local/bin/");
             driverService.HideCommandPromptWindow = true;
 
-            var chromeOptions = new ChromeOptions();
-            chromeOptions.AddArgument("headless");
+            var firefoxOptions = new FirefoxOptions();
+            firefoxOptions.AddArgument("--headless");
 
-            var driver = new ChromeDriver(driverService, chromeOptions);
+            var driver = new FirefoxDriver(driverService, firefoxOptions, TimeSpan.FromSeconds(10));
             driver.Manage().Window.Size = new System.Drawing.Size(1280, 1024);
 
             return driver;
@@ -79,19 +78,19 @@ namespace ImageGallery.Client.Test.UI.Fixtures
 
         private IWebDriver SeleniumGrid()
         {
-           var seleniumHub = "selenium_hub:4444";
-           seleniumHub = "192.168.99.100:4444";
+            var seleniumHub = "selenium_hub:4444";
+            seleniumHub = "192.168.99.100:4444";
 
-           Uri uri = new Uri($"http://{seleniumHub}/wd/hub");
+            Uri uri = new Uri($"http://{seleniumHub}/wd/hub");
 
-           DesiredCapabilities capabilities = new DesiredCapabilities();
-           capabilities.SetCapability(CapabilityType.BrowserName, "chrome");
-           capabilities.SetCapability(CapabilityType.Version, "62.0.3202.94");
-           capabilities.SetCapability(CapabilityType.Platform, "LINUX");
+            DesiredCapabilities capabilities = new DesiredCapabilities();
+            capabilities.SetCapability(CapabilityType.BrowserName, "chrome");
+            capabilities.SetCapability(CapabilityType.Version, "62.0.3202.94");
+            capabilities.SetCapability(CapabilityType.Platform, "LINUX");
 
-           IWebDriver driver = new RemoteWebDriver(uri, capabilities);
+            IWebDriver driver = new RemoteWebDriver(uri, capabilities);
 
-           return driver;
+            return driver;
         }
     }
 }
