@@ -101,7 +101,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
 
         [Fact]
         [Trait("Category", "UI")]
-        public void EmptyuUsernamePasswordTest()
+        public void EmptyUsernamePasswordTest()
         {
             using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
             {
