@@ -13,31 +13,45 @@ import { GalleryEditComponent } from './gallery/gallery-edit/gallery-edit.compon
 import { GalleryModule } from './gallery/gallery.module';
 import { GalleryAddComponent } from './gallery/gallery-add/gallery-add.component';
 import { AboutComponent } from './gallery/about/about.component';
+
+//Guards
 import { HasPayingUserRoleAuthenticationGuard } from '../guards/hasPayingUserRoleAuthenticationGuard';
+import { AuthGuard } from '../guards/authGuard';
 
 export const routes = [
 
-    {
-        path: '',
-        component: LayoutComponent,
-        children: [
-            { path: '', component: GalleryComponent },
-            { path: 'gallery-add', component: GalleryAddComponent, canActivate: [HasPayingUserRoleAuthenticationGuard] },
-            { path: 'gallery-edit/:id', component: GalleryEditComponent },
-            { path: 'about', component: AboutComponent }
-        ]
-    },
+  {
+    path: '',
+    component: LayoutComponent,
+    children: [
+      { path: '', component: GalleryComponent },
+      { path: 'gallery-add', component: GalleryAddComponent, canActivate: [HasPayingUserRoleAuthenticationGuard] },
+      { path: 'gallery-edit/:id', component: GalleryEditComponent },
+      { path: 'about', component: AboutComponent }
+    ]
+    , canActivate: [AuthGuard]
+  },
 
-    // Not lazy-loaded routes
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
-    { path: 'recover', component: RecoverComponent },
-    { path: 'lock', component: LockComponent },
-    { path: 'maintenance', component: MaintenanceComponent },
-    { path: '404', component: Error404Component },
-    { path: '500', component: Error500Component },
-
-    // Not found
-    { path: '**', redirectTo: '' }
+  // Not lazy-loaded routes
+  /*
+      { path: 'login', component: LoginComponent },
+      { path: 'register', component: RegisterComponent },
+      { path: 'recover', component: RecoverComponent },
+      { path: 'lock', component: LockComponent },
+      { path: 'maintenance', component: MaintenanceComponent },
+      { path: '404', component: Error404Component },
+      { path: '500', component: Error500Component },
+    */
+  {
+    path: 'login'
+    , children: [
+      { path: '', component: LoginComponent }
+      , { path: 'recover', component: RecoverComponent }
+      , { path: 'register', component: RegisterComponent }
+    ]
+  },
+  // Not found
+  { path: '**', redirectTo: 'login' }
+  //{ path: '**', redirectTo: '' }
 
 ];

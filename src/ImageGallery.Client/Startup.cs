@@ -20,6 +20,7 @@ using Serilog;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Swagger;
 
+//Test Jenkins
 namespace ImageGallery.Client
 {
     /// <summary>
@@ -27,7 +28,7 @@ namespace ImageGallery.Client
     /// </summary>
     public class Startup
     {
-        /// <summary />
+        ///  <summary />
         /// <param name="configuration"></param>
         public Startup(IConfiguration configuration)
         {
@@ -58,7 +59,7 @@ namespace ImageGallery.Client
             services.AddOptions();
             services.Configure<ApplicationOptions>(Configuration);
 
-            //REMOVE NOT NEEDED
+            // REMOVE NOT NEEDED
             services.Configure<ApplicationOptions>(Configuration.GetSection("applicationSettings"));
             services.Configure<Dataprotection>(Configuration.GetSection("dataprotection"));
             services.Configure<OpenIdConnectConfiguration>(Configuration.GetSection("openIdConnectConfiguration"));
