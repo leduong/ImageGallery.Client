@@ -1,13 +1,13 @@
-FROM microsoft/dotnet:2.0.3-sdk
+FROM stuartshay/imagegallery-client:2.0.0-test-base
 
 RUN apt-get update && apt-get install -y \
        ## build-essential \
        ## chrpath \ 
-        unzip \ 
-        openjdk-8-jre-headless \ 
-        xvfb \ 
-        libxi6  \ 
-        libgconf-2-4 \
+      ##  unzip \ 
+      ##  openjdk-8-jre-headless \ 
+      ##  xvfb \ 
+      ##  libxi6  \ 
+      ##  libgconf-2-4 \
        ## libssl-dev  \ 
        ## libxft-dev \ 
        ## libfreetype6-dev  \ 
@@ -21,9 +21,6 @@ RUN apt-get update && apt-get install -y \
     && curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh > /wait_for_it.sh \
     && chmod +x /wait_for_it.sh
   
-
-
-
 # Declare constants
 #ENV PHANTOMJS_VERSION 2.1.1
 
@@ -45,18 +42,18 @@ ENV BUILD_NUMBER ${BUILD_NUMBER}
 #RUN rm /chrome.deb
 
 # Install Firefox for Selenium
-RUN apt-get update
-RUN apt-get --assume-yes install software-properties-common
-RUN add-apt-repository ppa:mozillateam/firefox-next
-RUN apt-get update
-RUN apt-get install firefox
+##RUN apt-get update
+##RUN apt-get --assume-yes install software-properties-common
+##RUN add-apt-repository ppa:mozillateam/firefox-next
+##RUN apt-get update
+##RUN apt-get install firefox
 
 # Install geckodriver for Selenium
-RUN cd  /usr/local/bin/
-RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
-RUN tar -xvzf geckodriver*
-RUN chmod +x geckodriver
-RUN rm geckodriver-v0.19.1-linux64.tar.gz
+##RUN cd  /usr/local/bin/
+##RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
+##RUN tar -xvzf geckodriver*
+##RUN chmod +x geckodriver
+##RUN rm geckodriver-v0.19.1-linux64.tar.gz
 
 ARG TEST_FILTER=Category=Intergration
 ENV TEST_FILTER ${TEST_FILTER}
