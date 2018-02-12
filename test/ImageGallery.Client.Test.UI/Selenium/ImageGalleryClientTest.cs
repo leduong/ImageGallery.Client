@@ -23,6 +23,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
         private const string LoginRequiredMessage = "The Username field is required.";
         private const string PasswordRequiredessage = "The Password field is required.";
         private const string InvalidLoginMessage = "Invalid username or password";
+        private const string LoginPageTitle = "Identity";
 
         private readonly IWebDriver _driver;
 
@@ -70,11 +71,18 @@ namespace ImageGallery.Client.Test.UI.Selenium
             }
         }
 
-        [SkippableFact(Skip = "Incomplete TODO")]
+        [Fact]
         [Trait("Category", "UI")]
         public void BasicUserLogoutTest()
         {
-            Assert.True(false, "Incomplete TODO");
+            using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
+            {
+                galleryPage.Login(BasicUserName, BasicUserPassword);
+                galleryPage.LogoutAndWait();
+                TakeScreenshot(galleryPage);
+
+                Assert.Contains(LoginPageTitle, galleryPage.Title);
+            }
         }
 
         [Fact]
@@ -92,11 +100,18 @@ namespace ImageGallery.Client.Test.UI.Selenium
             }
         }
 
-        [SkippableFact(Skip = "Incomplete TODO")]
+        [Fact]
         [Trait("Category", "UI")]
         public void PrivilegedUserLogoutTest()
         {
-            Assert.True(false, "Incomplete TODO");
+            using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
+            {
+                galleryPage.Login(PrivilegedUserName, PrivilegedUserPassword);
+                galleryPage.LogoutAndWait();
+                TakeScreenshot(galleryPage);
+
+                Assert.Contains(LoginPageTitle, galleryPage.Title);
+            }
         }
 
         [Fact]
