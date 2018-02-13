@@ -11,27 +11,50 @@
                 <p class="text-center pv">SIGNUP TO GET INSTANT ACCESS.</p>
                 <form [formGroup]="valForm" class="form-validate mb-lg" role="form" name="registerForm" novalidate="" (submit)="submitForm($event, valForm.value)">
                     <div class="form-group has-feedback">
+                        <label class="text-muted">User Id</label>
+                        <input class="form-control" type="text" name="account_userId" placeholder="Enter User Id" autocomplete="off" formControlName="userId" required="" />
+                        <span class="fa fa-envelope form-control-feedback text-muted"></span>
+                        <span class="text-danger" *ngIf="valForm.controls['userId'].hasError('required') && (valForm.controls['userId'].dirty || valForm.controls['userId'].touched)">This field is required</span>
+                    </div>
+                    <div class="form-group has-feedback">
                         <label class="text-muted">Email address</label>
                         <input class="form-control" type="email" name="account_email" placeholder="Enter email" autocomplete="off" formControlName="email" required="" />
                         <span class="fa fa-envelope form-control-feedback text-muted"></span>
                         <span class="text-danger" *ngIf="valForm.controls['email'].hasError('required') && (valForm.controls['email'].dirty || valForm.controls['email'].touched)">This field is required</span>
                         <span class="text-danger" *ngIf="valForm.controls['email'].hasError('email') && (valForm.controls['email'].dirty || valForm.controls['email'].touched)">This field must be a valid email address</span>
                     </div>
+                    <div class="form-group has-feedback">
+                        <label class="text-muted">First Name</label>
+                        <input class="form-control" type="text" name="account_fname" placeholder="Enter First Name" autocomplete="off" formControlName="fname" required="" />
+                        <span class="fa fa-envelope form-control-feedback text-muted"></span>
+                        <span class="text-danger" *ngIf="valForm.controls['fname'].hasError('required') && (valForm.controls['fname'].dirty || valForm.controls['fname'].touched)">This field is required</span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <label class="text-muted">Last Name</label>
+                        <input class="form-control" type="text" name="account_lname" placeholder="Enter Last Name" autocomplete="off" formControlName="lname" required="" />
+                        <span class="fa fa-envelope form-control-feedback text-muted"></span>
+                        <span class="text-danger" *ngIf="valForm.controls['lname'].hasError('required') && (valForm.controls['lname'].dirty || valForm.controls['lname'].touched)">This field is required</span>
+                    </div>
                     <div formGroupName="passwordGroup">
                         <div class="form-group has-feedback">
                             <label class="text-muted">Password</label>
-                            <input class="form-control" id="id-password" type="password" name="password" formControlName="password" [formControl]="valForm.get('passwordGroup.password')"/>
+                            <input class="form-control" id="id-password" type="password" name="password" formControlName="password" [formControl]="valForm.get('passwordGroup.password')" />
                             <span class="fa fa-lock form-control-feedback text-muted"></span>
                             <span class="text-danger" *ngIf="valForm.get('passwordGroup.password').hasError('required') && (valForm.get('passwordGroup.password').dirty || valForm.get('passwordGroup.password').touched)">This field is required</span>
                             <span class="text-danger" *ngIf="valForm.get('passwordGroup.password').hasError('pattern') && (valForm.get('passwordGroup.password').dirty || valForm.get('passwordGroup.password').touched)">Input should match 'a-zA-Z0-9' and 6-10 length</span>
                         </div>
                         <div class="form-group has-feedback">
                             <label class="text-muted">Retype Password</label>
-                            <input class="form-control" type="password" name="confirmPassword" formControlName="confirmPassword" [formControl]="valForm.get('passwordGroup.confirmPassword')"/>
+                            <input class="form-control" type="password" name="confirmPassword" formControlName="confirmPassword" [formControl]="valForm.get('passwordGroup.confirmPassword')" />
                             <span class="fa fa-lock form-control-feedback text-muted"></span>
 
                             <span class="text-danger" *ngIf="valForm.get('passwordGroup.confirmPassword').hasError('equalTo')">Password does Not match</span>
                         </div>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <div id="ggl-recaptcha"></div>
+                        <input name="ggl-recaptcha-input" formControlName="ggl-recaptcha-input" style="display:none" />
+                        <span class="text-danger" *ngIf="valForm.controls['ggl-recaptcha-input'].hasError('required') && (valForm.controls['ggl-recaptcha-input'].dirty || valForm.controls['ggl-recaptcha-input'].touched)">Check recaptcha please</span>
                     </div>
                     <div class="clearfix">
                         <div class="checkbox c-checkbox pull-left mt0">
@@ -44,18 +67,15 @@
                     <span class="text-danger" *ngIf="valForm.controls['accountagreed'].hasError('required') && (valForm.controls['accountagreed'].dirty || valForm.controls['accountagreed'].touched)">You must agree the terms</span>
                     <button class="btn btn-block btn-primary mt-lg" type="submit">Create account</button>
                 </form>
-                <!-- <div class="alert alert-danger text-center"></div> -->
-                <p class="pt-lg text-center">Have an account?</p><a class="btn btn-block btn-default" [routerLink]="'/login'">Signup</a>
+                <a class="btn btn-block btn-default" [routerLink]="'/login'">Login</a>
             </div>
         </div>
         <!-- END panel-->
         <div class="p-lg text-center">
             <span>&copy;</span>
-            <span>{{ settings.app.year }}</span>
+            <span>2017</span>
             <span>-</span>
-            <span>{{ settings.app.name }}</span>
-            <br/>
-            <span>{{ settings.app.description }}</span>
+            <span>Navigator Photo Management</span>
         </div>
     </div>
 </div>

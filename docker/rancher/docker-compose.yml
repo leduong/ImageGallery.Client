@@ -14,6 +14,12 @@ services:
     tty: true
     labels:
       io.rancher.container.pull_image: always
+  imagegallery-client-development:
+    image: stuartshay/imagegallery-client:2.0-build-auth
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
   imagegallery-api:
     image: stuartshay/imagegallery-api:2.0-build
     stdin_open: true

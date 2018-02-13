@@ -2,83 +2,59 @@ import { Injectable, Component, OnInit, OnDestroy, Inject } from '@angular/core'
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs/Subscription';
 
-import { OidcSecurityService, OpenIDImplicitFlowConfiguration } from 'angular-auth-oidc-client';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { Router } from '@angular/router';
+//import { OidcSecurityService, OpenIDImplicitFlowConfiguration } from 'angular-auth-oidc-client';
 
 @Injectable()
-export class AuthService implements OnInit, OnDestroy {
-    isAuthorizedSubscription: Subscription;
-    isAuthorized: boolean;
+export class AuthService /*implements OnInit, OnDestroy*/ {
+  isAuthorizedSubscription: Subscription;
+  isAuthorized: boolean;
 
-    constructor(private oidcSecurityService: OidcSecurityService) {
-        console.log(`Ctor of [AuthService]`);
+  constructor(private oAuthService: OAuthService, private router: Router) {
 
-        if (this.oidcSecurityService.moduleSetup) {
-            console.log(`Property [moduleSetup] of [OidcSecurityService] configured properly`);
+  }
 
-            this.doCallbackLogicIfRequired();
-        } else {
-            console.log(`Property [moduleSetup] of [OidcSecurityService] first time to load well know endpoints`);
+  checkUserRole(role: string): Observable<boolean> {
+    var self = this;
+    return new Observable((observer) => {
 
-            this.oidcSecurityService.onModuleSetup.subscribe(() => {
-                console.log(`[onModuleSetup] raise finished call doCallbackLogicIfRequired`);
+      console.log("checkUserRole next value");
+      // observable execution
+      observer.next(innerCheckUserRole());
+    });
 
-                this.doCallbackLogicIfRequired();
-            });
-        }
+    function innerCheckUserRole(): boolean {
+      var claims = <any>self.oAuthService.getIdentityClaims();
+      var hasvalidToken = self.oAuthService.hasValidAccessToken();
+
+      if (!hasvalidToken || !claims || !claims.role) return false;
+
+      var roleSplitted = claims.role.split(",");
+      return !!roleSplitted.find((item) => { return !!item && item.trim().toLowerCase() === role.toLowerCase(); });
     }
+  }
 
-    ngOnInit() {
-        console.log(`[ngOnInit] AuthService`);
+  getIsAuthorized(): Observable<boolean> {
+    var self = this;
+    return new Observable((observer) => {
+      console.log("getIsAuthorized next value");
+      observer.next(self.oAuthService.hasValidAccessToken());
+    });
+  }
 
-        this.isAuthorizedSubscription = this.oidcSecurityService.getIsAuthorized().subscribe(
-            (isAuthorized: boolean) => {
-                this.isAuthorized = isAuthorized;
-            });
-    }
+  login() {
+    console.log('[login] of AuthService');
+  }
 
-    ngOnDestroy(): void {
-        console.log(`[ngOnDestroy] AuthService`);
+  refreshSession() {
+    console.log('[refreshSession] AuthService');
+    this.oAuthService.refreshToken();
+  }
 
-        this.isAuthorizedSubscription.unsubscribe();
-        this.oidcSecurityService.onModuleSetup.unsubscribe();
-    }
-
-    getIsAuthorized(): Observable<boolean> {
-        return this.oidcSecurityService.getIsAuthorized();
-    }
-
-    login() {
-        console.log('[login] of AuthService');
-        this.oidcSecurityService.authorize();
-    }
-
-    refreshSession() {
-        console.log('[refreshSession] AuthService');
-        this.oidcSecurityService.authorize();
-    }
-
-    logout() {
-        console.log('[logout] AuthService');
-        this.oidcSecurityService.logoff();
-    }
-
-    private doCallbackLogicIfRequired() {
-        let hash = window.location.hash;
-        console.log(`location is ${location} and window.location.hash is ${hash}`)
-
-        if (typeof location !== "undefined" && hash) {
-            console.log(`[OidcSecurityService] -> [authorizedCallback()]`);
-
-            this.oidcSecurityService.authorizedCallback();
-        } else {
-            console.log(`[OidcSecurityService] -> [getToken()]`);
-
-            let token = this.oidcSecurityService.getToken();
-            if (!token) {
-                console.log(`[AuthService] -> [login] call`);
-
-                this.login();
-            }
-        }
-    }
+  logout() {
+    console.log('[logout] AuthService');
+    this.oAuthService.logOut();
+    this.router.navigate(["/login"]);
+  }
 }

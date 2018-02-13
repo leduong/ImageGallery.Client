@@ -1,42 +1,29 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { RolesConstants } from '../roles.constants';
+import { OAuthModule, OAuthService, JwksValidationHandler } from 'angular-oauth2-oidc';
 
 @Injectable()
 export class HasPayingUserRoleAuthenticationGuard implements CanActivate {
 
-    private hasPayingUserRole = false;
-    private isAuthorized: boolean;
+  private hasPayingUserRole = false;
+  private isAuthorized: boolean;
 
-    constructor(
-        private oidcSecurityService: OidcSecurityService
-    ) { }
+  constructor(
+    private oAuthService: OAuthService
+  ) { }
 
-    canActivate(): boolean {
-        console.log(`[HasAdminRoleAuthenticationGuard] -> [canActivate]`)
+  canActivate(): boolean {
+    console.log(`[HasAdminRoleAuthenticationGuard] -> [canActivate]`);
 
-        this.oidcSecurityService.getIsAuthorized().subscribe(
-            (isAuthorized: boolean) => {
-                console.log(`[HasPayingUserRoleAuthenticationGuard] -> [OidcSecurityService] -> [getIsAuthorized] raised with ${isAuthorized}`)
+    this.isAuthorized = this.oAuthService.hasValidAccessToken();
+    console.log(`[HasPayingUserRoleAuthenticationGuard] -> [OidcSecurityService] -> [getIsAuthorized] raised with ${this.isAuthorized}`);
 
-                this.isAuthorized = isAuthorized;
-            });
+    var userData = <any>this.oAuthService.getIdentityClaims();
+    console.log(`[HasPayingUserRoleAuthenticationGuard] -> [OidcSecurityService] -> [getUserData] raised`);
 
-        this.oidcSecurityService.getUserData().subscribe(
-            (userData: any) => {
-                console.log(`[HasPayingUserRoleAuthenticationGuard] -> [OidcSecurityService] -> [getUserData] raised`)
+    if (!userData || !userData.role) return false;
 
-                if (userData && userData !== '' && userData.role !== '') {
-                    let roleName = userData.role;
-                    console.log(`Role name is ${roleName}`)
-
-                    if (roleName === RolesConstants.PayingUser) {
-                        this.hasPayingUserRole = true;
-                    }
-                }
-            });
-
-        return this.hasPayingUserRole && this.isAuthorized;
-    }
+    return userData.role === RolesConstants.PayingUser && this.isAuthorized;
+  }
 }
