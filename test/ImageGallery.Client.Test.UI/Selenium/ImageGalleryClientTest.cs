@@ -145,18 +145,22 @@ namespace ImageGallery.Client.Test.UI.Selenium
             }
         }
 
-        [SkippableFact(Skip = "Incomplete TODO")]
+        [Fact]
         [Trait("Category", "UI")]
         public void GetUsersTotalPhotosCountTest()
         {
-            var totalPhotos = BasicUserTotalPhotos;
+            var totalPhotosCount = BasicUserTotalPhotos;
             using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
             {
                 galleryPage.Login(BasicUserName, BasicUserPassword);
                 TakeScreenshot(galleryPage);
+                var totalRecordMessage = galleryPage.GetTotalRecordsMessage();
+                int photosCountNumericPart;
+                totalRecordMessage = totalRecordMessage.Substring(1 + totalRecordMessage.LastIndexOf(':'));
+                Assert.True(int.TryParse(totalRecordMessage, out photosCountNumericPart));
+                var totalPhotosActualCount = Convert.ToInt32(photosCountNumericPart);
+                Assert.Equal(totalPhotosCount, totalPhotosActualCount);
             }
-
-            Assert.True(false, "Incomplete TODO");
         }
 
         [Theory]
