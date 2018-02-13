@@ -47,6 +47,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="LightBDD.Core" Version="2.3.4" />
+    <PackageReference Include="LightBDD.XUnit2" Version="2.3.4" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.0-preview-20180109-01" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.0.0" />
