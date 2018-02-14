@@ -58,6 +58,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
     public logout() {
         console.log(`[AuthService] -> [logout]`)
+        localStorage.removeItem('page');
+        localStorage.removeItem('limit');
 
         this.authService.logout();
     }

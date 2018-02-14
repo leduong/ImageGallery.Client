@@ -56,7 +56,7 @@ export class GalleryComponent implements OnInit {
         setTimeout(() => {
             this.pagination.page = localStorage.getItem('page') ? parseInt(localStorage.getItem('page')) : 1;
             this.changeDetectorRef.detectChanges();
-        }, 1000);
+        }, 2000);
     }
 
     public deleteImage(imageId: string) {
@@ -86,6 +86,10 @@ export class GalleryComponent implements OnInit {
             localStorage.setItem('limit', this.pagination.limit.toString());
             localStorage.setItem('page', this.pagination.page.toString());
         }
+        setTimeout(() => {
+            this.pagination.page = localStorage.getItem('page') ? parseInt(localStorage.getItem('page')) : 1;
+            this.changeDetectorRef.detectChanges();
+        }, 1000);
 
         this.galleryService.getGalleryIndexViewModel(this.pagination.limit, this.pagination.page)
         .then((response: any) => {
