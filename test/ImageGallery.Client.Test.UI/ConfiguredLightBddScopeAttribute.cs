@@ -17,7 +17,7 @@ namespace ImageGallery.Client.Test.UI
 
             if (env == "Testing" || env == "Staging")
             {
-                reportsPath = @"~\\..\\..\\..\\..\\reports\\";
+                reportsPath = @"~/../../../../reports/";
             }
 
             Console.WriteLine($"LightBDD|ENV:{env}|ReportsPath:{reportsPath}");
