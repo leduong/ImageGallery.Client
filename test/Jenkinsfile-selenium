@@ -16,6 +16,8 @@ node('docker') {
 
     stage("Run Unit Test") {
         sh 'sudo rm -rf /home/jenkins/artifacts/imagegallery-client-selenium/test test'
+        sh 'sudo rm -rf /home/jenkins/artifacts/imagegallery-client-selenium/data data'
+        sh 'sudo rm -rf /home/jenkins/artifacts/imagegallery-client-selenium/reports reports'
         ansiColor('xterm') {
               sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/intergration-test-compose.yml pull"
               sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/intergration-test-compose.yml down -v"
@@ -28,11 +30,12 @@ node('docker') {
        sh 'mkdir -p test data'
        sh  '''sudo cp /home/jenkins/artifacts/imagegallery-client-selenium/test/*.xml test
               sudo cp /home/jenkins/artifacts/imagegallery-client-selenium/data/*.png data
+              sudo cp /home/jenkins/artifacts/imagegallery-client-selenium/reports/*.html reports
            '''
        step([$class: 'XUnitBuilder',
                         thresholds: [[$class: 'FailedThreshold', unstableThreshold: '1']],
                         tools: [[$class: 'XUnitDotNetTestType', pattern: 'test/*.xml']]])
-        archiveArtifacts 'test/*.xml, data/*.png'
+        archiveArtifacts 'test/*.xml, data/*.png, reports/*.html'
    }
 
 

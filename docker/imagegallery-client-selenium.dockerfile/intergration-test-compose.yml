@@ -12,6 +12,7 @@ services:
       volumes: 
         - /home/jenkins/artifacts/imagegallery-client-selenium/test:/artifacts
         - /home/jenkins/artifacts/imagegallery-client-selenium/data:/app/artifacts
+        - /home/jenkins/artifacts/imagegallery-client-selenium/reports:/app/reports
       networks:
         - selenium_grid_internal
 
