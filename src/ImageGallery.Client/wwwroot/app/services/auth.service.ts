@@ -48,6 +48,8 @@ export class AuthService implements OnInit, OnDestroy {
     }
 
     login() {
+        localStorage.removeItem('page');
+        localStorage.removeItem('limit');
         console.log('[login] of AuthService');
         this.oidcSecurityService.authorize();
     }
