@@ -13,6 +13,7 @@ import { LayoutModule } from './layout/layout.module';
 import { SharedModule } from './shared/shared.module';
 import { RoutesModule } from './routes/routes.module';
 import { AuthService } from './services/auth.service';
+import { AuthenticationService } from './authentication.service';
 
 import { AuthModule, OidcSecurityService, OpenIDImplicitFlowConfiguration } from 'angular-auth-oidc-client';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -57,6 +58,7 @@ export function createTranslateLoader(http: HttpClient) {
         { provide: 'ORIGIN_URL', useFactory: getBaseUrl },
         AuthService,
         OidcSecurityService,
+        AuthenticationService,
         HasPayingUserRoleAuthenticationGuard,
         { provide: 'Window', useValue: window }
     ],

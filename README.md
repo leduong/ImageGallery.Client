@@ -9,6 +9,7 @@
 Base Image | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery/ImageGallery-Client-Base-2)](https://jenkins.navigatorglass.com/job/ImageGallery/job/ImageGallery-Client-Base-2/)
 Application Image | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery/ImageGallery-Client-Build-2)](https://jenkins.navigatorglass.com/job/ImageGallery/job/ImageGallery-Client-Build-2/)
 Intergation Testing | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery/ImageGallery-Client-Test-2)](https://jenkins.navigatorglass.com/job/ImageGallery/job/ImageGallery-Client-Test-2/)
+Test/Selenium Base | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery/ImageGallery-Client-Selenium-Base-2)](https://jenkins.navigatorglass.com/job/ImageGallery/job/ImageGallery-Client-Selenium-Base-2/)
 Selenium Grid | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery/ImageGallery-Client-Selenium-2)](https://jenkins.navigatorglass.com/job/ImageGallery/job/ImageGallery-Client-Selenium-2/)
 
 

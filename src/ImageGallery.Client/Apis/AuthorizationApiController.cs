@@ -7,32 +7,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
-namespace ImageGallery.Client.Controllers
+namespace ImageGallery.Client.Apis
 {
     /// <summary>
     ///
     /// </summary>
-    public class AuthorizationController : Controller
+    [Route("api/images")]
+    public class AuthorizationApiController : Controller
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AuthorizationController"/> class.
+        /// Initializes a new instance of the <see cref="AuthorizationApiController"/> class.
         /// </summary>
         /// <param name="settings"></param>
-        public AuthorizationController(IOptions<ApplicationOptions> settings)
+        public AuthorizationApiController(IOptions<ApplicationOptions> settings)
         {
             ApplicationSettings = settings.Value;
         }
 
         private ApplicationOptions ApplicationSettings { get; }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns></returns>
-        public IActionResult AccessDenied()
-        {
-            return View();
-        }
 
         /// <summary>
         /// Logout
@@ -55,7 +47,10 @@ namespace ImageGallery.Client.Controllers
             Console.WriteLine(metaDataResponse.Error);
 
             // create a TokenRevocationClient
-            var revocationClient = new TokenRevocationClient(metaDataResponse.RevocationEndpoint, ApplicationSettings.OpenIdConnectConfiguration.ClientId, ApplicationSettings.OpenIdConnectConfiguration.ClientSecret);
+            var revocationClient = new TokenRevocationClient(
+                metaDataResponse.RevocationEndpoint,
+                ApplicationSettings.OpenIdConnectConfiguration.ClientId,
+                ApplicationSettings.OpenIdConnectConfiguration.ClientSecret);
 
             // get the access token to revoke
             var accessToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
@@ -84,9 +79,6 @@ namespace ImageGallery.Client.Controllers
             }
 
             #endregion
-
-            await HttpContext.SignOutAsync("Cookies");
-            await HttpContext.SignOutAsync("OpenIdConnect");
         }
     }
 }
