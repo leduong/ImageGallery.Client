@@ -98,6 +98,7 @@ export class GalleryComponent implements OnInit {
             this.scrollToTop();
             this.spinnerService.hide();
         }).catch(err => {
+            this.toastr.error('Access is denied!', 'Oops!', {showCloseButton: true});
             this.spinnerService.hide();
         });
     }
