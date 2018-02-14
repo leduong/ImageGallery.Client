@@ -35,7 +35,7 @@ node('docker') {
        step([$class: 'XUnitBuilder',
                         thresholds: [[$class: 'FailedThreshold', unstableThreshold: '1']],
                         tools: [[$class: 'XUnitDotNetTestType', pattern: 'test/*.xml']]])
-        archiveArtifacts 'test/*.xml, data/*.png, reports/*.html'
+        archiveArtifacts 'test/*.xml, data/*.png, reports/*.html, reports/*.xml'
    }
 
 
