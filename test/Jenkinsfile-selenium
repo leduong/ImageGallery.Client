@@ -27,7 +27,7 @@ node('docker') {
         } finally {
               sh "docker-compose -f docker/imagegallery-client-selenium.dockerfile/intergration-test-compose.yml down -v"
        }
-       sh 'mkdir -p test data'
+       sh 'mkdir -p test data reports'
        sh  '''sudo cp /home/jenkins/artifacts/imagegallery-client-selenium/test/*.xml test
               sudo cp /home/jenkins/artifacts/imagegallery-client-selenium/data/*.png data
               sudo cp /home/jenkins/artifacts/imagegallery-client-selenium/reports/*.html reports
