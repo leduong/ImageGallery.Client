@@ -6,7 +6,7 @@ Lisa|password|FreeUser|HasPhotos
 Susan|password|FreeUser|NoPhotos
 Steve|password|PayingUser|HasPhotos
 William|password|PayingUser|HasPhotos
-Peter|password|PayingUser|HasPhotos
+Peter|password|PayingUser|HasPhotos  - Check Subscription Level
 Mary|password|PayingUser|HasPhotos
 Lilly|password|FreeUser|InvalidAccount
 Artyom|password|PayingUser|HasPhotos
