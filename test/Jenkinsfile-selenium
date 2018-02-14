@@ -32,11 +32,12 @@ node('docker') {
               sudo cp /home/jenkins/artifacts/imagegallery-client-selenium/data/*.png data
               sudo cp /home/jenkins/artifacts/imagegallery-client-selenium/reports/*.html reports
               sudo cp /home/jenkins/artifacts/imagegallery-client-selenium/reports/*.xml reports
+              sudo cp /home/jenkins/artifacts/imagegallery-client-selenium/reports/*.txt reports
            '''
        step([$class: 'XUnitBuilder',
                         thresholds: [[$class: 'FailedThreshold', unstableThreshold: '1']],
                         tools: [[$class: 'XUnitDotNetTestType', pattern: 'test/*.xml']]])
-        archiveArtifacts 'test/*.xml, data/*.png, reports/*.html, reports/*.xml'
+        archiveArtifacts 'test/*.xml, data/*.png, reports/*.html, reports/*.xml, reports/*.txt'
    }
 
 
