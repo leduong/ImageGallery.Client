@@ -31,6 +31,7 @@ node('docker') {
        sh  '''sudo cp /home/jenkins/artifacts/imagegallery-client-selenium/test/*.xml test
               sudo cp /home/jenkins/artifacts/imagegallery-client-selenium/data/*.png data
               sudo cp /home/jenkins/artifacts/imagegallery-client-selenium/reports/*.html reports
+              sudo cp /home/jenkins/artifacts/imagegallery-client-selenium/reports/*.xml reports
            '''
        step([$class: 'XUnitBuilder',
                         thresholds: [[$class: 'FailedThreshold', unstableThreshold: '1']],
