@@ -191,7 +191,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
             }
         }
 
-        [SkippableTheory(Skip = "Ignore for Now")]
+        [Theory]
         [UserDataCsvData(FileName = "Data/users.csv")]
         [Trait("Category", "UI")]
         public void UserRolesTest(string userName, string password, string role)
@@ -206,7 +206,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
             }
         }
 
-        [SkippableTheory(Skip = "Ignore for Now")]
+        [Theory]
         [ImageDataCsvData(FileName = "Data/images.csv")]
         [Trait("Category", "UI")]
         public void GalleryImageAddRemoveTest(
@@ -235,7 +235,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
 
         private string GetRole(GalleryPage galleryPage)
         {
-            return galleryPage.IsAddImageButtonAvailable() ? "FreeUser" : "PayingUser";
+            return galleryPage.IsAddImageButtonAvailable() ? "PayingUser" : "FreeUser";
         }
 
         private string GetBaseDirectory()

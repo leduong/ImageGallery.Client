@@ -4,7 +4,6 @@ using LightBDD.XUnit2;
 
 namespace ImageGallery.Client.Test.UI.Features
 {
-
     /// <summary>
     ///
     /// </summary>

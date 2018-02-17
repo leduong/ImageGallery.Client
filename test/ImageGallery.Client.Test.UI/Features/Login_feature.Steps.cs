@@ -6,7 +6,7 @@ using Xunit;
 
 namespace ImageGallery.Client.Test.UI.Features
 {
-    public partial class Login_feature: FeatureFixture
+    public partial class Login_feature : FeatureFixture
     {
         private const string _validUserName = "admin";
         private const string _validPassword = "password";

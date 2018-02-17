@@ -61,7 +61,6 @@ namespace ImageGallery.Client.Test.UI.Pages
             return buttonIsAvailable;
         }
 
-
         public string GetValidationErrorText()
         {
             ValidationErrorText = LoadElement(nameof(ValidationErrorText));

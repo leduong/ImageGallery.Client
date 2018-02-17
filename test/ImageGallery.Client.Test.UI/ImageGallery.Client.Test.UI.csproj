@@ -83,4 +83,8 @@
     <AdditionalFiles Include="$(SolutionDir)\_stylecop\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="reports\" />
+  </ItemGroup>
+
 </Project>
