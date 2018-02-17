@@ -5,7 +5,6 @@ using ImageGallery.Client.Test.UI.Fixtures;
 using ImageGallery.Client.Test.UI.Fixtures.TestData;
 using ImageGallery.Client.Test.UI.Pages;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Remote;
 using Xunit;
 using Xunit.Abstractions;
 

@@ -2,6 +2,7 @@
 using System.IO;
 using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Remote;
 
@@ -24,8 +25,8 @@ namespace ImageGallery.Client.Test.UI.Fixtures
             var location = AppDomain.CurrentDomain.BaseDirectory;
             if (env == "Development")
             {
-               // Driver = SeleniumGrid();
-                Driver = new FirefoxDriver(location);
+                 Driver = SeleniumGrid();
+                //Driver = new FirefoxDriver(location);
             }
 
             if (env == "Local")
@@ -84,12 +85,14 @@ namespace ImageGallery.Client.Test.UI.Fixtures
 
             Uri uri = new Uri($"http://{seleniumHub}/wd/hub");
 
-            DesiredCapabilities capabilities = new DesiredCapabilities();
-            capabilities.SetCapability(CapabilityType.BrowserName, "chrome");
-            capabilities.SetCapability(CapabilityType.Version, "62.0.3202.94");
-            capabilities.SetCapability(CapabilityType.Platform, "LINUX");
+            /*
+             See: Work Arround
+             https://github.com/SeleniumHQ/selenium/issues/4770
+            */
 
-            IWebDriver driver = new RemoteWebDriver(uri, capabilities);
+            var executor = new NetCoreHttpCommandExecutor(uri, new TimeSpan(0, 0, 0, 20));
+            var capabilities = new ChromeOptions().ToCapabilities();
+            IWebDriver driver = new RemoteWebDriver(executor, capabilities);
 
             return driver;
         }
