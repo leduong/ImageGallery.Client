@@ -2,7 +2,7 @@ FROM selenium/standalone-firefox:latest
 
 ## CHNAGE BASE IMAGE TAG TO MATCH GECKO_DRIVER
 
-ENV NET_CORE_SDK_VERSION 2.0.3
+ENV NET_CORE_SDK_VERSION 2.0.5
 ENV GECKO_DRIVER 0.19.1
 
 # Get Distro Properties
