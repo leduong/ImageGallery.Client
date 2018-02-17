@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using ImageGallery.Client.Test.UI.Fixtures.Configuration;
+using ImageGallery.Client.Test.UI.Fixtures.Patch;
 using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -10,30 +12,43 @@ namespace ImageGallery.Client.Test.UI.Fixtures
 {
     public class SeleniumFixture : IDisposable
     {
+        private readonly IConfiguration _configuration;
+
+        private readonly SeleniumConfig _seleniumConfig;
+
+        private readonly string _environment;
+
+        private readonly string env;
+
         public SeleniumFixture()
         {
-            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+            env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+            Console.WriteLine($"Selenium-Fixture-ENV:{env}");
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env}.json", optional: true)
-                .AddEnvironmentVariables()
-                .Build();
+                .AddEnvironmentVariables();
+
+            _configuration = builder.Build();
+
+            var seleniumConfig = new SeleniumConfig();
+            _configuration.GetSection("SeleniumConfig").Bind(seleniumConfig);
+            _seleniumConfig = seleniumConfig;
 
             Console.WriteLine("Selenium-ENV:" + env);
+            Console.WriteLine("Selenium-Hub:" + _seleniumConfig.SeleniumHub);
 
             var location = AppDomain.CurrentDomain.BaseDirectory;
             if (env == "Development")
             {
-                 Driver = SeleniumGrid();
-                //Driver = new FirefoxDriver(location);
+                Driver = new FirefoxDriver(location);
             }
 
             if (env == "Local")
             {
-                 //Driver = SeleniumGrid();
-                location = AppDomain.CurrentDomain.BaseDirectory;
-                Driver = SeleniumLocal(location);
+                 Driver = SeleniumGrid();
             }
 
             if (env == "Staging")
@@ -80,9 +95,7 @@ namespace ImageGallery.Client.Test.UI.Fixtures
 
         private IWebDriver SeleniumGrid()
         {
-            var seleniumHub = "selenium_hub:4444";
-            seleniumHub = "192.168.99.100:4444";
-
+            var seleniumHub = _seleniumConfig.SeleniumHub;
             Uri uri = new Uri($"http://{seleniumHub}/wd/hub");
 
             /*

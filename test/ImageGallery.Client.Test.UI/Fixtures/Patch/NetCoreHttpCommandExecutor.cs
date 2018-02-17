@@ -6,8 +6,11 @@ using System.Text;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 
-namespace ImageGallery.Client.Test.UI.Fixtures
+namespace ImageGallery.Client.Test.UI.Fixtures.Patch
 {
+    /// <summary>
+    /// Patch File - 
+    /// </summary>
     public class NetCoreHttpCommandExecutor : ICommandExecutor
     {
         private const string JsonMimeType = "application/json";
