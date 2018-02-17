@@ -12,17 +12,11 @@ namespace ImageGallery.Client.Test.UI.Fixtures
 {
     public class SeleniumFixture : IDisposable
     {
-        private readonly IConfiguration _configuration;
-
         private readonly SeleniumConfig _seleniumConfig;
-
-        private readonly string _environment;
-
-        private readonly string env;
 
         public SeleniumFixture()
         {
-            env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
             Console.WriteLine($"Selenium-Fixture-ENV:{env}");
 
             var builder = new ConfigurationBuilder()
@@ -31,10 +25,10 @@ namespace ImageGallery.Client.Test.UI.Fixtures
                 .AddJsonFile($"appsettings.{env}.json", optional: true)
                 .AddEnvironmentVariables();
 
-            _configuration = builder.Build();
+            IConfiguration configuration = builder.Build();
 
             var seleniumConfig = new SeleniumConfig();
-            _configuration.GetSection("SeleniumConfig").Bind(seleniumConfig);
+            configuration.GetSection("SeleniumConfig").Bind(seleniumConfig);
             _seleniumConfig = seleniumConfig;
 
             Console.WriteLine("Selenium-ENV:" + env);
