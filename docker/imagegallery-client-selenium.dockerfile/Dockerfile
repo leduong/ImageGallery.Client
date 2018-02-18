@@ -66,7 +66,7 @@ COPY  /test/ImageGallery.Client.Test.UI  /app/test/ImageGallery.Client.Test.UI
 COPY _stylecop /app/_stylecop
 COPY _stylecop /_stylecop
 COPY NuGet.config /app/NuGet.config
-COPY Directory.Build.props /app/Directory.Build.props
+COPY Common.props /app/Common.props
 COPY ImageGallery.Client.sln /app/ImageGallery.Client.sln
 
 
