@@ -2,7 +2,8 @@ src/ImageGallery.Client/**/*
 src/ImageGallery.Model/**/*
 test/ImageGallery.Client.Test/**/*
 
-
+**/Properties/**/*
+**/Properties
 
 
 
