@@ -16,13 +16,18 @@ RUN apt-get update && apt-get install -y \
        ## libfreetype6 \ 
        ## libfontconfig1-dev \ 
        ## libfontconfig1 \ 
+        ca-certificates \
         curl \
+        firefox \
         tree \
         wget \
     && rm -rf /var/lib/apt/lists/* \
     && curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh > /wait_for_it.sh \
-    && chmod +x /wait_for_it.sh
+    && curl -L https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz | tar xz -C /usr/local/bin \
+    && chmod +x /wait_for_it.sh \
+    && apt-get purge -y ca-certificates curl
   
+
 # Declare constants
 #ENV PHANTOMJS_VERSION 2.1.1
 
