@@ -2,3 +2,16 @@
 @import "./shared/styles/bootstrap.scss";
 //== Application
 @import "./shared/styles/app.scss";
+
+.modal-dialog {
+    width: 300px;
+
+    .modal-body {
+        .col-sm-12 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 5px 0;
+        }
+    }
+}
