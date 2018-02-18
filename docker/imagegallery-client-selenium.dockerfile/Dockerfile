@@ -3,29 +3,26 @@ FROM stuartshay/imagegallery-client:2.0.0-test-base
 USER root
 
 RUN apt-get update && apt-get install -y \
-       ## build-essential \
-       ## chrpath \ 
-      ##  unzip \ 
-      ##  openjdk-8-jre-headless \ 
-      ##  xvfb \ 
-      ##  libxi6  \ 
-      ##  libgconf-2-4 \
-       ## libssl-dev  \ 
-       ## libxft-dev \ 
-       ## libfreetype6-dev  \ 
-       ## libfreetype6 \ 
-       ## libfontconfig1-dev \ 
-       ## libfontconfig1 \ 
         curl \
         firefox \
         tree \
         wget \
     && rm -rf /var/lib/apt/lists/* \
     && curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh > /wait_for_it.sh \
-    && curl -L https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz | tar xz -C /usr/local/bin \
-    && chmod +x /wait_for_it.sh \
-    && apt-get purge -y curl
-  
+    && chmod +x /wait_for_it.sh 
+
+
+# Install geckodriver:
+RUN export BASE_URL=https://github.com/mozilla/geckodriver/releases/download \
+  && export VERSION=$(curl -sL \
+    https://api.github.com/repos/mozilla/geckodriver/releases/latest | \
+    grep tag_name | cut -d '"' -f 4) \
+  && curl -sL \
+  $BASE_URL/$VERSION/geckodriver-$VERSION-linux64.tar.gz | tar -xz \
+&& mv geckodriver /usr/local/bin/geckodriver
+
+
+
 
 # Declare constants
 #ENV PHANTOMJS_VERSION 2.1.1
@@ -60,6 +57,9 @@ ENV BUILD_NUMBER ${BUILD_NUMBER}
 ##RUN tar -xvzf geckodriver*
 ##RUN chmod +x geckodriver
 ##RUN rm geckodriver-v0.19.1-linux64.tar.gz
+
+
+
 
 ARG TEST_FILTER=Category=Intergration
 ENV TEST_FILTER ${TEST_FILTER}
