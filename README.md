@@ -11,6 +11,7 @@ Application Image | [![Build Status](https://jenkins.navigatorglass.com/buildSta
 Intergation Testing | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery/ImageGallery-Client-Test-2)](https://jenkins.navigatorglass.com/job/ImageGallery/job/ImageGallery-Client-Test-2/)
 Test/Selenium Base | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery/ImageGallery-Client-Selenium-Base-2)](https://jenkins.navigatorglass.com/job/ImageGallery/job/ImageGallery-Client-Selenium-Base-2/)
 Selenium Grid | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery/ImageGallery-Client-Selenium-2)](https://jenkins.navigatorglass.com/job/ImageGallery/job/ImageGallery-Client-Selenium-2/)
+AppVeyor | [![Build status](https://ci.appveyor.com/api/projects/status/iub0tbs42d9ut0g7?svg=true)](https://ci.appveyor.com/project/StuartShay/imagegallery-client)
 
 
 ### Demo
