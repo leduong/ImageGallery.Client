@@ -22,6 +22,8 @@ RUN export BASE_URL=https://github.com/mozilla/geckodriver/releases/download \
 && mv geckodriver /usr/local/bin/geckodriver \
 && chmod +x /usr/local/bin/geckodriver
 
+RUN which geckodriver
+
 
 
 # Declare constants
