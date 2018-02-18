@@ -19,8 +19,8 @@ RUN export BASE_URL=https://github.com/mozilla/geckodriver/releases/download \
     grep tag_name | cut -d '"' -f 4) \
   && curl -sL \
   $BASE_URL/$VERSION/geckodriver-$VERSION-linux64.tar.gz | tar -xz \
-&& mv geckodriver /usr/local/bin/geckodriver
-
+&& mv geckodriver /usr/local/bin/geckodriver \
+&& chmod +x /usr/local/bin/geckodriver
 
 
 
