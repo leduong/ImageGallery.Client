@@ -16,7 +16,6 @@ RUN apt-get update && apt-get install -y \
        ## libfreetype6 \ 
        ## libfontconfig1-dev \ 
        ## libfontconfig1 \ 
-        ca-certificates \
         curl \
         firefox \
         tree \
