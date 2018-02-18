@@ -83,7 +83,9 @@ namespace ImageGallery.Client.Test.UI.Fixtures
         private IWebDriver SeleniumGrid()
         {
             var seleniumHub = _seleniumConfig.SeleniumHub;
+
             Uri uri = new Uri($"http://{seleniumHub}/wd/hub");
+            Console.WriteLine("Selenium Grid Hub:{uri}");
 
             /*
              See: Work Arround
