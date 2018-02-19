@@ -26,6 +26,8 @@ export class GalleryService {
             totalCount: res.headers.get('X-InlineCount'),
             images: res.body
           });
+        }, error => {
+          reject(error);
         });
     });
   }

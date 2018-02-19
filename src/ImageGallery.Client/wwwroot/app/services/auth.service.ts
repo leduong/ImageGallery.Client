@@ -35,6 +35,10 @@ export class AuthService /*implements OnInit, OnDestroy*/ {
     }
   }
 
+  getUser() {
+    return this.oAuthService.getIdentityClaims();
+  }
+
   getIsAuthorized(): Observable<boolean> {
     var self = this;
     return new Observable((observer) => {
@@ -53,6 +57,8 @@ export class AuthService /*implements OnInit, OnDestroy*/ {
   }
 
   logout() {
+    localStorage.removeItem('page');
+    localStorage.removeItem('limit');
     console.log('[logout] AuthService');
     this.oAuthService.logOut();
     this.router.navigate(["/login"]);

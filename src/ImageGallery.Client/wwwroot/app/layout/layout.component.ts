@@ -1,8 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs';
 import { RolesConstants } from '../roles.constants';
 import { AuthenticationService } from '../authentication.service'
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UserManagementService } from '../services/user.service';
 
 
 @Component({
@@ -17,8 +20,21 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   isUserInRoleSubscription: Subscription;
   hasPayingUserRole: boolean;
+  name = '';
 
-  constructor(private authService: AuthService) {
+  modalRef: BsModalRef;
+  form: FormGroup;
+
+  constructor(private authService: AuthService, private modalService: BsModalService, private userManagementService: UserManagementService) {
+    this.form = new FormGroup({
+      firstName: new FormControl(['', Validators.required]),
+      lastName: new FormControl(['', Validators.required]),
+      address: new FormControl(['', Validators.required]),
+      address2: new FormControl(['', Validators.required]),
+      city: new FormControl(['', Validators.required]),
+      country: new FormControl(['', Validators.required]),
+      state: new FormControl(['', Validators.required]),
+    });
   }
 
   ngOnInit() {
@@ -37,6 +53,21 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
         this.hasPayingUserRole = isInRole;
       });
+    
+    let userInfo: any = this.authService.getUser();
+    this.name = userInfo.given_name + ' ' + userInfo.family_name;
+
+    this.userManagementService.getUserInfo().subscribe(res => {
+      if (res.json()) {
+        this.form.controls.firstName.patchValue(res.json().firstName);
+        this.form.controls.lastName.patchValue(res.json().lastName);
+        this.form.controls.address.patchValue(res.json().address);
+        this.form.controls.address2.patchValue(res.json().address2);
+        this.form.controls.state.patchValue(res.json().state);
+        this.form.controls.city.patchValue(res.json().city);
+        this.form.controls.country.patchValue(res.json().country);
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -55,4 +86,13 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
     this.authService.logout();
   }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  saveUserInfo() {
+    this.modalRef.hide();
+  }
+
 }
