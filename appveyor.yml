@@ -2,25 +2,13 @@ version: 1.0.{build}
 image: Visual Studio 2017
 
 environment:
-  - nodejs_version: "8"
+  nodejs_version: "8"
 
 install:
   - ps: Install-Product node $env:nodejs_version
 
-before_build:
-  - ps: dotnet --version
-  - ps: node -v
-  - ps: dotnet restore ./ImageGallery.Client.sln
-  - cd C:\projects\imagegallery-client\src\ImageGallery.Client
-  - ps: npm install
 
-
-
-build_script:
-  - ps: dotnet build ./ImageGallery.Client.sln
-
-
-  # Post-install test scripts.
+# Post-install test scripts.
 test_script:
   # Output useful info for debugging.
   - node --version
@@ -28,5 +16,5 @@ test_script:
   # run tests
   - npm test
 
-
-  build: off
+# Don't actually build.
+build: off
