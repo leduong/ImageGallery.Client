@@ -1,5 +1,12 @@
 version: 1.0.{build}
 image: Visual Studio 2017
-build_script:
+
+before_build:
+  - ps: dotnet --version
+  - ps: node -v
   - ps: dotnet restore ./ImageGallery.Client.sln
+  - cd C:\projects\ImageGallery.Client\src\ImageGallery.Client
+  - ps: npm install
+
+build_script:
   - ps: dotnet build ./ImageGallery.Client.sln
