@@ -10,6 +10,7 @@ install:
 before_build:
   - ps: dotnet --version
   - ps: node -v
+  - ps: gulp -v
   - ps: dotnet restore ./ImageGallery.Client.sln
   - cd C:\projects\imagegallery-client\src\ImageGallery.Client
   - ps: npm install
