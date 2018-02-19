@@ -6,7 +6,6 @@ environment:
 
 install:
   - ps: Install-Product node $env:nodejs_version
-  - ps: npm install -g gulp
 before_build:
   - ps: dotnet --version
   - ps: node -v
