@@ -1,5 +1,6 @@
 FROM selenium/standalone-firefox:latest
 
+
 ## CHNAGE BASE IMAGE TAG TO MATCH GECKO_DRIVER
 
 ENV NET_CORE_SDK_VERSION 2.1.4
