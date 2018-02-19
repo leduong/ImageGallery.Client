@@ -1,12 +1,12 @@
-Juan|password|FreeUser|HasPhotos
-Mike|password|FreeUser|HasPhotos
-Chris|password|FreeUser|HasPhotos
-Francisco|password|FreeUser|HasPhotos
-Lisa|password|FreeUser|HasPhotos
-Susan|password|FreeUser|NoPhotos
-Steve|password|PayingUser|HasPhotos
-William|password|PayingUser|NoPhotos
-Peter|password|PayingUser|HasPhotos 
-Mary|password|PayingUser|HasPhotos
-Lilly|password|FreeUser|InvalidAccount
-Artyom|password|PayingUser|HasPhotos
+Juan|password|FreeUser|HasPhotos|Juan Fernández
+Mike|password|FreeUser|HasPhotos|Mike Harris 
+Chris|password|FreeUser|HasPhotos|Chris Smith
+Francisco|password|FreeUser|HasPhotos|Francisco López
+Lisa|password|FreeUser|HasPhotos|Lisa Jones
+Susan|password|FreeUser|NoPhotos|Susan Ewing
+Steve|password|PayingUser|HasPhotos|Steve Davis
+William|password|PayingUser|NoPhotos|William Jones
+Peter|password|PayingUser|HasPhotos|Peter Paulson
+Mary|password|PayingUser|HasPhotos|Mary Markson
+Lilly|password|FreeUser|InvalidAccount|Lilly Stein
+Artyom|password|PayingUser|HasPhotos|Artyom Avetisyan
