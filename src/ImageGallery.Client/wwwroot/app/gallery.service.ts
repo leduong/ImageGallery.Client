@@ -39,11 +39,18 @@ export class GalleryService {
   }
 
   public postEditImageViewModel(model: IEditImageViewModel): Observable<Object> {
+    /*
     var headers = this.generateBearerHeaaders();
     headers.append("Content-Type", "application/json");
+    console.log("buuuuuu!");
 
     return this.httpClient.post(`${this.baseUrl}/edit`, JSON.stringify(model), { headers: headers })
       .catch(this.handleError);
+    */
+    var headers = this.generateBearerHeaaders();
+    headers.append("Content-Type", "application/json");
+
+    return this.httpClient.post(`${this.baseUrl}/edit`, model, { headers: headers });
   }
 
   public deleteImageViewModel(id: string): Observable<Object> {
