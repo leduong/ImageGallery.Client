@@ -1,0 +1,47 @@
+version: '2.1'
+
+services:
+  
+  dotnet-test-1:
+    image: stuartshay/imagegallery-client:2.0.0-test
+    working_dir: /app/test/ImageGallery.Client.Test
+    environment:
+      - TEST_FILTER="Category=Intergration"
+      - ASPNETCORE_ENVIRONMENT=Staging
+    command: "/wait_for_it.sh -h database -p 1433 -t 0 -- dotnet xunit -trait Category=Intergration -xml /artifacts/intergration-tests.xml"
+    depends_on:
+      - database
+    volumes: 
+      - /home/jenkins/artifacts/imagegallery-client/test:/artifacts
+      - /home/jenkins/artifacts/imagegallery-client/data:/app/artifacts
+    networks:
+      - testing-imagegallery-client-network
+
+
+  dotnet-test-2:
+    image: stuartshay/imagegallery-client:2.0.0-test
+    working_dir: /app/test/ImageGallery.Client.Test.UI
+    environment:
+      - TEST_FILTER="Category=Intergration"
+      - ASPNETCORE_ENVIRONMENT=Staging
+    command: "/wait_for_it.sh -h database -p 1433 -t 0 -- dotnet xunit -trait Category=Intergration -xml /artifacts/ui-tests.xml"
+    depends_on:
+      - database
+    volumes: 
+      - /home/jenkins/artifacts/imagegallery-client/test:/artifacts
+      - /home/jenkins/artifacts/imagegallery-client/data:/app/artifacts
+    networks:
+      - testing-imagegallery-client-network
+
+
+  database:
+    container_name: 'database'
+    image: "microsoft/mssql-server-linux:2017-CU3"
+    environment:
+      - ACCEPT_EULA="Y"
+      - SA_PASSWORD=An@a6AzqtDd%3JoYBL6BcvFKu
+    networks:
+      - testing-imagegallery-client-network
+
+networks:
+  testing-imagegallery-client-network:

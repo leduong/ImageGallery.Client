@@ -1,0 +1,12 @@
+node('windows') {
+
+    stage('Git checkout') {
+        git branch: 'master', credentialsId: 'gihub-key', url: 'git@github.com:stuartshay/ImageGallery.Client.git'
+    }
+
+
+    stage('Mail') {
+        emailext attachLog: true, body: '', subject: "Jenkins build status - ${currentBuild.fullDisplayName}", to: 'sshay@yahoo.com'
+    }
+
+}
