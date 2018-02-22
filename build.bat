@@ -1,1 +1,1 @@
-echo "Sample Data" >> C:\\Jenkins\\workspace\\ImageGallery\\ImageGallery-Client-Win-2\\
+echo "Sample Data" >> C:\\Jenkins\\workspace\\ImageGallery\\ImageGallery-Client-Win-2\\logfile.txt
