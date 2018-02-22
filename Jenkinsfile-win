@@ -1,10 +1,12 @@
 node('windows') {
 
+    deleteDir()
+
     stage('Git checkout') {
         git branch: 'master', credentialsId: 'gihub-key', url: 'git@github.com:stuartshay/ImageGallery.Client.git'
     }
 
- stage('Build & Deploy Docker') {
+    stage('Build & Deploy Docker') {
        bat 'start cmd.exe /c C:\\Jenkins\\workspace\\ImageGallery\\ImageGallery-Client-Win-2\\build.bat'
        //  sh '''mv docker/imagegallery-client-win.dockerfile/.dockerignore .dockerignore
        //  docker build -f docker/imagegallery-client-win.dockerfile/Dockerfile --build-arg BUILD_NUMBER=${BUILD_NUMBER} -t stuartshay/imagegallery-client:2.0-win .'''
