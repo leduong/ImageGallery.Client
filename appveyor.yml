@@ -17,6 +17,9 @@ before_build:
 
 build_script:
   - cmd: npm run compile-app
+  - cd C:\projects\imagegallery-client\
+  - ps: dotnet build ./ImageGallery.Client.sln
+
 
 test_script:
   - node --version
