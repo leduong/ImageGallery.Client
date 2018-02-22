@@ -10,17 +10,9 @@ RUN iex ((new-object net.webclient).DownloadString('https://chocolatey.org/insta
     choco feature disable --name showDownloadProgress
 
 RUN choco install -y nodejs -version $env:NODEJS_VERSION
-#RUN choco install -y git -params "/GitAndUnixToolsOnPath"
-#RUN npm install --global --production windows-build-tools
 
-#RUN git clone https://github.com/nodejs/node.git
-#RUN cd node ; git pull ; \
-#    $env:PATH += ';C:\Users\ContainerAdministrator\.windows-build-tools\python27' ; \
-#.\vcbuild.bat test nosign
-
-
-
-
+## RUN dotnet --version
+RUN node -v
 RUN npm -v
 
 
