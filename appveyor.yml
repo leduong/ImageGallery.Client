@@ -6,18 +6,18 @@ environment:
 
 install:
   - ps: Install-Product node $env:nodejs_version
+
 before_build:
   - ps: dotnet --version
   - ps: node -v
+  - ps: npm -v
   - ps: dotnet restore ./ImageGallery.Client.sln
   - cd C:\projects\imagegallery-client\src\ImageGallery.Client
-  - ps: npm install
+  - cmd: npm install
 
-
-
+build_script:
+  - cmd: npm run compile-app
 
 test_script:
   - node --version
   - npm --version
-
-
