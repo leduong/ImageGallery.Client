@@ -1,16 +1,20 @@
-FROM microsoft/dotnet:2-sdk-nanoserver
+FROM microsoft/windowsservercore:10.0.14393.2068
 
-## Install NodeJS
-ENV NPM_CONFIG_LOGLEVEL info  
-ENV NODE_VERSION 6.9.2 
-ENV NODE_SHA256 9b2fcdd0d81e69a9764c3ce5a33087e02e94e8e23ea2b8c9efceebe79d49936e
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
-RUN powershell -Command \  
-    wget -Uri https://nodejs.org/dist/v%NODE_VERSION%/node-v%NODE_VERSION%-x64.msi -OutFile node.msi -UseBasicParsing ; \
-    if ((Get-FileHash node.msi -Algorithm sha256).Hash -ne $env:NODE_SHA256) {exit 1} ; \
-    Start-Process -FilePath msiexec -ArgumentList /q, /i, node.msi -Wait ; \
-Remove-Item -Path node.msi
+ENV chocolateyUseWindowsCompression false
 
+RUN iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1')); \
+    choco feature disable --name showDownloadProgress
+
+RUN choco install -y nodejs -version 7.3.0
+RUN choco install -y git -params "/GitAndUnixToolsOnPath"
+RUN npm install --global --production windows-build-tools
+
+RUN git clone https://github.com/nodejs/node.git
+RUN cd node ; git pull ; \
+    $env:PATH += ';C:\Users\ContainerAdministrator\.windows-build-tools\python27' ; \
+.\vcbuild.bat test nosign
 
 
 
