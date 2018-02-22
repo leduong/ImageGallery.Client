@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.0.3-sdk
+FROM microsoft/dotnet:2.0.5-sdk-2.1.4
 
 RUN apt-get update && apt-get install -y \
         build-essential \
