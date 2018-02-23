@@ -22,5 +22,6 @@ build_script:
 
 
 test_script:
-  - node --version
-  - npm --version
+  - ps: '&"${env:UserProfile}/.nuget/packages/opencover/4.6.519/tools/OpenCover.Console.exe" -register:user -target:"${env:ProgramFiles}/dotnet/dotnet.exe" -targetargs:"test ImageGallery.Client.Test" -output:coverage.xml -oldStyle'
+
+  
