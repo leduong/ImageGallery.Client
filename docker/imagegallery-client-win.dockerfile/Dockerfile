@@ -1,20 +1,28 @@
-FROM microsoft/windowsservercore:10.0.14393.2068
+# escape=`
+FROM microsoft/dotnet:2.0.5-sdk-2.1.4-nanoserver-sac2016
 
-ENV NODEJS_VERSION 8.9.4
+# set up environment
+ENV ASPNETCORE_URLS http://+:80
+ENV NODE_VERSION 8.9.4
+ENV ASPNETCORE_PKG_VERSION 2.0.5
 
-SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
-ENV chocolateyUseWindowsCompression false
+# Install node, bower, and git
+RUN Invoke-WebRequest -UseBasicParsing https://nodejs.org/dist/v${env:NODE_VERSION}/node-v${env:NODE_VERSION}-win-x64.zip -outfile node.zip; `
+    Expand-Archive node.zip -DestinationPath ${env:TEMP}/nodejs-tmp; `
+    Move-Item ${env:TEMP}/nodejs-tmp/node-v${env:NODE_VERSION}-win-x64 ${env:ProgramFiles}/nodejs; `
+    Remove-Item -Force node.zip; `
+    $env:PATH += \";${env:ProgramFiles}/nodejs\"; `
+    & npm install -g gulp bower; `
+    Invoke-WebRequest -UseBasicParsing https://github.com/git-for-windows/git/releases/download/v2.14.1.windows.1/MinGit-2.14.1-64-bit.zip -outfile git.zip; `
+    Expand-Archive git.zip -DestinationPath $Env:ProgramFiles/git; `
+    Remove-Item -Force git.zip
 
-RUN iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1')); \
-    choco feature disable --name showDownloadProgress
+RUN setx /M PATH $($Env:PATH + ';' + $Env:ProgramFiles + '/nodejs' + ';' + $Env:ProgramFiles + '/git/cmd')
 
-RUN choco install -y nodejs -version $env:NODEJS_VERSION
-
-## RUN dotnet --version
+RUN dotnet --version
 RUN node -v
 RUN npm -v
-
 
 CMD [ "cmd" ]
 
