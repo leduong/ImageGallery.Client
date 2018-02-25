@@ -21,3 +21,13 @@ export interface IAddImageViewModel {
     category: string;
     file: File;
 }
+
+export interface IUserProfileViewModel {
+    firstName: string;
+    lastName: string;
+    address: string;
+    address2: string;
+    city: string;
+    state: string;
+    country: string;
+}
