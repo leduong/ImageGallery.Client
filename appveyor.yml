@@ -22,6 +22,8 @@ build_script:
 
 
 test_script:
+  - cd C:\projects\imagegallery-client\test\ImageGallery.Client.Test
+  - ps: dotnet xunit
   - ps: '&"${env:UserProfile}/.nuget/packages/opencover/4.6.519/tools/OpenCover.Console.exe" -register:user -target:"${env:ProgramFiles}/dotnet/dotnet.exe" -targetargs:"test ImageGallery.Client.Test" -output:coverage.xml -oldStyle'
 
   
