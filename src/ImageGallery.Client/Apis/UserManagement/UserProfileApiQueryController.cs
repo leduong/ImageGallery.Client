@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-using ImageGallery.Client.Configuration;
-using ImageGallery.Client.Services;
 using ImageGallery.Client.ViewModels.UserManagement;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
+using NavigatorIdentity.HttpClient.Interfaces;
 
 namespace ImageGallery.Client.Apis.UserManagement
 {
@@ -18,17 +15,14 @@ namespace ImageGallery.Client.Apis.UserManagement
     {
         private const string InternalUserProfileRoute = "api/UserProfile";
 
-        private readonly IOptions<ApplicationOptions> _settings;
-        private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
+        private readonly IJwtHttpServiceClient _jwtHttpServiceClient;
         private readonly ILogger<UserProfileApiQueryController> _logger;
 
         public UserProfileApiQueryController(
-            IOptions<ApplicationOptions> settings,
-            IImageGalleryHttpClient imageGalleryHttpClient,
+            IJwtHttpServiceClient jwtHttpServiceClient,
             ILogger<UserProfileApiQueryController> logger)
         {
-            _settings = settings;
-            _imageGalleryHttpClient = imageGalleryHttpClient;
+            _jwtHttpServiceClient = jwtHttpServiceClient;
             _logger = logger;
         }
 
@@ -36,20 +30,13 @@ namespace ImageGallery.Client.Apis.UserManagement
         [ProducesResponseType(typeof(UserProfileViewModel), 200)]
         public async Task<IActionResult> Get()
         {
-            var httpClient = await _imageGalleryHttpClient.GetClient(_settings.Value.UserManagementApiConfiguration.ApiUri);
-
-            var response = await httpClient.GetAsync(InternalUserProfileRoute).ConfigureAwait(false);
+            var response = await _jwtHttpServiceClient
+                .GetAsync<UserProfileViewModel>(InternalUserProfileRoute);
 
             _logger.LogInformation($"Call {InternalUserProfileRoute} return {response.StatusCode}.");
 
             if (response.IsSuccessStatusCode)
-            {
-                var profileAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                var userProfileViewModel = JsonConvert.DeserializeObject<UserProfileViewModel>(profileAsString);
-
-                return Ok(userProfileViewModel);
-            }
+                return Ok(response.Value);
 
             switch (response.StatusCode)
             {
@@ -57,10 +44,10 @@ namespace ImageGallery.Client.Apis.UserManagement
                     return Unauthorized();
 
                 case HttpStatusCode.Forbidden:
-                    return new ForbidResult();
+                    return Forbid();
             }
 
-            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+            throw new Exception($"A problem happened while calling the API: {response.Message}");
         }
     }
 }

@@ -1,17 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using ImageGallery.Client.Configuration;
-using ImageGallery.Client.Services;
 using ImageGallery.Client.ViewModels.UserManagement;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
+using NavigatorIdentity.HttpClient.Interfaces;
 
 namespace ImageGallery.Client.Apis.UserManagement
 {
@@ -21,17 +16,14 @@ namespace ImageGallery.Client.Apis.UserManagement
     {
         private const string InternalUserProfileRoute = "api/UserProfile";
 
-        private readonly IOptions<ApplicationOptions> _settings;
-        private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
+        private readonly IJwtHttpServiceClient _jwtHttpServiceClient;
         private readonly ILogger<UserProfileApiCommandController> _logger;
 
         public UserProfileApiCommandController(
-            IOptions<ApplicationOptions> settings,
-            IImageGalleryHttpClient imageGalleryHttpClient,
+            IJwtHttpServiceClient jwtHttpServiceClient,
             ILogger<UserProfileApiCommandController> logger)
         {
-            _settings = settings;
-            _imageGalleryHttpClient = imageGalleryHttpClient;
+            _jwtHttpServiceClient = jwtHttpServiceClient;
             _logger = logger;
         }
 
@@ -39,26 +31,13 @@ namespace ImageGallery.Client.Apis.UserManagement
         [ProducesResponseType(typeof(UserProfileUpdateViewModel), 200)]
         public async Task<IActionResult> Put([FromBody] [Required] UserProfileUpdateViewModel model)
         {
-            var httpClient =
-                await _imageGalleryHttpClient.GetClient(_settings.Value.UserManagementApiConfiguration.ApiUri);
-
-            var serializedUserProfileForUpdate = JsonConvert.SerializeObject(model);
-
-            var response = await httpClient.PutAsync(
-                    $"{InternalUserProfileRoute}",
-                    new StringContent(serializedUserProfileForUpdate, Encoding.Unicode, "application/json"))
-                .ConfigureAwait(false);
+            var response = await _jwtHttpServiceClient
+                .PutAsync<UserProfileUpdateViewModel, UserProfileUpdateViewModel>(InternalUserProfileRoute, model);
 
             _logger.LogInformation($"Call {InternalUserProfileRoute} return {response.StatusCode}.");
 
             if (response.IsSuccessStatusCode)
-            {
-                var profileAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-                var userProfileViewModel = JsonConvert.DeserializeObject<UserProfileUpdateViewModel>(profileAsString);
-
-                return Ok(userProfileViewModel);
-            }
+                return Ok(response.Value);
 
             switch (response.StatusCode)
             {
@@ -69,7 +48,7 @@ namespace ImageGallery.Client.Apis.UserManagement
                     return new ForbidResult();
             }
 
-            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+            throw new Exception($"A problem happened while calling the API: {response.Message}");
         }
     }
 }
