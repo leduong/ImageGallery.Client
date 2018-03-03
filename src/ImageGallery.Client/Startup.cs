@@ -145,7 +145,11 @@ namespace ImageGallery.Client
                     });
             });
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddJwtHttpServiceClient(options =>
+            {
+                options.IssuerUri = config.UserManagementApiConfiguration.ApiUri;
+            });
+
             services.AddScoped<IImageGalleryHttpClient, ImageGalleryHttpClient>();
 
             services.AddSingleton<ILogglyClient, LogglyClient>();
