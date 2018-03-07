@@ -25,6 +25,7 @@ RUN export BASE_URL=https://github.com/mozilla/geckodriver/releases/download \
 RUN which geckodriver
 RUN export PATH=$PATH:/usr/local/bin/geckodriver
 
+RUN dotnet --version
 
 
 # Declare constants
