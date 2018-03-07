@@ -26,7 +26,8 @@ RUN which geckodriver
 RUN export PATH=$PATH:/usr/local/bin/geckodriver
 
 ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
-RUN dotnet --version
+RUN dotnet --list-sdks
+RUN dotnet --list-runtimes
 
 ARG BUILD_NUMBER=0
 ENV BUILD_NUMBER ${BUILD_NUMBER}
