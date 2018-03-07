@@ -35,7 +35,7 @@ RUN mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
 RUN sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-xenial-prod xenial main" > /etc/apt/sources.list.d/dotnetdev.list'
 RUN apt-get update
 
-#RUN apt-get install dotnet-sdk-$NET_CORE_SDK_VERSION -y
+RUN apt-get install dotnet-sdk-$NET_CORE_SDK_VERSION -y
 RUN apt-get install dotnet-runtime-2.1.0-preview1-26216-03 -y
 RUN dotnet --version
 
