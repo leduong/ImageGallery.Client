@@ -25,7 +25,7 @@ test_script:
   - cd C:\projects\imagegallery-client\test\ImageGallery.Client.Test
   - ps: dotnet xunit -xml /artifacts/test/tests.xml
   - ps: ls
-  - ps: '&"${env:UserProfile}/.nuget/packages/opencover/4.6.519/tools/OpenCover.Console.exe" -register:user -target:"${env:ProgramFiles}/dotnet/dotnet.exe" -targetargs:"test -f netcoreapp2.0 ImageGallery.Client.Test.csproj" -output:coverage.xml -oldStyle'
+  - ps: '&"${env:UserProfile}/.nuget/packages/opencover/4.6.519/tools/OpenCover.Console.exe" -register:user -target:"${env:ProgramFiles}/dotnet/dotnet.exe" -targetargs:"test -f netcoreapp2.0 ImageGallery.Client.Test.csproj" -output:/artifacts/test/coverage.xml -oldStyle'
 
 artifacts:
   - path: /artifacts/test/
