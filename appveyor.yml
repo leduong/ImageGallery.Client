@@ -32,7 +32,7 @@ test_script:
   - ps: '&"${env:UserProfile}/.nuget/packages/opencover/4.6.519/tools/OpenCover.Console.exe" -register:user -target:"${env:ProgramFiles}/dotnet/dotnet.exe" -targetargs:"test -f netcoreapp2.0 ImageGallery.Client.Test.csproj" -output:/artifacts/coverage.xml -oldStyle'
 
 artifacts:
-  - path: /artifacts
+  - path: artifacts
 
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+# on_finish:
+  #- ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
