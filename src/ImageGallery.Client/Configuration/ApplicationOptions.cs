@@ -40,6 +40,8 @@
         /// </summary>
         public SwaggerUiConfiguration SwaggerUiConfiguration { get; set; }
 
+        public UserManagementApiConfiguration UserManagementApiConfiguration { get; set; }
+
         /// <summary>
         ///
         /// </summary>
@@ -114,5 +116,10 @@
     public class LogglyClientConfiguration
     {
         public string LogglyKey { get; set; }
+    }
+
+    public class UserManagementApiConfiguration
+    {
+        public string ApiUri { get; set; }
     }
 }

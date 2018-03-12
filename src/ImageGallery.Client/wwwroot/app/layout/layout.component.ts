@@ -7,6 +7,7 @@ import { AuthenticationService } from '../authentication.service'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { UserManagementService } from '../services/user.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { IUserProfileViewModel } from '../shared/interfaces';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
@@ -70,18 +71,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
                     }
                 }
             });
-        
-        this.userManagementService.getUserInfo().subscribe(res => {
-            if (res.json()) {
-                this.form.controls.firstName.patchValue(res.json().firstName);
-                this.form.controls.lastName.patchValue(res.json().lastName);
-                this.form.controls.address.patchValue(res.json().address);
-                this.form.controls.address2.patchValue(res.json().address2);
-                this.form.controls.state.patchValue(res.json().state);
-                this.form.controls.city.patchValue(res.json().city);
-                this.form.controls.country.patchValue(res.json().country);
-            }
-        });
     }
 
     ngOnDestroy(): void {
@@ -104,6 +93,18 @@ export class LayoutComponent implements OnInit, OnDestroy {
     }
 
     openModal(template: TemplateRef<any>) {
+        this.userManagementService.getUserInfo().subscribe((res: IUserProfileViewModel) => {
+            if (res) {
+                this.form.controls.firstName.patchValue(res.firstName);
+                this.form.controls.lastName.patchValue(res.lastName);
+                this.form.controls.address.patchValue(res.address);
+                this.form.controls.address2.patchValue(res.address2);
+                this.form.controls.state.patchValue(res.state);
+                this.form.controls.city.patchValue(res.city);
+                this.form.controls.country.patchValue(res.country);
+            }
+        });
+
         this.modalRef = this.modalService.show(template);
     }
 

@@ -25,44 +25,12 @@ RUN export BASE_URL=https://github.com/mozilla/geckodriver/releases/download \
 RUN which geckodriver
 RUN export PATH=$PATH:/usr/local/bin/geckodriver
 
-
-
-# Declare constants
-#ENV PHANTOMJS_VERSION 2.1.1
+ENV DOTNET_CLI_TELEMETRY_OPTOUT 1
+RUN dotnet --list-sdks
+RUN dotnet --list-runtimes
 
 ARG BUILD_NUMBER=0
 ENV BUILD_NUMBER ${BUILD_NUMBER}
-
-#RUN wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-${PHANTOMJS_VERSION}-linux-x86_64.tar.bz2
-#RUN tar xvjf phantomjs-${PHANTOMJS_VERSION}-linux-x86_64.tar.bz2 -C /usr/local/share/
-#RUN ln -s /usr/local/share/phantomjs-${PHANTOMJS_VERSION}-linux-x86_64/bin/phantomjs /usr/local/bin/
-#RUN phantomjs --version
-#RUN which phantomjs
-
-
-#RUN apt-get install -y unzip openjdk-8-jre-headless xvfb libxi6 libgconf-2-4
-
-# Install Chrome for Selenium
-#RUN curl https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o /chrome.deb
-#RUN dpkg -i /chrome.deb || apt-get install -yf
-#RUN rm /chrome.deb
-
-# Install Firefox for Selenium
-##RUN apt-get update
-##RUN apt-get --assume-yes install software-properties-common
-##RUN add-apt-repository ppa:mozillateam/firefox-next
-##RUN apt-get update
-##RUN apt-get install firefox
-
-# Install geckodriver for Selenium
-##RUN cd  /usr/local/bin/
-##RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
-##RUN tar -xvzf geckodriver*
-##RUN chmod +x geckodriver
-##RUN rm geckodriver-v0.19.1-linux64.tar.gz
-
-
-
 
 ARG TEST_FILTER=Category=Intergration
 ENV TEST_FILTER ${TEST_FILTER}

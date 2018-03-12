@@ -7,6 +7,8 @@
     <RuntimeIdentifiers>debian.8-x64;ubuntu.16.04-x64;ubuntu.16.10-x64;win10-x64;osx.10.12-x64</RuntimeIdentifiers>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <NoWarn>$(NoWarn),1701;1702;1705</NoWarn>
+    <DebugType>full</DebugType>
+    <DebugSymbols>True</DebugSymbols>
     <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
   </PropertyGroup>
 
@@ -23,14 +25,15 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.Redis" Version="0.3.1" />
-    <PackageReference Include="IdentityModel" Version="3.1.0" />
+    <PackageReference Include="IdentityModel" Version="3.3.0" />
     <PackageReference Include="BundlerMinifier.Core" Version="2.6.362" />
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Https" Version="2.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="2.0.1" />
+    <PackageReference Include="NavigatorIdentity.HttpClient" Version="2.0.0.6" />
     <PackageReference Include="Serilog.AspNetCore" Version="2.1.1-dev-00022" />
     <PackageReference Include="Serilog.Sinks.Loggly" Version="5.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.1-beta3" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
     
     <PackageReference Include="loggly-csharp" Version="4.6.1.47" />
     <PackageReference Include="Serilog" Version="2.7.1-dev-00950" />

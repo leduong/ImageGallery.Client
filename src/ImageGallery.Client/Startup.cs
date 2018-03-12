@@ -63,6 +63,7 @@ namespace ImageGallery.Client
             services.Configure<Dataprotection>(Configuration.GetSection("dataprotection"));
             services.Configure<OpenIdConnectConfiguration>(Configuration.GetSection("openIdConnectConfiguration"));
             services.Configure<LogglyClientConfiguration>(Configuration.GetSection("logglyClientConfiguration"));
+            services.Configure<UserManagementApiConfiguration>(Configuration.GetSection("userManagementApiConfiguration"));
 
             var config = Configuration.Get<ApplicationOptions>();
 
@@ -74,6 +75,8 @@ namespace ImageGallery.Client
             Console.WriteLine($"ClientId: {config.OpenIdConnectConfiguration.ClientId}");
             Console.WriteLine($"ClientSecret: {config.OpenIdConnectConfiguration.ClientSecret}");
             Console.WriteLine($"LogglyKey: {config.LogglyClientConfiguration.LogglyKey}");
+
+            Console.WriteLine($"UserManagement API: {config.UserManagementApiConfiguration.ApiUri}");
 
             if (config.Dataprotection.Enabled)
             {
@@ -142,7 +145,11 @@ namespace ImageGallery.Client
                     });
             });
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddJwtHttpServiceClient(options =>
+            {
+                options.IssuerUri = config.UserManagementApiConfiguration.ApiUri;
+            });
+
             services.AddScoped<IImageGalleryHttpClient, ImageGalleryHttpClient>();
 
             services.AddSingleton<ILogglyClient, LogglyClient>();

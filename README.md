@@ -62,4 +62,3 @@ https://auth.informationcart.com/
       
 ### API
 https://imagegallery-api.informationcart.com/swagger
-

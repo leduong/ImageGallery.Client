@@ -36,6 +36,7 @@ RUN sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft
 RUN apt-get update
 
 RUN apt-get install dotnet-sdk-$NET_CORE_SDK_VERSION -y
+RUN apt-get install dotnet-runtime-2.1.0-preview1-26216-03 -y
 RUN dotnet --version
 
 RUN ln -s /opt/geckodriver-$GECKO_DRIVER  /usr/local/bin/geckodriver

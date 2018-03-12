@@ -6,5 +6,7 @@ namespace ImageGallery.Client.Services
     public interface IImageGalleryHttpClient
     {
         Task<HttpClient> GetClient();
+
+        Task<HttpClient> GetClient(string apiUri);
     }
 }
