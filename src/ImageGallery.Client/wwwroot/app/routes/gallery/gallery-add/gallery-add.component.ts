@@ -7,8 +7,9 @@ import { debug } from 'util';
 import { HasPayingUserRoleAuthenticationGuard } from '../../../guards/hasPayingUserRoleAuthenticationGuard';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
 
-
+const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
 @Component({
     selector: 'app-gallery-add',
     templateUrl: './gallery-add.component.html',
@@ -16,6 +17,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
     providers: [GalleryService, HasPayingUserRoleAuthenticationGuard]
 })
 export class GalleryAddComponent implements OnInit {
+    public uploader:FileUploader = new FileUploader({url: URL});
 
     addImageViewModel: IAddImageViewModel = { title: "", category: "Portraits", file: null };
 

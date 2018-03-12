@@ -1,30 +1,108 @@
 ﻿<h2 class="leftMarginSmaller">Add Image</h2>
 
-<form asp-action="AddImage" method="post" class="form-horizontal" role="form" enctype="multipart/form-data" *ngIf="addImageViewModel" (ngSubmit)="onSubmit()">
+<div class="row">
+    <div class="col-md-3">
+        <form asp-action="AddImage" method="post" class="form-horizontal" role="form" enctype="multipart/form-data" *ngIf="addImageViewModel" (ngSubmit)="onSubmit()">
 
-    <div class="form-horizontal leftMarginDefault">
-
-        <div class="form-group">
-            <div>You image's title</div>
-            <input name="title" class="form-control" [(ngModel)]="addImageViewModel.title" />
-        </div>
-
-        <div class="form-group">
-            <div>Category</div>
-            <select class="form-control" name="category" [(ngModel)]="addImageViewModel.category">
-                <option *ngFor="let category of categories" [ngValue]="category">{{category}}</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <div>The image file</div>
-            <input name="diles" type="file" class="form-control" (change)="onUpload($event)" accept=".jpg,.jpeg" />
-        </div>
-
-        <div class="form-group">
-            <div>
-                <input type="submit" class="btn btn-primary" value="Add image" />
+            <div class="form-horizontal leftMarginDefault">
+        
+                <div class="form-group">
+                    <div>You image's title</div>
+                    <input name="title" class="form-control" [(ngModel)]="addImageViewModel.title" />
+                </div>
+        
+                <div class="form-group">
+                    <div>Category</div>
+                    <select class="form-control" name="category" [(ngModel)]="addImageViewModel.category">
+                        <option *ngFor="let category of categories" [ngValue]="category">{{category}}</option>
+                    </select>
+                </div>
+        
+                <div class="form-group">
+                    <div>The image file</div>
+                    <label for="files" class="file">
+                        <button class="btn btn-default">Single File</button>
+                        <input type="file" ng2FileSelect [uploader]="uploader" (change)="onUpload($event)" />
+                        <!-- <input name="files" type="file" class="form-control" (change)="onUpload($event)" accept=".jpg,.jpeg" /> -->
+                    </label>
+                </div>
+        
+                <div class="form-group">
+                    <div>
+                        <input type="submit" class="btn btn-primary" value="Add image" />
+                    </div>
+                </div>
             </div>
-        </div>
+        </form>        
     </div>
-</form>
+    <div class="col-md-9">
+ 
+        <p>Queue length: {{ uploader?.queue?.length }}</p>
+    
+        <table class="table">
+            <thead>
+            <tr>
+                <th width="50%">Name</th>
+                <th>Size</th>
+                <th>Progress</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of uploader.queue">
+                <td><strong>{{ item?.file?.name }}</strong></td>
+                <td *ngIf="uploader.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                <td *ngIf="uploader.isHTML5">
+                    <div class="progress" style="margin-bottom: 0;">
+                        <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                    <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                    <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                </td>
+                <td nowrap>
+                    <button type="button" class="btn btn-success btn-xs"
+                            (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                        Upload
+                    </button>
+                    <button type="button" class="btn btn-warning btn-xs"
+                            (click)="item.cancel()" [disabled]="!item.isUploading">
+                        Cancel
+                    </button>
+                    <button type="button" class="btn btn-danger btn-xs"
+                            (click)="item.remove()">
+                        Remove
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    
+        <div>
+            <div>
+                Queue progress:
+                <div class="progress" style="">
+                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-success btn-s"
+                    (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                Upload all
+            </button>
+            <button type="button" class="btn btn-warning btn-s"
+                    (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
+                Cancel all
+            </button>
+            <button type="button" class="btn btn-danger btn-s"
+                    (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+                Remove all
+            </button>
+        </div>
+    
+    </div>
+</div>
+
+

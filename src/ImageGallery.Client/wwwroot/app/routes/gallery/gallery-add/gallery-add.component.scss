@@ -1,1 +1,14 @@
-﻿
+﻿.file {
+    position: relative;
+    width: 100%;
+
+    button {
+        width: 100%;
+    }
+
+    input {
+        position: absolute;
+        top: 0;
+        opacity: 0;
+    }
+}

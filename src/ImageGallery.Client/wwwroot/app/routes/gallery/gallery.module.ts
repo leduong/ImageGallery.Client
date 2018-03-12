@@ -8,12 +8,14 @@ import { AboutComponent } from './about/about.component';
 import { KeysPipe } from '../../pipes/keys.pipe';
 import { PaginationModule } from 'ngx-bootstrap';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
+import { FileSelectDirective, FileDropDirective, FileUploader, FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
 
 @NgModule({
     imports: [
         SharedModule,
         PaginationModule.forRoot(),
         Ng4LoadingSpinnerModule.forRoot(),
+        FileUploadModule,
     ],
     declarations: [GalleryComponent, GalleryEditComponent, GalleryAddComponent, AboutComponent, KeysPipe],
     exports: [
@@ -24,6 +26,6 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
         AboutComponent,
         PaginationModule,
         Ng4LoadingSpinnerModule,
-    ]
+    ],
 })
 export class GalleryModule { }

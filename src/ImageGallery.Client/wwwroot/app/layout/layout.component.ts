@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
@@ -7,6 +7,7 @@ import { AuthenticationService } from '../authentication.service'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { UserManagementService } from '../services/user.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
     selector: 'app-layout',
@@ -31,6 +32,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
         private authenticationService: AuthenticationService,
         private modalService: BsModalService,
         private userManagementService: UserManagementService,
+        public toastr: ToastsManager, 
+        vcr: ViewContainerRef,
     ) {
         this.form = new FormGroup({
             firstName: new FormControl(['', Validators.required]),
@@ -105,6 +108,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     }
 
     saveUserInfo() {
+        this.toastr.success('Profile has been saved successfully!', 'Success!', {showCloseButton: true});
         this.modalRef.hide();
     }
 }

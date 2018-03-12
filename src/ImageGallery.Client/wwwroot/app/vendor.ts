@@ -14,19 +14,19 @@ import 'ag-grid/dist/styles/theme-fresh.css';
 import 'angular2-toaster/toaster.css';
 import 'ng2-dnd/style.css';
 
-import 'ika.jvectormap/jquery-jvectormap-1.2.2.css';
-import 'ika.jvectormap/jquery-jvectormap-1.2.2.min.js';
-import 'ika.jvectormap/jquery-jvectormap-world-mill-en.js';
-import 'ika.jvectormap/jquery-jvectormap-us-mill-en.js';
+// import 'ika.jvectormap/jquery-jvectormap-1.2.2.css';
+// import 'ika.jvectormap/jquery-jvectormap-1.2.2.min.js';
+// import 'ika.jvectormap/jquery-jvectormap-world-mill-en.js';
+// import 'ika.jvectormap/jquery-jvectormap-us-mill-en.js';
 
 import 'jquery-sparkline/jquery.sparkline.js';
 
-import 'flot/jquery.flot.js';
-import 'flot/jquery.flot.resize.js';
-import 'flot/jquery.flot.pie.js';
-import 'flot/jquery.flot.time.js';
-import 'flot/jquery.flot.categories.js';
-import 'jquery.flot.spline/jquery.flot.spline.js';
+// import 'flot/jquery.flot.js';
+// import 'flot/jquery.flot.resize.js';
+// import 'flot/jquery.flot.pie.js';
+// import 'flot/jquery.flot.time.js';
+// import 'flot/jquery.flot.categories.js';
+// import 'jquery.flot.spline/jquery.flot.spline.js';
 import 'jquery.flot.tooltip/js/jquery.flot.tooltip.js';
 
 import 'chart.js/dist/Chart.bundle.js';
