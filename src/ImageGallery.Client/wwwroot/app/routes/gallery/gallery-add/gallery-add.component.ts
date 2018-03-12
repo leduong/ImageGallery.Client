@@ -42,6 +42,7 @@ export class GalleryAddComponent implements OnInit {
 
     public onSubmit() {
         console.log(`[onSubmit] app-gallery-add`);
+        this.uploader.uploadAll();
 
         this.galleryService.postImageViewModel(this.addImageViewModel)
             .subscribe((response) => { },
