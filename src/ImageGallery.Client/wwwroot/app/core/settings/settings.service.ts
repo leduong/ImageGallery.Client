@@ -7,8 +7,13 @@ export class SettingsService {
     public user: any;
     public app: any;
     public layout: any;
+    public stringApi: any;
 
     constructor() {
+
+        this.stringApi = {
+            publishable_key:'pk_test_wk7TpbI6nqktWT8PbMIyQFDD'
+        }
 
         // User Settings
         // -----------------------------------

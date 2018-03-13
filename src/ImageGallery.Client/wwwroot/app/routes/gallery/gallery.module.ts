@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { GalleryComponent } from './gallery/gallery.component';
 import { GalleryEditComponent } from './gallery-edit/gallery-edit.component';
+import { GalleryPurchaseComponent } from './gallery-purchase/gallery-purchase.component';
+
 import { Routes, RouterModule } from '@angular/router';
 import { SharedModule } from '../../shared/shared.module';
 import { GalleryAddComponent } from './gallery-add/gallery-add.component';
@@ -17,11 +19,18 @@ import { FileSelectDirective, FileDropDirective, FileUploader, FileUploadModule 
         Ng4LoadingSpinnerModule.forRoot(),
         FileUploadModule,
     ],
-    declarations: [GalleryComponent, GalleryEditComponent, GalleryAddComponent, AboutComponent, KeysPipe],
+    declarations: [
+      GalleryComponent,
+      GalleryEditComponent,
+      GalleryPurchaseComponent,
+      GalleryAddComponent,
+      AboutComponent,
+      KeysPipe],
     exports: [
         RouterModule,
         GalleryComponent,
         GalleryEditComponent,
+        GalleryPurchaseComponent,
         GalleryAddComponent,
         AboutComponent,
         PaginationModule,

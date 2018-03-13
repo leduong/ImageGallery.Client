@@ -122,4 +122,9 @@
     {
         public string ApiUri { get; set; }
     }
+
+    public class StripApiConfig
+    {
+        public string StripSecretKey { get; set; }
+    }
 }

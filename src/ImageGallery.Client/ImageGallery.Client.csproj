@@ -11,6 +11,10 @@
     <DebugSymbols>True</DebugSymbols>
     <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
   </PropertyGroup>
+    
+  <ItemGroup>
+    <Content Remove="wwwroot\app\services\stripe_token_handler.service.ts" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Update="wwwroot\**\*">
@@ -29,9 +33,11 @@
     <PackageReference Include="BundlerMinifier.Core" Version="2.6.362" />
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Https" Version="2.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="2.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.2" />
     <PackageReference Include="NavigatorIdentity.HttpClient" Version="2.0.0.6" />
     <PackageReference Include="Serilog.AspNetCore" Version="2.1.1-dev-00022" />
     <PackageReference Include="Serilog.Sinks.Loggly" Version="5.2.0" />
+    <PackageReference Include="Stripe.net" Version="13.3.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
     
@@ -133,6 +139,10 @@
 
   <ItemGroup>
     <AdditionalFiles Include="$(SolutionDir)\_stylecop\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\app\services\stripe_token_handler.service.ts" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,17 @@
+﻿<h2 class="leftMarginSmaller">Purchase of Image</h2>
+
+<form #stripeCustomForm="ngForm" id="stripe-custom-form" (ngSubmit)="onSubmit($event)">
+    <!--<h1>Custom Stripe Form</h1>-->
+    <div class="form-row">
+        <div id="card-element" class="StripeElement">
+            <!-- a Stripe Element will be inserted here. -->
+        </div>
+        <!-- Used to display Element errors -->
+        <div id="card-errors">{{message}}</div>
+    </div>
+
+    <button style="margin: 0px 0px 0px 7px;" [disabled]="isCardFormValid">
+        <span style="display: block; min-height: 30px;">Submit Payment</span>
+    </button>
+
+</form>

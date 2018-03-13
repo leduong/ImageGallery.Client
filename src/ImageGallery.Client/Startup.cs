@@ -18,6 +18,7 @@ using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using StackExchange.Redis;
+using Stripe;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace ImageGallery.Client
@@ -52,7 +53,6 @@ namespace ImageGallery.Client
             });
 
             Log.Information("ConfigureServices:ImageGallery.Client");
-
             services.AddMvc();
 
             services.AddOptions();
@@ -64,6 +64,7 @@ namespace ImageGallery.Client
             services.Configure<OpenIdConnectConfiguration>(Configuration.GetSection("openIdConnectConfiguration"));
             services.Configure<LogglyClientConfiguration>(Configuration.GetSection("logglyClientConfiguration"));
             services.Configure<UserManagementApiConfiguration>(Configuration.GetSection("userManagementApiConfiguration"));
+            services.Configure<StripApiConfig>(Configuration.GetSection("stripSecretKey"));
 
             var config = Configuration.Get<ApplicationOptions>();
 

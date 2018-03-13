@@ -31,3 +31,11 @@ export interface IUserProfileViewModel {
     state: string;
     country: string;
 }
+
+export interface IStripeChargeModel {
+  token: string;
+  amount: number;
+  currency: string;
+  description: string;
+  email: string;
+}
