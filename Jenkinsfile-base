@@ -1,9 +1,12 @@
 node('docker') {
 
+    stage('Status') {
+       echo "ASPNetCoreAngular2Payments Branch"
+    }
+
     stage('Git checkout') {
         git branch: 'ASPNetCoreAngular2Payments', credentialsId: 'gihub-key', url: 'git@github.com:stuartshay/ImageGallery.Client.git'
     }
-
 
     stage('Docker build base image') {
          sh '''mv docker/imagegallery-client-base.dockerfile/.dockerignore .dockerignore 
@@ -13,11 +16,6 @@ node('docker') {
             sh "docker login -u ${DOCKER_HUB_LOGIN} -p ${DOCKER_HUB_PASSWORD}"
         }
         sh '''docker push stuartshay/imagegallery-client:2.0-base-auth'''
-    }
-
-
-    stage('Docker Scanning') {
-       echo "Docker vulnerability scanning"
     }
 
     stage('Mail') {
