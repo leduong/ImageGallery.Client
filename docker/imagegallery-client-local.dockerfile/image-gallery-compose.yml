@@ -1,0 +1,21 @@
+version: '2.1'
+
+services:
+  
+ dotnet-imagegallery-client:
+    image: stuartshay/imagegallery-client:2.0-build
+    ports:
+      - "80:44600"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
+    networks:
+      - image-gallery-network
+
+ redis:
+    image: stuartshay/navigator-identity-redis
+    networks:
+      - image-gallery-network
+
+networks:
+  image-gallery-network:
+
