@@ -6,8 +6,10 @@ services:
     image: stuartshay/imagegallery-client:2.0-build
     ports:
       - "80:44600"
+    depends_on:
+      - redis
     environment:
-      - ASPNETCORE_ENVIRONMENT=Staging
+      - ASPNETCORE_ENVIRONMENT=Docker
     networks:
       - image-gallery-network
 
