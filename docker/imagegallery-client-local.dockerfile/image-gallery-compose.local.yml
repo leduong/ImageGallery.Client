@@ -9,7 +9,7 @@ services:
     ports:
       - "80:44600"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Staging
+      - ASPNETCORE_ENVIRONMENT=Docker
     networks:
       - image-gallery-local-network
 
