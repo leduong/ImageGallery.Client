@@ -1,0 +1,23 @@
+version: '2.1'
+
+services:
+  
+ dotnet-imagegallery-client:
+    build: 
+      context: /.
+      dockerfile: Dockerfile
+    ports:
+      - "80:44600"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    networks:
+      - image-gallery-release-network
+
+ redis:
+    image: stuartshay/navigator-identity-redis
+    networks:
+      - image-gallery-release-network
+
+networks:
+  image-gallery-release-network:
+
