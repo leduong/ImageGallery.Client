@@ -3,9 +3,7 @@ version: '2.1'
 services:
   
  dotnet-imagegallery-client:
-    build: 
-      context: /.
-      dockerfile: Dockerfile
+    image: stuartshay/imagegallery-client:2.0-build-v5
     ports:
       - "80:44600"
     environment:
