@@ -19,7 +19,7 @@ RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/${NVM_VER
 RUN source $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
     && nvm alias default $NODE_VERSION \
-&& nvm use default
+    && nvm use default
 
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
@@ -33,21 +33,20 @@ RUN npm bower -v
 COPY .  /app
 WORKDIR /app
 
-RUN dotnet restore
+RUN dotnet restore --ignore-failed-sources
 
+WORKDIR /app/src/ImageGallery.Client
 
-#WORKDIR /app/src/ImageGallery.Client
-#RUN npm install
+RUN npm install --unsafe-perm
+RUN node node_modules/webpack/bin/webpack.js --config webpack.config.js --env.prod
+RUN npm run compile-app
 
-### Part 2
-
-#RUN dotnet publish -o /publish -c Release 
-#WORKDIR /publish
+RUN dotnet build
 
 # Set environment variables
-#ENV ASPNETCORE_URLS http://*:44600
-#ENV ASPNETCORE_ENVIRONMENT Staging
+ENV ASPNETCORE_URLS http://*:44600
+ENV ASPNETCORE_ENVIRONMENT Docker
 
-#EXPOSE 44600
+EXPOSE 44600
 
-#ENTRYPOINT ["dotnet", "ImageGallery.Client.dll"]
+ENTRYPOINT ["dotnet", "run"]
