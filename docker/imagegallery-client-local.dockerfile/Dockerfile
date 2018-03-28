@@ -1,5 +1,5 @@
 # Build Stage
-FROM microsoft/aspnetcore-build:2.0
+FROM microsoft/aspnetcore-build:2.0 AS build-env
 
 # Declare constants
 ENV NVM_VERSION v0.33.6
@@ -37,6 +37,10 @@ RUN dotnet restore
 
 # Runtime Image Stage
 FROM microsoft/aspnetcore:2
+
+WORKDIR /app
+COPY --from=build-env /app .
+
 
 
 CMD ["/bin/bash"]
