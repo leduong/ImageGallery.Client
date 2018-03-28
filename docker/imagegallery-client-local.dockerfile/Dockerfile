@@ -33,10 +33,27 @@ RUN npm bower -v
 COPY .  /app
 WORKDIR /app
 
-RUN dotnet restore
+WORKDIR /app/src/ImageGallery.Client
+RUN npm install
+
+
+RUN dotnet publish -o /publish -c Release -f netcoreapp2.0 -r debian.8-x64
+
 
 # Runtime Image Stage
 FROM microsoft/aspnetcore:2
+
+RUN apt-get update && apt-get install -y \
+        curl \
+        dnsutils \ 
+        iputils-ping \ 
+		telnet \
+        tree \
+    && rm -rf /var/lib/apt/lists/* \
+    && curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh > /wait_for_it.sh \
+&& chmod +x /wait_for_it.sh
+
+
 
 WORKDIR /app
 COPY --from=build-env /app .
