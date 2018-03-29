@@ -13,8 +13,6 @@ RUN apt-get update && apt-get install -y \
     tree \
  && rm -rf /var/lib/apt/lists/*
 
-RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/${NVM_VERSION}/install.sh | bash
-
 # install node and npm
 RUN source $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
@@ -53,11 +51,11 @@ RUN apt-get update && apt-get install -y \
     && curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh > /wait_for_it.sh \
 && chmod +x /wait_for_it.sh
 
-
+RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/${NVM_VERSION}/install.sh | bash
 
 WORKDIR /app
 COPY --from=build-env /app .
-
+COPY --from=build-env /publish .
 
 
 CMD ["/bin/bash"]
