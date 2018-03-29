@@ -30,7 +30,7 @@ RUN gulp -v
 RUN npm bower -v
 
 ## Package Stage
-##FROM base AS package
+FROM base AS package
 
 COPY .  /app
 WORKDIR /app
@@ -43,7 +43,7 @@ RUN npm install
 
 ## Publish 
 #### CHAGE THIS TO GET FROM PACKAGE  ######
-FROM microsoft/aspnetcore-build:2.0  AS publish
+FROM package AS publish
 COPY --from=base /app /app 
 
 
@@ -54,15 +54,15 @@ RUN dotnet publish -o /publish -c Release -f netcoreapp2.0 -r debian.8-x64
 ### RELEASE 
 FROM microsoft/aspnetcore:2 AS release
 
-##RUN apt-get update && apt-get install -y \
-##        curl \
-##        dnsutils \ 
-##        iputils-ping \ 
-##		telnet \
-##        tree \
-##    && rm -rf /var/lib/apt/lists/* \
-##    && curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh > /wait_for_it.sh \
-##&& chmod +x /wait_for_it.sh
+RUN apt-get update && apt-get install -y \
+        curl \
+        dnsutils \ 
+        iputils-ping \ 
+		telnet \
+        tree \
+    && rm -rf /var/lib/apt/lists/* \
+    && curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh > /wait_for_it.sh \
+&& chmod +x /wait_for_it.sh
 
 WORKDIR /publish
 COPY --from=publish /publish .
