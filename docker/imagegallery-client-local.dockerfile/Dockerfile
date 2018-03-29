@@ -1,4 +1,4 @@
-# Build Stage
+# Base Stage
 FROM microsoft/aspnetcore-build:2.0 AS base
 
 # Declare constants
@@ -29,6 +29,9 @@ RUN npm -v
 RUN gulp -v
 RUN npm bower -v
 
+## Package Stage
+##FROM base AS package
+
 COPY .  /app
 WORKDIR /app
 
@@ -38,37 +41,18 @@ WORKDIR /app/src/ImageGallery.Client
 RUN npm install
 
 
-## Publish  
+## Publish 
+#### CHAGE THIS TO GET FROM PACKAGE  ######
 FROM microsoft/aspnetcore-build:2.0  AS publish
+COPY --from=base /app /app 
+
 
 WORKDIR /app/src/ImageGallery.Client
 RUN dotnet publish -o /publish -c Release -f netcoreapp2.0 -r debian.8-x64
 
 
+### RELEASE 
 FROM microsoft/aspnetcore:2 AS release
-
-WORKDIR /publish
-COPY --from=build-env /publish .
-
-# Set environment variables
-ENV ASPNETCORE_URLS http://*:44600
-ENV ASPNETCORE_ENVIRONMENT Staging
-
-EXPOSE 44600
-
-
-
-##COPY .  /app
-##WORKDIR /app
-
-##WORKDIR /app/src/ImageGallery.Client
-##RUN npm install
-
-##RUN dotnet publish -o /publish -c Release -f netcoreapp2.0 -r debian.8-x64
-
-
-# Runtime Image Stage
-##FROM microsoft/aspnetcore:2
 
 ##RUN apt-get update && apt-get install -y \
 ##        curl \
@@ -80,11 +64,12 @@ EXPOSE 44600
 ##    && curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh > /wait_for_it.sh \
 ##&& chmod +x /wait_for_it.sh
 
-##RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/${NVM_VERSION}/install.sh | bash
+WORKDIR /publish
+COPY --from=publish /publish .
 
-WORKDIR /app
-##COPY --from=build-env /app .
-##COPY --from=build-env /publish .
+# Set environment variables
+ENV ASPNETCORE_URLS http://*:44600
+ENV ASPNETCORE_ENVIRONMENT Docker
 
-
+EXPOSE 44600
 CMD ["/bin/bash"]
