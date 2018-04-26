@@ -16,7 +16,7 @@ AppVeyor | [![Build status](https://ci.appveyor.com/api/projects/status/iub0tbs4
 
 ### Demo
 ```
-https://imagegallery-client.informationcart.com/
+https://dev.informationcart.com
 
 User with Full Access 
 L: Claire
