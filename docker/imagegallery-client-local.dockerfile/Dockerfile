@@ -38,7 +38,7 @@ FROM base AS package
 COPY .  /app
 WORKDIR /app
 
-RUN dotnet restore
+RUN dotnet restore --ignore-failed-sources
 
 WORKDIR /app/src/ImageGallery.Client
 RUN npm install
