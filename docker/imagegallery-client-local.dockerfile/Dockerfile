@@ -76,5 +76,5 @@ ENV ASPNETCORE_ENVIRONMENT Docker
 
 EXPOSE 44600
 
-CMD ["/bin/bash"]
-#ENTRYPOINT ["/entrypoint.sh"]
+#CMD ["/bin/bash"]
+ENTRYPOINT ["/entrypoint.sh"]
