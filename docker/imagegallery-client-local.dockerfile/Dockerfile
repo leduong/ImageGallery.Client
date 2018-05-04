@@ -1,5 +1,5 @@
 #### Base Stage
-FROM microsoft/aspnetcore-build:2.0 AS base
+FROM microsoft/dotnet:2.1-sdk AS base
 
 # Declare constants
 ENV NVM_VERSION v0.33.8
@@ -45,10 +45,10 @@ FROM package AS publish
 COPY --from=base /app /app 
 
 WORKDIR /app/src/ImageGallery.Client
-RUN dotnet publish -o /publish -c Release -f netcoreapp2.0 -r debian.8-x64
+RUN dotnet publish -o /publish -c Release -f netcoreapp2.1 -r debian.9-x64
 
 #### RELEASE 
-FROM microsoft/aspnetcore:2 AS release
+FROM dotnet:2.1-aspnetcore-runtime AS release
 
 RUN apt-get update && apt-get install -y \
         curl \
@@ -58,7 +58,7 @@ RUN apt-get update && apt-get install -y \
         tree \
     && rm -rf /var/lib/apt/lists/* \
     && curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh > /wait_for_it.sh \
-&& chmod +x /wait_for_it.sh
+    && chmod +x /wait_for_it.sh
 
 WORKDIR /publish
 COPY --from=publish /publish .

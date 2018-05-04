@@ -1,19 +1,68 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
-    <RuntimeIdentifiers>debian.8-x64;ubuntu.16.04-x64;ubuntu.16.10-x64;win10-x64;osx.10.12-x64</RuntimeIdentifiers>
+    <RuntimeFrameworkVersion>2.1.0-preview2-26406-04</RuntimeFrameworkVersion>
+    <RuntimeIdentifiers>win10-x64;debian.9-x64;ubuntu.16.04-x64;osx.10.12-x64</RuntimeIdentifiers>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <NoWarn>$(NoWarn),1701;1702;1705</NoWarn>
     <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
   </PropertyGroup>
 
+
   <ItemGroup>
-    <Compile Remove="Startup.cs~RF293b09c8.TMP\**" />
-    <Content Remove="Startup.cs~RF293b09c8.TMP\**" />
-    <EmbeddedResource Remove="Startup.cs~RF293b09c8.TMP\**" />
-    <None Remove="Startup.cs~RF293b09c8.TMP\**" />
+    <Content Remove="wwwroot\app\app.component.ts" />
+    <Content Remove="wwwroot\app\app.module.ts" />
+    <Content Remove="wwwroot\app\authentication.service.ts" />
+    <Content Remove="wwwroot\app\core\core.module.ts" />
+    <Content Remove="wwwroot\app\core\menu\menu.service.ts" />
+    <Content Remove="wwwroot\app\core\module-import-guard.ts" />
+    <Content Remove="wwwroot\app\core\settings\settings.service.ts" />
+    <Content Remove="wwwroot\app\core\themes\themes.service.ts" />
+    <Content Remove="wwwroot\app\core\translator\translator.service.ts" />
+    <Content Remove="wwwroot\app\gallery.service.ts" />
+    <Content Remove="wwwroot\app\guards\authGuard.ts" />
+    <Content Remove="wwwroot\app\guards\hasPayingUserRoleAuthenticationGuard.ts" />
+    <Content Remove="wwwroot\app\layout\layout.component.ts" />
+    <Content Remove="wwwroot\app\layout\layout.module.ts" />
+    <Content Remove="wwwroot\app\main.ts" />
+    <Content Remove="wwwroot\app\pipes\keys.pipe.ts" />
+    <Content Remove="wwwroot\app\polyfills.ts" />
+    <Content Remove="wwwroot\app\reCaptchaCallback.ts" />
+    <Content Remove="wwwroot\app\roles.constants.ts" />
+    <Content Remove="wwwroot\app\routes\gallery\about\about.component.ts" />
+    <Content Remove="wwwroot\app\routes\gallery\gallery-add\gallery-add.component.ts" />
+    <Content Remove="wwwroot\app\routes\gallery\gallery-edit\gallery-edit.component.ts" />
+    <Content Remove="wwwroot\app\routes\gallery\gallery.module.ts" />
+    <Content Remove="wwwroot\app\routes\gallery\gallery\gallery.component.ts" />
+    <Content Remove="wwwroot\app\routes\home\home.module.ts" />
+    <Content Remove="wwwroot\app\routes\home\home\home.component.ts" />
+    <Content Remove="wwwroot\app\routes\menu.ts" />
+    <Content Remove="wwwroot\app\routes\pages\error404\error404.component.ts" />
+    <Content Remove="wwwroot\app\routes\pages\error500\error500.component.ts" />
+    <Content Remove="wwwroot\app\routes\pages\lock\lock.component.ts" />
+    <Content Remove="wwwroot\app\routes\pages\login\login.component.ts" />
+    <Content Remove="wwwroot\app\routes\pages\maintenance\maintenance.component.ts" />
+    <Content Remove="wwwroot\app\routes\pages\pages.module.ts" />
+    <Content Remove="wwwroot\app\routes\pages\recover\recover.component.ts" />
+    <Content Remove="wwwroot\app\routes\pages\register\register.component.ts" />
+    <Content Remove="wwwroot\app\routes\routes.module.ts" />
+    <Content Remove="wwwroot\app\routes\routes.ts" />
+    <Content Remove="wwwroot\app\routes\unauthorized\unauthorized.component.ts" />
+    <Content Remove="wwwroot\app\services\auth.service.ts" />
+    <Content Remove="wwwroot\app\services\user.service.ts" />
+    <Content Remove="wwwroot\app\shared\colors\colors.service.ts" />
+    <Content Remove="wwwroot\app\shared\directives\checkall\checkall.directive.ts" />
+    <Content Remove="wwwroot\app\shared\directives\flot\flot.directive.ts" />
+    <Content Remove="wwwroot\app\shared\directives\jqcloud\jqcloud.directive.ts" />
+    <Content Remove="wwwroot\app\shared\directives\now\now.directive.ts" />
+    <Content Remove="wwwroot\app\shared\directives\scrollable\scrollable.directive.ts" />
+    <Content Remove="wwwroot\app\shared\directives\sparkline\sparkline.directive.ts" />
+    <Content Remove="wwwroot\app\shared\directives\vectormap\vectormap.directive.ts" />
+    <Content Remove="wwwroot\app\shared\interfaces.ts" />
+    <Content Remove="wwwroot\app\shared\shared.module.ts" />
+    <Content Remove="wwwroot\app\vendor.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,16 +76,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Redis" Version="0.3.1" />
-    <PackageReference Include="IdentityModel" Version="3.0.0" />
-    <PackageReference Include="BundlerMinifier.Core" Version="2.6.362" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Https" Version="2.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="2.0.1" />
-    <PackageReference Include="Serilog.AspNetCore" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Redis" Version="0.3.2" />
+    <PackageReference Include="IdentityModel" Version="3.6.1" />
+    <PackageReference Include="BundlerMinifier.Core" Version="2.6.375" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Https" Version="2.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="2.1.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Serilog.Sinks.Loggly" Version="5.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     
     <PackageReference Include="loggly-csharp" Version="4.6.1.47" />
     <PackageReference Include="Serilog" Version="2.6.0" />
@@ -50,13 +99,13 @@
     <PackageReference Include="Serilog.Enrichers.Thread" Version="3.0.0" />
 
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" />
-    <PackageReference Include="dotnet-setversion" Version="1.0.2" />
+    <PackageReference Include="dotnet-setversion" Version="1.0.3" />
 
   </ItemGroup>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.6.362" />
-    <DotNetCliToolReference Include="dotnet-setversion" Version="1.0.2" />
+    <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.6.375" />
+    <DotNetCliToolReference Include="dotnet-setversion" Version="1.0.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -124,15 +173,69 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp2.0\ImageGallery.Client.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netcoreapp2.1\ImageGallery.Client.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netcoreapp2.0\ImageGallery.Client.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netcoreapp2.1\ImageGallery.Client.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <AdditionalFiles Include="$(SolutionDir)\_stylecop\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\app\app.component.ts" />
+    <TypeScriptCompile Include="wwwroot\app\app.module.ts" />
+    <TypeScriptCompile Include="wwwroot\app\authentication.service.ts" />
+    <TypeScriptCompile Include="wwwroot\app\core\core.module.ts" />
+    <TypeScriptCompile Include="wwwroot\app\core\menu\menu.service.ts" />
+    <TypeScriptCompile Include="wwwroot\app\core\module-import-guard.ts" />
+    <TypeScriptCompile Include="wwwroot\app\core\settings\settings.service.ts" />
+    <TypeScriptCompile Include="wwwroot\app\core\themes\themes.service.ts" />
+    <TypeScriptCompile Include="wwwroot\app\core\translator\translator.service.ts" />
+    <TypeScriptCompile Include="wwwroot\app\gallery.service.ts" />
+    <TypeScriptCompile Include="wwwroot\app\guards\authGuard.ts" />
+    <TypeScriptCompile Include="wwwroot\app\guards\hasPayingUserRoleAuthenticationGuard.ts" />
+    <TypeScriptCompile Include="wwwroot\app\layout\layout.component.ts" />
+    <TypeScriptCompile Include="wwwroot\app\layout\layout.module.ts" />
+    <TypeScriptCompile Include="wwwroot\app\main.ts" />
+    <TypeScriptCompile Include="wwwroot\app\pipes\keys.pipe.ts" />
+    <TypeScriptCompile Include="wwwroot\app\polyfills.ts" />
+    <TypeScriptCompile Include="wwwroot\app\reCaptchaCallback.ts" />
+    <TypeScriptCompile Include="wwwroot\app\roles.constants.ts" />
+    <TypeScriptCompile Include="wwwroot\app\routes\gallery\about\about.component.ts" />
+    <TypeScriptCompile Include="wwwroot\app\routes\gallery\gallery-add\gallery-add.component.ts" />
+    <TypeScriptCompile Include="wwwroot\app\routes\gallery\gallery-edit\gallery-edit.component.ts" />
+    <TypeScriptCompile Include="wwwroot\app\routes\gallery\gallery.module.ts" />
+    <TypeScriptCompile Include="wwwroot\app\routes\gallery\gallery\gallery.component.ts" />
+    <TypeScriptCompile Include="wwwroot\app\routes\home\home.module.ts" />
+    <TypeScriptCompile Include="wwwroot\app\routes\home\home\home.component.ts" />
+    <TypeScriptCompile Include="wwwroot\app\routes\menu.ts" />
+    <TypeScriptCompile Include="wwwroot\app\routes\pages\error404\error404.component.ts" />
+    <TypeScriptCompile Include="wwwroot\app\routes\pages\error500\error500.component.ts" />
+    <TypeScriptCompile Include="wwwroot\app\routes\pages\lock\lock.component.ts" />
+    <TypeScriptCompile Include="wwwroot\app\routes\pages\login\login.component.ts" />
+    <TypeScriptCompile Include="wwwroot\app\routes\pages\maintenance\maintenance.component.ts" />
+    <TypeScriptCompile Include="wwwroot\app\routes\pages\pages.module.ts" />
+    <TypeScriptCompile Include="wwwroot\app\routes\pages\recover\recover.component.ts" />
+    <TypeScriptCompile Include="wwwroot\app\routes\pages\register\register.component.ts" />
+    <TypeScriptCompile Include="wwwroot\app\routes\routes.module.ts" />
+    <TypeScriptCompile Include="wwwroot\app\routes\routes.ts" />
+    <TypeScriptCompile Include="wwwroot\app\routes\unauthorized\unauthorized.component.ts" />
+    <TypeScriptCompile Include="wwwroot\app\services\auth.service.ts" />
+    <TypeScriptCompile Include="wwwroot\app\services\user.service.ts" />
+    <TypeScriptCompile Include="wwwroot\app\shared\colors\colors.service.ts" />
+    <TypeScriptCompile Include="wwwroot\app\shared\directives\checkall\checkall.directive.ts" />
+    <TypeScriptCompile Include="wwwroot\app\shared\directives\flot\flot.directive.ts" />
+    <TypeScriptCompile Include="wwwroot\app\shared\directives\jqcloud\jqcloud.directive.ts" />
+    <TypeScriptCompile Include="wwwroot\app\shared\directives\now\now.directive.ts" />
+    <TypeScriptCompile Include="wwwroot\app\shared\directives\scrollable\scrollable.directive.ts" />
+    <TypeScriptCompile Include="wwwroot\app\shared\directives\sparkline\sparkline.directive.ts" />
+    <TypeScriptCompile Include="wwwroot\app\shared\directives\vectormap\vectormap.directive.ts" />
+    <TypeScriptCompile Include="wwwroot\app\shared\interfaces.ts" />
+    <TypeScriptCompile Include="wwwroot\app\shared\shared.module.ts" />
+    <TypeScriptCompile Include="wwwroot\app\vendor.ts" />
   </ItemGroup>
 
 </Project>
