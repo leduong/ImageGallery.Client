@@ -38,17 +38,20 @@ FROM base AS package
 COPY .  /app
 WORKDIR /app
 
-#RUN dotnet restore --ignore-failed-sources
+RUN dotnet restore dotnet restore /p:RestoreUseSkipNonexistentTargets="false"
 
-#WORKDIR /app/src/ImageGallery.Client
-#RUN npm install
+WORKDIR /app/src/ImageGallery.Client
+RUN npm install
+
 
 ####  Publish 
-#FROM package AS publish
-#COPY --from=base /app /app 
+FROM package AS publish
+COPY --from=base /app /app 
 
-#WORKDIR /app/src/ImageGallery.Client
+WORKDIR /app/src/ImageGallery.Client
 #RUN dotnet publish -o /publish -c Release -f netcoreapp2.1 -r debian.9-x64
+
+
 
 #### RELEASE 
 #FROM dotnet:2.1-aspnetcore-runtime AS release
