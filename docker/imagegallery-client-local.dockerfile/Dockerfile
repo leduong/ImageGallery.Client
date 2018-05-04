@@ -69,6 +69,7 @@ WORKDIR /publish
 COPY --from=publish /publish .
 
 COPY --from=publish /app/scripts /scripts
+RUN chmod -R +x /scripts
 
 # Set environment variables
 ENV ASPNETCORE_URLS http://*:44600
