@@ -16,4 +16,4 @@ if [ -d /etc/nginx/certs ]; then
     update-ca-certificates
 fi
 
-exec dotnet /publish/ImageGallery.Client.dll
+exec dotnet ImageGallery.Client.dll
