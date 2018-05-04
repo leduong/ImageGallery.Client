@@ -52,7 +52,7 @@ WORKDIR /app/src/ImageGallery.Client
 RUN dotnet publish -o /publish -c Release -f netcoreapp2.1 -r debian.9-x64
 
 #### RELEASE 
-FROM dotnet:2.1-aspnetcore-runtime AS release
+FROM microsoft/dotnet:2.1-aspnetcore-runtime AS release
 
 RUN apt-get update && apt-get install -y \
         curl \
