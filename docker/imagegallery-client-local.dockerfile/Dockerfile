@@ -72,4 +72,4 @@ ENV ASPNETCORE_URLS http://*:44600
 ENV ASPNETCORE_ENVIRONMENT Docker
 
 EXPOSE 44600
-CMD ["/bin/bash"]
+ENTRYPOINT ["/entrypoint.sh"]
