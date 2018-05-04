@@ -38,6 +38,9 @@ FROM base AS package
 COPY .  /app
 WORKDIR /app
 
+COPY /scripts  /app/src/ImageGallery.Client
+
+
 RUN dotnet restore /p:RestoreUseSkipNonexistentTargets="false"
 
 WORKDIR /app/src/ImageGallery.Client
@@ -72,4 +75,6 @@ ENV ASPNETCORE_URLS http://*:44600
 ENV ASPNETCORE_ENVIRONMENT Docker
 
 EXPOSE 44600
-ENTRYPOINT ["/entrypoint.sh"]
+
+
+#ENTRYPOINT ["/entrypoint.sh"]
