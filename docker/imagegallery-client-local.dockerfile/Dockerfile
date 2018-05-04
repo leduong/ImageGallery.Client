@@ -20,8 +20,8 @@ RUN source $NVM_DIR/nvm.sh \
     && nvm alias default $NODE_VERSION \
 && nvm use default
 
-ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
-ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+ENV NODE_PATH $NVM_DIR/$NODE_VERSION/lib/node_modules
+ENV PATH $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
 
 RUN node -v
 RUN npm -v
