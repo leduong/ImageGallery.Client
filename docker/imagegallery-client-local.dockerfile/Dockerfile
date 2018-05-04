@@ -68,8 +68,9 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /publish
 COPY --from=publish /publish .
 
-COPY --from=publish /app/scripts /scripts
-RUN chmod -R +x /scripts
+COPY --from=publish /app/scripts /publish
+RUN chmod +x **/*.sh
+
 
 # Set environment variables
 ENV ASPNETCORE_URLS http://*:44600
