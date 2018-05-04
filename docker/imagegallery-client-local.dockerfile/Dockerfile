@@ -36,44 +36,46 @@ RUN npm bower -v
 FROM base AS package
 
 COPY .  /app
-COPY .  /scripts
 WORKDIR /app
 
-RUN dotnet restore /p:RestoreUseSkipNonexistentTargets="false"
 
-WORKDIR /app/src/ImageGallery.Client
-RUN npm install
+
+
+
+#RUN dotnet restore /p:RestoreUseSkipNonexistentTargets="false"
+
+#WORKDIR /app/src/ImageGallery.Client
+#RUN npm install
 
 
 ####  Publish 
-FROM package AS publish
-COPY --from=base /app /app 
+#FROM package AS publish
+#COPY --from=base /app /app 
 
-WORKDIR /app/src/ImageGallery.Client
-RUN dotnet publish -o /publish -c Release -f netcoreapp2.1 -r debian.9-x64
+#WORKDIR /app/src/ImageGallery.Client
+#RUN dotnet publish -o /publish -c Release -f netcoreapp2.1 -r debian.9-x64
 
 #### RELEASE 
-FROM microsoft/dotnet:2.1-aspnetcore-runtime AS release
+#FROM microsoft/dotnet:2.1-aspnetcore-runtime AS release
 
-RUN apt-get update && apt-get install -y \
-        curl \
-        dnsutils \ 
-        iputils-ping \ 
-		telnet \
-        tree \
-    && rm -rf /var/lib/apt/lists/* \
-    && curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh > /wait_for_it.sh \
-    && chmod +x /wait_for_it.sh
+#RUN apt-get update && apt-get install -y \
+#        curl \
+#        dnsutils \ 
+#        iputils-ping \ 
+#		telnet \
+#        tree \
+#    && rm -rf /var/lib/apt/lists/* \
+#    && curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh > /wait_for_it.sh \
+#    && chmod +x /wait_for_it.sh
 
-WORKDIR /publish
-COPY --from=publish /publish .
-COPY --from=base /scripts  .
+#WORKDIR /publish
+#COPY --from=publish /publish .
 
 # Set environment variables
-ENV ASPNETCORE_URLS http://*:44600
-ENV ASPNETCORE_ENVIRONMENT Docker
+#ENV ASPNETCORE_URLS http://*:44600
+#ENV ASPNETCORE_ENVIRONMENT Docker
 
-EXPOSE 44600
+#EXPOSE 44600
 
 
 #ENTRYPOINT ["/entrypoint.sh"]
