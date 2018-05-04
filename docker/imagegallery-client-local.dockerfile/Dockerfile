@@ -36,10 +36,8 @@ RUN npm bower -v
 FROM base AS package
 
 COPY .  /app
+COPY .  /scripts
 WORKDIR /app
-
-COPY /scripts  /app/src/ImageGallery.Client
-
 
 RUN dotnet restore /p:RestoreUseSkipNonexistentTargets="false"
 
@@ -69,6 +67,7 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /publish
 COPY --from=publish /publish .
+COPY --from=base /scripts  .
 
 # Set environment variables
 ENV ASPNETCORE_URLS http://*:44600
