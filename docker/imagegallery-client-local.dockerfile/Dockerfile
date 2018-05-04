@@ -54,7 +54,6 @@ RUN dotnet publish -o /publish -c Release -f netcoreapp2.1 -r debian.9-x64
 #### RELEASE 
 FROM microsoft/dotnet:2.1-aspnetcore-runtime AS release
 
-COPY --from=base /scripts /scripts 
 
 RUN apt-get update && apt-get install -y \
         curl \
@@ -68,6 +67,7 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /publish
 COPY --from=publish /publish .
+COPY --from=publish /app/scripts .
 
 # Set environment variables
 ENV ASPNETCORE_URLS http://*:44600
