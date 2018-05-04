@@ -26,6 +26,9 @@ ENV PATH $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
 RUN node -v
 RUN npm -v
 
+RUN npm install -g bower gulp \ 
+&& echo '{ "allow_root": true }' > /root/.bowerrc
+
 RUN gulp -v
 RUN npm bower -v
 
