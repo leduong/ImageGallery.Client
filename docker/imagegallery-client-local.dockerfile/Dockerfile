@@ -69,6 +69,7 @@ COPY --from=publish /publish .
 
 COPY --from=publish /app/scripts /publish
 RUN find ./ -name "*.sh" -exec chmod +x {} \;
+RUN chmod +x /entrypoint.sh
 
 # Set environment variables
 ENV ASPNETCORE_URLS http://*:44600
@@ -77,4 +78,4 @@ ENV ASPNETCORE_ENVIRONMENT Docker
 EXPOSE 44600
 
 #CMD ["/bin/bash"]
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["entrypoint.sh"]
