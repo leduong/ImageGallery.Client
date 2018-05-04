@@ -49,9 +49,7 @@ FROM package AS publish
 COPY --from=base /app /app 
 
 WORKDIR /app/src/ImageGallery.Client
-#RUN dotnet publish -o /publish -c Release -f netcoreapp2.1 -r debian.9-x64
-
-
+RUN dotnet publish -o /publish -c Release -f netcoreapp2.1 -r debian.9-x64
 
 #### RELEASE 
 #FROM dotnet:2.1-aspnetcore-runtime AS release
