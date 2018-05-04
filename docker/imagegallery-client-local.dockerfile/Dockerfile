@@ -68,8 +68,7 @@ WORKDIR /publish
 COPY --from=publish /publish .
 
 COPY --from=publish /app/scripts /publish
-RUN chmod +x /*.sh
-#RUN chmod +x /entrypoint.sh
+RUN chmod +x entrypoint.sh
 
 # Set environment variables
 ENV ASPNETCORE_URLS http://*:44600
