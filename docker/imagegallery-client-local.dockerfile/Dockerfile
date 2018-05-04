@@ -73,4 +73,4 @@ ENV ASPNETCORE_ENVIRONMENT Docker
 
 EXPOSE 44600
 
-ENTRYPOINT ["/entrypoint.sh"]
+#ENTRYPOINT ["/entrypoint.sh"]
