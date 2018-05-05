@@ -54,10 +54,7 @@ RUN dotnet publish -o /publish -c Release -f netcoreapp2.1 -r debian.9-x64
 #### RELEASE 
 FROM microsoft/dotnet:2.1-aspnetcore-runtime AS release
 
-WORKDIR /publish
-
-COPY --from=publish /publish .
-COPY --from=publish /app/scripts /publish
+COPY --from=publish /app/scripts .
 
 RUN apt-get update && apt-get install -y \
         curl \
@@ -69,6 +66,9 @@ RUN apt-get update && apt-get install -y \
     && curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh > /wait_for_it.sh \
     && chmod +x /*.sh
 
+
+WORKDIR /publish
+COPY --from=publish /publish .
 
 # Set environment variables
 ENV ASPNETCORE_URLS http://*:44600
