@@ -66,7 +66,6 @@ RUN apt-get update && apt-get install -y \
     && curl https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh > /wait_for_it.sh \
     && chmod +x /*.sh
 
-
 WORKDIR /publish
 COPY --from=publish /publish .
 
@@ -76,5 +75,7 @@ ENV ASPNETCORE_ENVIRONMENT Docker
 
 EXPOSE 44600
 
-CMD ["/bin/bash"]
-#ENTRYPOINT ["/entrypoint.sh"]
+#HEALTHCHECK CMD curl --fail http://localhost:44600/api/Diagnostics/status || exit 1
+
+#CMD ["/bin/bash"]
+ENTRYPOINT ["/entrypoint.sh"]
