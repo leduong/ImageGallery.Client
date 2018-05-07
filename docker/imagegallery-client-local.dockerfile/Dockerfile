@@ -49,8 +49,6 @@ FROM package AS publish
 COPY --from=base /app /app 
 
 WORKDIR /app/src/ImageGallery.Client
-
-RUN npm run compile-app
 RUN dotnet publish -o /publish -c Release -f netcoreapp2.1 -r debian.9-x64
 
 #### RELEASE 
