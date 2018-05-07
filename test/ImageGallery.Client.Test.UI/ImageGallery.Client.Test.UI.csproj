@@ -1,12 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../../Common.props" />
   
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RuntimeFrameworkVersion>2.1.0-preview2-26406-04</RuntimeFrameworkVersion>
+    <RuntimeIdentifiers>win10-x64;debian.9-x64;ubuntu.16.04-x64;osx.10.12-x64</RuntimeIdentifiers>
     <IsPackable>false</IsPackable>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-    <RuntimeFrameworkVersion>2.0.5</RuntimeFrameworkVersion>
-    <RuntimeIdentifiers>debian.8-x64;ubuntu.16.04-x64;osx.10.12-x64;win10-x64</RuntimeIdentifiers>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <NoWarn>$(NoWarn),1701;1702;1705</NoWarn>
     <DebugType>full</DebugType>
@@ -53,20 +52,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="LightBDD.Core" Version="2.3.5" />
-    <PackageReference Include="LightBDD.XUnit2" Version="2.3.5" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.0-preview-20180207-05" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
+    <PackageReference Include="LightBDD.Core" Version="2.3.6" />
+    <PackageReference Include="LightBDD.XUnit2" Version="2.3.6" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
-    <PackageReference Include="dotnet-setversion" Version="1.0.2" />
+    <PackageReference Include="dotnet-setversion" Version="1.0.3" />
     <PackageReference Include="Navigator.Common" Version="1.1.0.5" />
-    <PackageReference Include="Selenium.Chrome.WebDriver" Version="2.35.0" />
-    <PackageReference Include="Selenium.Firefox.WebDriver" Version="0.19.1" />
-    <PackageReference Include="Selenium.Support" Version="3.10.0" />
-    <PackageReference Include="Selenium.WebDriver" Version="3.10.0" />
+    <PackageReference Include="Selenium.Chrome.WebDriver" Version="2.38.0" />
+    <PackageReference Include="Selenium.Firefox.WebDriver" Version="0.20.0" />
+    <PackageReference Include="Selenium.Support" Version="3.11.2" />
+    <PackageReference Include="Selenium.WebDriver" Version="3.11.2" />
     <PackageReference Include="Selenium.WebDriver.PhantomJS.CrossPlatform" Version="2.1.1" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
     <PackageReference Include="System.Security.Permissions" Version="4.5.0-preview1-25914-04" />
