@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -53,29 +55,17 @@ namespace ImageGallery.Client
 
             Log.Information("ConfigureServices:ImageGallery.Client");
 
-            services.AddMvc();
-
             services.AddOptions();
             services.Configure<ApplicationOptions>(Configuration);
-
-            //REMOVE NOT NEEDED
-            services.Configure<ApplicationOptions>(Configuration.GetSection("applicationSettings"));
-            services.Configure<Dataprotection>(Configuration.GetSection("dataprotection"));
-            services.Configure<OpenIdConnectConfiguration>(Configuration.GetSection("openIdConnectConfiguration"));
-            services.Configure<LogglyClientConfiguration>(Configuration.GetSection("logglyClientConfiguration"));
-            services.Configure<UserManagementApiConfiguration>(Configuration.GetSection("userManagementApiConfiguration"));
-
             var config = Configuration.Get<ApplicationOptions>();
 
             Console.WriteLine($"Dataprotection Enabled: {config.Dataprotection.Enabled}");
             Console.WriteLine($"Dataprotection Redis: {config.Dataprotection.RedisConnection}");
             Console.WriteLine($"RedisKey: {config.Dataprotection.RedisKey}");
-
             Console.WriteLine($"Authority: {config.OpenIdConnectConfiguration.Authority}");
             Console.WriteLine($"ClientId: {config.OpenIdConnectConfiguration.ClientId}");
             Console.WriteLine($"ClientSecret: {config.OpenIdConnectConfiguration.ClientSecret}");
             Console.WriteLine($"LogglyKey: {config.LogglyClientConfiguration.LogglyKey}");
-
             Console.WriteLine($"UserManagement API: {config.UserManagementApiConfiguration.ApiUri}");
 
             if (config.Dataprotection.Enabled)
@@ -153,6 +143,7 @@ namespace ImageGallery.Client
             services.AddScoped<IImageGalleryHttpClient, ImageGalleryHttpClient>();
 
             services.AddSingleton<ILogglyClient, LogglyClient>();
+            services.AddMvc();
         }
 
         /// <summary>

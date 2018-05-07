@@ -176,7 +176,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp2.0\ImageGallery.Client.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netcoreapp2.1\ImageGallery.Client.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
