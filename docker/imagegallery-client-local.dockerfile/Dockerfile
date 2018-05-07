@@ -41,7 +41,7 @@ WORKDIR /app
 RUN dotnet restore /p:RestoreUseSkipNonexistentTargets="false"
 
 WORKDIR /app/src/ImageGallery.Client
-RUN npm install
+RUN npm install --unsafe-perm
 
 
 ####  Publish 
@@ -50,6 +50,7 @@ COPY --from=base /app /app
 
 WORKDIR /app/src/ImageGallery.Client
 
+RUN node node_modules/webpack/bin/webpack.js --config webpack.config.js --env.prod
 RUN npm run compile-app
 RUN dotnet publish -o /publish -c Release -f netcoreapp2.1 -r debian.9-x64
 
