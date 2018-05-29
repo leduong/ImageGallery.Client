@@ -21,6 +21,8 @@ import { HasPayingUserRoleAuthenticationGuard } from './guards/hasPayingUserRole
 import { AuthGuard } from './guards/authGuard';
 import { OAuthModule, OAuthService, JwksValidationHandler } from 'angular-oauth2-oidc';
 
+import { HttpXSRFInterceptorProvider } from './services/xsrfInterceptor.service';
+
 // https://github.com/ocombe/ng2-translate/issues/218
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -60,7 +62,8 @@ export function createTranslateLoader(http: HttpClient) {
     AuthService,
     HasPayingUserRoleAuthenticationGuard,
     AuthGuard,
-    { provide: 'Window', useValue: window }
+    { provide: 'Window', useValue: window },
+    HttpXSRFInterceptorProvider
   ],
   bootstrap: [AppComponent]
 })

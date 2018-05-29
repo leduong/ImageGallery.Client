@@ -6,7 +6,6 @@ import { TranslatorService } from './translator/translator.service';
 import { MenuService } from './menu/menu.service';
 
 import { throwIfAlreadyLoaded } from './module-import-guard';
-import { HttpXSRFInterceptorProvider } from '../services/xsrfInterceptor.service';
 
 @NgModule({
     imports: [
@@ -15,8 +14,7 @@ import { HttpXSRFInterceptorProvider } from '../services/xsrfInterceptor.service
         SettingsService,
         ThemesService,
         TranslatorService,
-        MenuService,
-        HttpXSRFInterceptorProvider 
+        MenuService
     ],
     declarations: [
     ],
