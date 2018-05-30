@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   private alertMessage: string;
 
   constructor(private oauthService: OAuthService, fb: FormBuilder, private router: Router) {
+    console.log("login.component.ts");
     //oath
     if (oauthService.hasValidAccessToken()) {
       this.router.navigate(["home"]);
