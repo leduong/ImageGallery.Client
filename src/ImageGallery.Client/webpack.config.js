@@ -3,6 +3,7 @@ var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 // Configuration in common to both client-side and server-side bundles
 module.exports = {
@@ -60,6 +61,15 @@ module.exports = {
         ]
     },
 
+    optimization: {
+        minimizer: isDevBuild ? [] : [
+            // we specify a custom UglifyJsPlugin here to get source maps in production
+            new UglifyJsPlugin({
+                sourceMap: false
+            })
+        ]
+    },
+
     plugins: [
         new ExtractTextPlugin('[name].css'),
         /* deprecated in angular 4
@@ -70,16 +80,5 @@ module.exports = {
 
         // new CleanWebpackPlugin(['./wwwroot/dist/']),
         new webpack.ProvidePlugin({ $: 'jquery', jQuery: 'jquery', 'window.jQuery': 'jquery' })
-    ].concat(isDevBuild ? [] : [
-        // Plugins that apply in production builds only
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            },
-            output: {
-                comments: false
-            },
-            sourceMap: false
-        })
-    ])
+    ]
 };

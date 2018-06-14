@@ -98,6 +98,7 @@
     "ts-helpers": "1.1.2",
     "ts-loader": "^4.4.1",
     "typescript": "^2.9.2",
+    "uglifyjs-webpack-plugin": "^1.2.5",
     "url-loader": "^1.0.1",
     "weather-icons": "github:erikflowers/weather-icons",
     "web-animations-js": "2.3.1",
