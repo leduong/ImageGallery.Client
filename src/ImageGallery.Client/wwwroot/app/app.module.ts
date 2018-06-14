@@ -126,24 +126,22 @@ export class AppModule {
           console.log("catched error 2");
           console.log(ex);
         });
-      });;
-    }).catch((ex) => {
-      console.log("--------------------------------------")
-      console.log("catched error");
-      console.log(ex);
+      }).catch((ex) => {
+        console.log("--------------------------------------")
+        console.log("catched error");
+        console.log(ex);
+      });
     });
-  });
-}
+  }
 
-configClient() {
+  configClient() {
+    console.log('window.location', this.window.location);
+    console.log('window.location.href', this.window.location.href);
+    console.log('window.location.origin', this.window.location.origin);
+    console.log(`${this.window.location.origin}/api/ClientAppSettings`);
 
-  console.log('window.location', this.window.location);
-  console.log('window.location.href', this.window.location.href);
-  console.log('window.location.origin', this.window.location.origin);
-  console.log(`${this.window.location.origin}/api/ClientAppSettings`);
-
-  return this.http.get(`${this.window.location.origin}/api/ClientAppSettings`);
-}
+    return this.http.get(`${this.window.location.origin}/api/ClientAppSettings`);
+  }
 }
 
 export function getBaseUrl() {
