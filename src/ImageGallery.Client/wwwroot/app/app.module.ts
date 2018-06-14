@@ -109,7 +109,20 @@ export class AppModule {
         oidc: false
       });
       this.oauthService.tokenValidationHandler = new JwksValidationHandler();
-      this.oauthService.loadDiscoveryDocumentAndTryLogin();
+      this.oauthService.loadDiscoveryDocumentAndTryLogin().then(() => {
+          this.oauthService.tryLogin().then(() => {
+              console.log('======================== token validation ========================');
+              console.log('hasValidAccessToken : ', this.oauthService.hasValidAccessToken());
+              console.log('hasValidIdToken : ', this.oauthService.hasValidIdToken());
+              console.log('getAccessTokenExpiration : ', this.oauthService.getAccessTokenExpiration());
+              console.log('getAccessToken : ', this.oauthService.getAccessToken());
+              console.log('getIdToken : ', this.oauthService.getIdToken());
+
+              // this.oauthService.loadUserProfile().then(user => {
+              //   console.log('user : ', user);
+              // });
+          });
+      });
     });
   }
 
