@@ -1,4 +1,4 @@
-var isDevBuild = true; // process.argv.indexOf('--env.prod') < 0;
+var isDevBuild = process.argv.indexOf('--env.prod') < 0;
 var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -6,9 +6,8 @@ var CleanWebpackPlugin = require('clean-webpack-plugin');
 
 // Configuration in common to both client-side and server-side bundles
 module.exports = {
-    mode: 'development',
+    mode: isDevBuild ? 'development' : 'production',
     devtool: isDevBuild ? 'inline-source-map' : false,
-
     resolve: {
         extensions: ['.ts', '.js', '.json', '.css', '.scss', '.html'],
         alias: {
@@ -30,34 +29,34 @@ module.exports = {
 
     module: {
         rules: [{
-                test: /\.ts$/,
-                exclude: [/\.spec\.ts$/, /node_modules/],
-                use: ['ts-loader', 'angular2-router-loader', 'angular2-template-loader']
-            },
-            /*{ test: /\.json$/, loader: 'json-loader' },*/
-            {
-                test: /\.html$/,
-                loader: 'raw-loader'
-            }, { // Load css files which are required in vendor.ts
-                test: /\.css$/,
-                loader: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: {
-                        loader: 'css-loader',
-                        options: {
-                            sourceMap: isDevBuild
-                        }
+            test: /\.ts$/,
+            exclude: [/\.spec\.ts$/, /node_modules/],
+            use: ['ts-loader', 'angular2-router-loader', 'angular2-template-loader']
+        },
+        /*{ test: /\.json$/, loader: 'json-loader' },*/
+        {
+            test: /\.html$/,
+            loader: 'raw-loader'
+        }, { // Load css files which are required in vendor.ts
+            test: /\.css$/,
+            loader: ExtractTextPlugin.extract({
+                fallback: 'style-loader',
+                use: {
+                    loader: 'css-loader',
+                    options: {
+                        sourceMap: isDevBuild
                     }
-                })
-            }, {
-                test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|eot|ttf)$/,
-                use: [{
-                    loader: 'url-loader',
-                    options: { limit: 100000 }
-                }]
-            },
-            { test: /jquery\.flot\.resize\.js$/, loader: 'imports-loader?this=>window' },
-            { test: /\.scss$/, use: ['raw-loader', 'sass-loader'] }
+                }
+            })
+        }, {
+            test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|eot|ttf)$/,
+            use: [{
+                loader: 'url-loader',
+                options: { limit: 100000 }
+            }]
+        },
+        { test: /jquery\.flot\.resize\.js$/, loader: 'imports-loader?this=>window' },
+        { test: /\.scss$/, use: ['raw-loader', 'sass-loader'] }
         ]
     },
 
@@ -68,7 +67,7 @@ module.exports = {
             name: ['main-client', 'vendor', 'polyfills']
         }),
         */
-        
+
         // new CleanWebpackPlugin(['./wwwroot/dist/']),
         new webpack.ProvidePlugin({ $: 'jquery', jQuery: 'jquery', 'window.jQuery': 'jquery' })
     ].concat(isDevBuild ? [] : [
