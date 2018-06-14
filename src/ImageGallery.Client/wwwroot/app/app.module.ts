@@ -110,31 +110,40 @@ export class AppModule {
       });
       this.oauthService.tokenValidationHandler = new JwksValidationHandler();
       this.oauthService.loadDiscoveryDocumentAndTryLogin().then(() => {
-          this.oauthService.tryLogin().then(() => {
-              console.log('======================== token validation ========================');
-              console.log('hasValidAccessToken : ', this.oauthService.hasValidAccessToken());
-              console.log('hasValidIdToken : ', this.oauthService.hasValidIdToken());
-              console.log('getAccessTokenExpiration : ', this.oauthService.getAccessTokenExpiration());
-              console.log('getAccessToken : ', this.oauthService.getAccessToken());
-              console.log('getIdToken : ', this.oauthService.getIdToken());
+        this.oauthService.tryLogin().then(() => {
+          console.log('======================== token validation ========================');
+          console.log('hasValidAccessToken : ', this.oauthService.hasValidAccessToken());
+          console.log('hasValidIdToken : ', this.oauthService.hasValidIdToken());
+          console.log('getAccessTokenExpiration : ', this.oauthService.getAccessTokenExpiration());
+          console.log('getAccessToken : ', this.oauthService.getAccessToken());
+          console.log('getIdToken : ', this.oauthService.getIdToken());
 
-              // this.oauthService.loadUserProfile().then(user => {
-              //   console.log('user : ', user);
-              // });
-          });
-      });
+          // this.oauthService.loadUserProfile().then(user => {
+          //   console.log('user : ', user);
+          // });
+        }).catch((ex) => {
+          console.log("--------------------------------------")
+          console.log("catched error 2");
+          console.log(ex);
+        });
+      });;
+    }).catch((ex) => {
+      console.log("--------------------------------------")
+      console.log("catched error");
+      console.log(ex);
     });
-  }
+  });
+}
 
-  configClient() {
+configClient() {
 
-    console.log('window.location', this.window.location);
-    console.log('window.location.href', this.window.location.href);
-    console.log('window.location.origin', this.window.location.origin);
-    console.log(`${this.window.location.origin}/api/ClientAppSettings`);
+  console.log('window.location', this.window.location);
+  console.log('window.location.href', this.window.location.href);
+  console.log('window.location.origin', this.window.location.origin);
+  console.log(`${this.window.location.origin}/api/ClientAppSettings`);
 
-    return this.http.get(`${this.window.location.origin}/api/ClientAppSettings`);
-  }
+  return this.http.get(`${this.window.location.origin}/api/ClientAppSettings`);
+}
 }
 
 export function getBaseUrl() {
