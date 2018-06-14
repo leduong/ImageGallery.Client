@@ -12,7 +12,7 @@ import 'loaders.css/loaders.css';
 import 'ag-grid/dist/styles/ag-grid.css';
 import 'ag-grid/dist/styles/theme-fresh.css';
 import 'angular2-toaster/toaster.css';
-import 'ng2-dnd/style.css';
+//import 'ng2-dnd/style.css';
 
 import 'jvectormap/jquery-jvectormap.css';
 import 'jvectormap/jquery-jvectormap.min.js';
@@ -32,13 +32,16 @@ import 'chart.js/dist/Chart.bundle.js';
 import 'jqcloud2/dist/jqcloud.css';
 import 'jqcloud2/dist/jqcloud.js';
 
-import 'bootstrap/js/modal.js';
-import 'bootstrap/js/dropdown.js';
-import 'bootstrap/js/tooltip.js';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+/*
+import 'bootstrap/js/dist/dropdown.js';
+import 'bootstrap/js/dist/tooltip.js';
+import 'bootstrap/js/dist/popover.js';
+*/
 
 import 'fullcalendar/dist/fullcalendar.min.css';
 import 'fullcalendar/dist/fullcalendar.js';
 
 import 'jquery-slimscroll/jquery.slimscroll.js';
-
-import 'sweetalert/dist/sweetalert.css';
+//import 'ng2-toastr/ng2-toastr.css';
+//import 'sweetalert/dist/sweetalert.css';

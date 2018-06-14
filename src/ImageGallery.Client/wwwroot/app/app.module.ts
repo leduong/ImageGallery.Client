@@ -4,7 +4,7 @@ import { NgModule, Inject } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateService, TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { ToastModule } from 'ng2-toastr/ng2-toastr';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 
@@ -55,7 +55,7 @@ export function createTranslateLoader(http: HttpClient) {
         }
       }
     }),
-    ToastModule.forRoot()
+    ToastrModule.forRoot()
   ],
   providers: [
     { provide: 'ORIGIN_URL', useFactory: getBaseUrl },
