@@ -2,8 +2,8 @@ import { Component, OnInit, ViewContainerRef, ChangeDetectorRef } from '@angular
 import { GalleryService } from '../../../gallery.service';
 import { IGalleryIndexViewModel } from '../../../shared/interfaces';
 import { AuthService } from '../../../services/auth.service';
-import { ToastrService } from 'ngx-toastr';
-import { NgxLoadingSpinnerService } from 'ngx-loading-spinner-fork';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { setTimeout } from 'timers';
 
 
@@ -26,12 +26,12 @@ export class GalleryComponent implements OnInit {
     constructor(
         private authService: AuthService,
         private galleryService: GalleryService,
-        public toastr: ToastrService, 
+        public toastr: ToastsManager, 
         vcr: ViewContainerRef,
-        private spinnerService: NgxLoadingSpinnerService,
+        private spinnerService: Ng4LoadingSpinnerService,
         private changeDetectorRef: ChangeDetectorRef
-    ) {
-        //this.toastr.setRootViewContainerRef(vcr);
+    ) { 
+        this.toastr.setRootViewContainerRef(vcr);
     }
 
     ngOnInit() {
@@ -47,11 +47,10 @@ export class GalleryComponent implements OnInit {
 
     ngAfterViewInit() {
         if (localStorage.getItem('isEdited') == 'yes') {
-            this.toastr.toastrConfig.closeButton = true;
-            this.toastr.success('Image has been edited successfully!', 'Success!', { closeButton: true });
+            this.toastr.success('Image has been edited successfully!', 'Success!', {showCloseButton: true});
             localStorage.removeItem('isEdited');
         } else if (localStorage.getItem('isAdded') == 'yes') {
-            this.toastr.success('Image has been added successfully!', 'Success!', { closeButton: true});
+            this.toastr.success('Image has been added successfully!', 'Success!', {showCloseButton: true});
             localStorage.removeItem('isAdded');
         }
         setTimeout(() => {
@@ -64,11 +63,11 @@ export class GalleryComponent implements OnInit {
         this.galleryService.deleteImageViewModel(imageId)
             .subscribe((response) => { },
             (err: any) => {
-                this.toastr.error('Failed to delete image!', 'Oops!', { closeButton: true });
+                this.toastr.error('Failed to delete image!', 'Oops!', {showCloseButton: true});
                 console.log(err);
             },
             () => {
-                this.toastr.success('Image has been deleted successfully!', 'Success!', { closeButton: true});
+                this.toastr.success('Image has been deleted successfully!', 'Success!', {showCloseButton: true});
                 this.galleryIndexViewModel.images = this.galleryIndexViewModel.images.filter(x => x.id != imageId);
             });
     }
@@ -99,7 +98,7 @@ export class GalleryComponent implements OnInit {
             this.scrollToTop();
             this.spinnerService.hide();
         }).catch(err => {
-            this.toastr.error('Access is denied!', 'Oops!', { closeButton: true});
+            this.toastr.error('Access is denied!', 'Oops!', {showCloseButton: true});
             this.spinnerService.hide();
         });
     }

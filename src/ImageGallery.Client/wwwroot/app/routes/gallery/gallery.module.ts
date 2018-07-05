@@ -7,13 +7,13 @@ import { GalleryAddComponent } from './gallery-add/gallery-add.component';
 import { AboutComponent } from './about/about.component';
 import { KeysPipe } from '../../pipes/keys.pipe';
 import { PaginationModule } from 'ngx-bootstrap';
-import { NgxLoadingSpinnerModule } from 'ngx-loading-spinner-fork';
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 
 @NgModule({
     imports: [
         SharedModule,
         PaginationModule.forRoot(),
-        NgxLoadingSpinnerModule.forRoot(),
+        Ng4LoadingSpinnerModule.forRoot(),
     ],
     declarations: [GalleryComponent, GalleryEditComponent, GalleryAddComponent, AboutComponent, KeysPipe],
     exports: [
@@ -23,7 +23,7 @@ import { NgxLoadingSpinnerModule } from 'ngx-loading-spinner-fork';
         GalleryAddComponent,
         AboutComponent,
         PaginationModule,
-        NgxLoadingSpinnerModule,
+        Ng4LoadingSpinnerModule,
     ]
 })
 export class GalleryModule { }

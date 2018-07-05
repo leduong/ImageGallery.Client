@@ -7,7 +7,7 @@ import 'rxjs/add/operator/toPromise';
 import { GalleryService } from '../../../gallery.service';
 import { IEditImageViewModel } from '../../../shared/interfaces';
 import { Observable } from 'rxjs/Observable';
-import { ToastrService } from 'ngx-toastr';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 
 @Component({
@@ -25,9 +25,9 @@ export class GalleryEditComponent implements OnInit {
     constructor(private readonly galleryService: GalleryService, 
         private activatedRoute: ActivatedRoute,
         private router: Router,
-        public toastr: ToastrService, 
+        public toastr: ToastsManager, 
         vcr: ViewContainerRef) {
-        //this.toastr.setRootViewContainerRef(vcr);
+        this.toastr.setRootViewContainerRef(vcr);
     }
 
     async ngOnInit() {
@@ -46,7 +46,7 @@ export class GalleryEditComponent implements OnInit {
         this.galleryService.postEditImageViewModel(this.editImageViewModel)
             .subscribe((response) => { },
             (err: any) => {
-                this.toastr.error('Failed to edit image!', 'Oops!', { closeButton: true});
+                this.toastr.error('Failed to edit image!', 'Oops!', {showCloseButton: true});
                 console.log(err);
             },
             () => {

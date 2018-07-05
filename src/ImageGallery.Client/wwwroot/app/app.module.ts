@@ -4,7 +4,7 @@ import { NgModule, Inject } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateService, TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { ToastrModule } from 'ngx-toastr';
+import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
 import { AppComponent } from './app.component';
 
@@ -20,8 +20,6 @@ import { HttpModule } from '@angular/http';
 import { HasPayingUserRoleAuthenticationGuard } from './guards/hasPayingUserRoleAuthenticationGuard';
 import { AuthGuard } from './guards/authGuard';
 import { OAuthModule, OAuthService, JwksValidationHandler } from 'angular-oauth2-oidc';
-
-import { HttpXSRFInterceptorProvider } from './services/xsrfInterceptor.service';
 
 // https://github.com/ocombe/ng2-translate/issues/218
 export function createTranslateLoader(http: HttpClient) {
@@ -55,15 +53,14 @@ export function createTranslateLoader(http: HttpClient) {
         }
       }
     }),
-    ToastrModule.forRoot()
+    ToastModule.forRoot()
   ],
   providers: [
     { provide: 'ORIGIN_URL', useFactory: getBaseUrl },
     AuthService,
     HasPayingUserRoleAuthenticationGuard,
     AuthGuard,
-    { provide: 'Window', useValue: window },
-    HttpXSRFInterceptorProvider
+    { provide: 'Window', useValue: window }
   ],
   bootstrap: [AppComponent]
 })
@@ -109,32 +106,12 @@ export class AppModule {
         oidc: false
       });
       this.oauthService.tokenValidationHandler = new JwksValidationHandler();
-      this.oauthService.loadDiscoveryDocumentAndTryLogin().then(() => {
-        this.oauthService.tryLogin().then(() => {
-          console.log('======================== token validation ========================');
-          console.log('hasValidAccessToken : ', this.oauthService.hasValidAccessToken());
-          console.log('hasValidIdToken : ', this.oauthService.hasValidIdToken());
-          console.log('getAccessTokenExpiration : ', this.oauthService.getAccessTokenExpiration());
-          console.log('getAccessToken : ', this.oauthService.getAccessToken());
-          console.log('getIdToken : ', this.oauthService.getIdToken());
-
-          // this.oauthService.loadUserProfile().then(user => {
-          //   console.log('user : ', user);
-          // });
-        }).catch((ex) => {
-          console.log("--------------------------------------")
-          console.log("catched error 2");
-          console.log(ex);
-        });
-      }).catch((ex) => {
-        console.log("--------------------------------------")
-        console.log("catched error");
-        console.log(ex);
-      });
+      this.oauthService.loadDiscoveryDocumentAndTryLogin();
     });
   }
 
   configClient() {
+
     console.log('window.location', this.window.location);
     console.log('window.location.href', this.window.location.href);
     console.log('window.location.origin', this.window.location.origin);
