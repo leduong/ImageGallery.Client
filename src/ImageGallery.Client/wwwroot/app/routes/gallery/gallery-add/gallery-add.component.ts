@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { debug } from 'util';
 import { HasPayingUserRoleAuthenticationGuard } from '../../../guards/hasPayingUserRoleAuthenticationGuard';
 import { Router } from '@angular/router';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -24,7 +24,7 @@ export class GalleryAddComponent implements OnInit {
     constructor(
         private readonly galleryService: GalleryService, 
         private router: Router,
-        private toastr: ToastsManager
+        private toastr: ToastrService
     ) { }
 
     ngOnInit() {
@@ -45,7 +45,7 @@ export class GalleryAddComponent implements OnInit {
             .subscribe((response) => { },
             (err: any) => {
                 console.log(err);
-                this.toastr.error('Failed to edit image!', 'Oops!', {showCloseButton: true});
+                this.toastr.error('Failed to edit image!', 'Oops!', { closeButton: true});
             },
             () => {
                 console.log('postImageViewModel() posted AddImageViewModel');
