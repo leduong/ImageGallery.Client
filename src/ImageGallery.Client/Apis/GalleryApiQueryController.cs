@@ -98,7 +98,7 @@ namespace ImageGallery.Client.Apis
         [Route("list")]
         [Produces("application/json", Type = typeof(IEnumerable<GalleryIndexViewModel>))]
         [ProducesResponseType(typeof(IEnumerable<GalleryIndexViewModel>), 200)]
-        public async Task<ActionResult> Get([FromQuery] GalleryRequestModel query, int limit, int page)
+        public async Task<ActionResult> Get(/*[FromQuery] GalleryRequestModel query,*/ int limit, int page)
         {
             await WriteOutIdentityInformation();
 
