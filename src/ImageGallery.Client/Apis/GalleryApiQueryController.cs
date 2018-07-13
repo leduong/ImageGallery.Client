@@ -93,7 +93,7 @@ namespace ImageGallery.Client.Apis
         /// <param name="limit"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        [Authorize(Roles = "PayingUser, FreeUser")]
+        //[Authorize(Roles = "PayingUser, FreeUser")]
         [HttpGet]
         [Route("list")]
         [Produces("application/json", Type = typeof(IEnumerable<GalleryIndexViewModel>))]

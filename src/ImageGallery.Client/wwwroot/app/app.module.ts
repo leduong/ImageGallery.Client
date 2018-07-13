@@ -87,7 +87,7 @@ export class AppModule {
       const logglyClientConfiguration = this.clientConfiguration.logglyClientConfiguration;
 
 
-      console.log("Here!");
+      console.log("Here!2");
       console.dir(this.clientConfiguration);
 
 
