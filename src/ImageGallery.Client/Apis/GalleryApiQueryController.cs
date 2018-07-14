@@ -100,6 +100,7 @@ namespace ImageGallery.Client.Apis
         [ProducesResponseType(typeof(IEnumerable<GalleryIndexViewModel>), 200)]
         public async Task<ActionResult> Get(/*[FromQuery] GalleryRequestModel query,*/ int limit, int page)
         {
+            /*
             await WriteOutIdentityInformation();
 
             // call the API
@@ -133,8 +134,10 @@ namespace ImageGallery.Client.Apis
                 case System.Net.HttpStatusCode.Forbidden:
                     return new ForbidResult();
             }
-
+            
             throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+            */
+            throw new Exception("problem 100%");
         }
 
         /// <summary>
