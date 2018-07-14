@@ -1,6 +1,7 @@
 version: 2
 jobs:
   build:
+    machine: true 
     branches:
       only:
         - Auth
@@ -9,6 +10,7 @@ jobs:
     working_directory: ~/src/ImageGallery.Client
     environment:
       - NG_ENVIRONMENT: "Stage"
+      - DOCKER: '17.05.0-ce'
       - NODE_UI_TAG: 'node-clientui-build'
     steps:
       - checkout
@@ -17,7 +19,8 @@ jobs:
           command: |
             apt update
             apt install -y curl git apt-transport-https unzip wget libunwind8 gettext libicu-dev liblttng-ust-dev libcurl4-openssl-dev libssl-dev uuid-dev
-      - setup_remote_docker
+      - setup_remote_docker:
+          docker_layer_caching: true
       # use a primary image that already has Docker (recommended)
       # or install it during a build like we do here
       - run:
