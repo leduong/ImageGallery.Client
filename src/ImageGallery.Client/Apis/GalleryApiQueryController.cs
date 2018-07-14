@@ -126,7 +126,7 @@ namespace ImageGallery.Client.Apis
                 return Ok(galleryIndexViewModel);
             }
             
-            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase} / {response.StatusCode} / {response.RequestMessage} / {response.Content}");
+            //throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase} / {response.StatusCode} / {response.RequestMessage} / {response.Content}");
 
             switch (response.StatusCode)
             {
