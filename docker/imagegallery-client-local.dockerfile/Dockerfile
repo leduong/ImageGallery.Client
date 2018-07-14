@@ -41,7 +41,8 @@ WORKDIR /app
 RUN dotnet restore /p:RestoreUseSkipNonexistentTargets="false"
 
 WORKDIR /app/src/ImageGallery.Client
-RUN npm install --unsafe-perm
+RUN npm install
+RUN npm install audit fix
 
 
 ####  Publish 
