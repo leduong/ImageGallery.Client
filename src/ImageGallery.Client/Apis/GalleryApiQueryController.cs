@@ -93,12 +93,12 @@ namespace ImageGallery.Client.Apis
         /// <param name="limit"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        //[Authorize(Roles = "PayingUser, FreeUser")]
+        [Authorize(Roles = "PayingUser, FreeUser")]
         [HttpGet]
         [Route("list")]
         [Produces("application/json", Type = typeof(IEnumerable<GalleryIndexViewModel>))]
         [ProducesResponseType(typeof(IEnumerable<GalleryIndexViewModel>), 200)]
-        public async Task<ActionResult> Get(int limit, int page)
+        public async Task<ActionResult> Get([FromQuery] GalleryRequestModel query, int limit, int page)
         {
             await WriteOutIdentityInformation();
 
