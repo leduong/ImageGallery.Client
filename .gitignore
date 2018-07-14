@@ -218,3 +218,5 @@ ModelManifest.xml
 # MacOS file
 .DS_Store
 .vscode/
+
+src/ImageGallery\.Client/package-lock\.json
