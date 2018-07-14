@@ -53,13 +53,12 @@ jobs:
           name: Build and push Docker image
           command: |
             TAG=0.1.$CIRCLE_BUILD_NUM
-            docker build -f docker/runtime.dockerfile -t stuartshay/coredatastore:2.0-runtime .
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker build -t imagegallery-core-base .
+          # docker login -u $DOCKER_USER -p $DOCKER_PASS
           #  docker push stuartshay/coredatastore:2.0-runtime
           # docker build -f docker/runtime.dockerfile -t stuartshay/coredatastore:$TAG .
           # docker push stuartshay/coredatastore:$TAG
       - save_cache:
-          key: v1-coredatastore-{{ checksum ".circleci/config.yml" }}
           paths:
             - ~/.caches
             - ~/.nuget
