@@ -94,12 +94,12 @@ namespace ImageGallery.Client.Apis
         /// <param name="limit"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        //[Authorize(Roles = "PayingUser, FreeUser")]
+        [Authorize(Roles = "PayingUser, FreeUser")]
         [HttpGet]
         [Route("list")]
-        //[Produces("application/json", Type = typeof(IEnumerable<GalleryIndexViewModel>))]
-        //[ProducesResponseType(typeof(IEnumerable<GalleryIndexViewModel>), 200)]
-        public async Task<ActionResult> Get(/*[FromQuery] GalleryRequestModel query,*/ int limit, int page)
+        [Produces("application/json", Type = typeof(IEnumerable<GalleryIndexViewModel>))]
+        [ProducesResponseType(typeof(IEnumerable<GalleryIndexViewModel>), 200)]
+        public async Task<ActionResult> Get([FromQuery] GalleryRequestModel query, int limit, int page)
         {
             await WriteOutIdentityInformation();
 
@@ -125,8 +125,6 @@ namespace ImageGallery.Client.Apis
 
                 return Ok(galleryIndexViewModel);
             }
-            
-            //throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase} / {response.StatusCode} / {response.RequestMessage} / {response.Content}");
 
             switch (response.StatusCode)
             {
