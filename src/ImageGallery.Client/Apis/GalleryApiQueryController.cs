@@ -59,6 +59,7 @@ namespace ImageGallery.Client.Apis
             // call the API
             var httpClient = await _imageGalleryHttpClient.GetClient();
 
+
             var response = await httpClient.GetAsync(InternalImagesRoute).ConfigureAwait(false);
 
             _logger.LogInformation($"Call {InternalImagesRoute} return {response.StatusCode}.");
@@ -96,8 +97,8 @@ namespace ImageGallery.Client.Apis
         //[Authorize(Roles = "PayingUser, FreeUser")]
         [HttpGet]
         [Route("list")]
-        [Produces("application/json", Type = typeof(IEnumerable<GalleryIndexViewModel>))]
-        [ProducesResponseType(typeof(IEnumerable<GalleryIndexViewModel>), 200)]
+        //[Produces("application/json", Type = typeof(IEnumerable<GalleryIndexViewModel>))]
+        //[ProducesResponseType(typeof(IEnumerable<GalleryIndexViewModel>), 200)]
         public async Task<ActionResult> Get(/*[FromQuery] GalleryRequestModel query,*/ int limit, int page)
         {
             await WriteOutIdentityInformation();
@@ -124,6 +125,8 @@ namespace ImageGallery.Client.Apis
 
                 return Ok(galleryIndexViewModel);
             }
+            
+            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase} / {response.StatusCode} / {response.RequestMessage} / {response.Content}");
 
             switch (response.StatusCode)
             {
@@ -133,7 +136,7 @@ namespace ImageGallery.Client.Apis
                 case System.Net.HttpStatusCode.Forbidden:
                     return new ForbidResult();
             }
-            
+
             throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
         }
 
