@@ -3,7 +3,7 @@ FROM microsoft/dotnet:2.1-sdk AS base
 
 # Declare constants
 ENV NVM_VERSION v0.33.8
-ENV NODE_VERSION v8.9.1
+ENV NODE_VERSION v9.3.0
 ENV NVM_DIR /usr/local/nvm
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
