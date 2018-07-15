@@ -59,6 +59,7 @@ namespace ImageGallery.Client.Apis
             // call the API
             var httpClient = await _imageGalleryHttpClient.GetClient();
 
+
             var response = await httpClient.GetAsync(InternalImagesRoute).ConfigureAwait(false);
 
             _logger.LogInformation($"Call {InternalImagesRoute} return {response.StatusCode}.");
@@ -93,12 +94,12 @@ namespace ImageGallery.Client.Apis
         /// <param name="limit"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        //[Authorize(Roles = "PayingUser, FreeUser")]
+        [Authorize(Roles = "PayingUser, FreeUser")]
         [HttpGet]
         [Route("list")]
         [Produces("application/json", Type = typeof(IEnumerable<GalleryIndexViewModel>))]
         [ProducesResponseType(typeof(IEnumerable<GalleryIndexViewModel>), 200)]
-        public async Task<ActionResult> Get(int limit, int page)
+        public async Task<ActionResult> Get([FromQuery] GalleryRequestModel query, int limit, int page)
         {
             await WriteOutIdentityInformation();
 

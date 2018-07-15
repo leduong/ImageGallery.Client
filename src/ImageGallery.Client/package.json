@@ -11,6 +11,7 @@
   "scripts": {
     "install": "napa",
     "postinstall": "modernizr -c modernizr-config.json -d wwwroot/app/modernizr.js",
+    "build": "webpack --config webpack.config.js",
     "compile-app": "webpack --config webpack.config.js",
     "compile-app-prod": "webpack --config webpack.config.js --env.prod"
   },
@@ -80,7 +81,7 @@
     "ngx-infinite-scroll": "6.0.0",
     "ngx-loading-spinner-fork": "^1.0.2",
     "ngx-toastr": "^8.8.0",
-    "node-sass": "4.9.0",
+    "node-sass": "^4.9.2",
     "popper.js": "^1.14.3",
     "preboot": "6.0.0-beta.4",
     "raw-loader": "^0.5.1",

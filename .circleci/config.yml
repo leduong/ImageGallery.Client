@@ -1,0 +1,67 @@
+version: 2
+jobs:
+  build:
+    branches:
+      only:
+        - Auth
+    docker:
+      - image: ubuntu:16.04
+    working_directory: ~/src/ImageGallery.Client
+    environment:
+      - NG_ENVIRONMENT: "Stage"
+      - DOCKER: '17.05.0-ce'
+      - NODE_UI_TAG: 'node-clientui-build'
+    steps:
+      - checkout
+      - run: 
+          name: Install Ubuntu Build Packages
+          command: |
+            apt update
+            apt install -y curl git apt-transport-https unzip wget libunwind8 gettext libicu-dev liblttng-ust-dev libcurl4-openssl-dev libssl-dev uuid-dev
+      - setup_remote_docker:
+          docker_layer_caching: true
+      # use a primary image that already has Docker (recommended)
+      # or install it during a build like we do here
+      - run:
+          name: Install Docker client
+          command: |
+            set -x          
+            curl -L -o /tmp/docker-$DOCKER.tgz https://get.docker.com/builds/Linux/x86_64/docker-$DOCKER.tgz
+            tar -xz -C /tmp -f /tmp/docker-$DOCKER.tgz
+            mv /tmp/docker/* /usr/bin
+      - run:
+          name: Install NodeJS v8
+          command: |
+            curl -sL https://deb.nodesource.com/setup_8.x | bash -
+            apt update
+            apt install -y nodejs
+      - run:
+          name: Install .NET Core
+          command: |
+            wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb
+            dpkg -i packages-microsoft-prod.deb
+            apt update
+            apt install dotnet-sdk-2.1
+      - run: 
+          name: Restore and publish .NET
+          command: |
+            dotnet --info
+            dotnet restore  
+      - run:
+          name: Build and bundle from source
+          command: |
+            ( cd src/ImageGallery.Client ; npm i; npm run clean ; npm run build )
+      - run:
+          name: Build and push Docker image
+          command: |
+            TAG=0.1.$CIRCLE_BUILD_NUM
+            docker build -t imagegallery-core-base .
+          # docker login -u $DOCKER_USER -p $DOCKER_PASS
+          #  docker push stuartshay/coredatastore:2.0-runtime
+          # docker build -f docker/runtime.dockerfile -t stuartshay/coredatastore:$TAG .
+          # docker push stuartshay/coredatastore:$TAG
+      - save_cache:
+          paths:
+            - ~/.caches
+            - ~/.nuget
+            - ~/.npmversion: 2
