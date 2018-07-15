@@ -10,6 +10,12 @@ Base Image (Auth) | [![Build Status](https://jenkins.navigatorglass.com/buildSta
 Application Image (Auth) | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery-Auth/ImageGallery-Auth-build)](https://jenkins.navigatorglass.com/job/ImageGallery-Auth/job/ImageGallery-Auth-build/)
 Local Image (Auth) | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery-Auth/ImageGallery-Auth-local)](https://jenkins.navigatorglass.com/job/ImageGallery-Auth/job/ImageGallery-Auth-local/)
 
+### Demo
+```
+https://dev.informationcart.com
+L: Claire P: password
+```
+
 
 ### Prerequisites
 
@@ -43,19 +49,7 @@ docker build -t imagegallery-core-base
 docker run -p 8080:44300 imagegallery-core-base
 ```
 
-### Demo
-```
-https://imagegallery-client.informationcart.com/
 
-User with Full Access 
-L: Claire
-P: password
-
-User with Read Access 
-L: Frank
-P: password
-
-```
 ### Identity Server
 https://auth.informationcart.com/
       
