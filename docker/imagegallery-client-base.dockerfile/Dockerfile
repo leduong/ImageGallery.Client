@@ -23,11 +23,11 @@ RUN source $NVM_DIR/nvm.sh \
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
-RUN node -v
-RUN npm -v
+#RUN node -v
+#RUN npm -v
 
-RUN gulp -v
-RUN npm bower -v
+#RUN gulp -v
+#RUN npm bower -v
 
 COPY .  /app
 WORKDIR /app
