@@ -11,7 +11,7 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN apt-get update && apt-get install -y \
     curl \
     tree \
- && rm -rf /var/lib/apt/lists/* \
+&& rm -rf /var/lib/apt/lists/* \
 && curl -o- https://raw.githubusercontent.com/creationix/nvm/$NVM_VERSION/install.sh | bash
 
 # install node and npm
@@ -25,9 +25,6 @@ ENV PATH $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
 
 RUN node -v
 RUN npm -v
-
-RUN gulp -v
-RUN npm bower -v
 
 COPY .  /app
 WORKDIR /app
