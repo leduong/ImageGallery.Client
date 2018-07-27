@@ -1,5 +1,5 @@
 # Build Stage
-FROM microsoft/dotnet:2.1-sdk
+FROM microsoft/aspnetcore-build:2.0.9-sdk-2.1.202
 
 # Declare constants
 ENV NVM_VERSION v0.33.6
