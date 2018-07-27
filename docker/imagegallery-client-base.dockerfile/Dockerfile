@@ -2,7 +2,7 @@
 FROM microsoft/dotnet:2.1-sdk
 
 # Declare constants
-ENV NVM_VERSION v0.33.6
+ENV NVM_VERSION v0.33.8
 ENV NODE_VERSION v9.3.0
 ENV NVM_DIR /usr/local/nvm
 
@@ -11,9 +11,8 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN apt-get update && apt-get install -y \
     curl \
     tree \
- && rm -rf /var/lib/apt/lists/*
-
-RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/${NVM_VERSION}/install.sh | bash
+ && rm -rf /var/lib/apt/lists/* \
+ && curl -o- https://raw.githubusercontent.com/creationix/nvm/$NVM_VERSION/install.sh | bash
 
 # install node and npm
 RUN source $NVM_DIR/nvm.sh \
