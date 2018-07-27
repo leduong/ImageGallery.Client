@@ -1,5 +1,5 @@
 # Build Stage
-FROM stuartshay/imagegallery-client:2.0-base-auth AS build-env
+FROM stuartshay/imagegallery-client:2.1.2-base-auth AS build-env
 
 # Declare constants
 ENV NVM_VERSION v0.33.6
