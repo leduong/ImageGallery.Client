@@ -2,8 +2,8 @@
 FROM stuartshay/imagegallery-client:2.1.2-base-auth AS build-env
 
 # Declare constants
-ENV NVM_VERSION v0.33.6
-ENV NODE_VERSION v8.9.1
+ENV NVM_VERSION v0.33.8
+ENV NODE_VERSION v9.3.0
 ENV NVM_DIR /usr/local/nvm
 
 ARG BUILD_NUMBER=0
@@ -24,8 +24,8 @@ RUN source $NVM_DIR/nvm.sh \
     && nvm alias default $NODE_VERSION \
 && nvm use default
 
-ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
-ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+ENV NODE_PATH $NVM_DIR/$NODE_VERSION/lib/node_modules
+ENV PATH $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
 
 RUN node -v
 RUN npm -v
@@ -39,11 +39,11 @@ COPY ImageGallery.Client.sln /app/ImageGallery.Client.sln
 
 WORKDIR /app/src/ImageGallery.Client
 
-RUN dotnet setversion 2.0.0.${BUILD_NUMBER};
-RUN dotnet publish -o /publish -c Release -f netcoreapp2.0 -r debian.8-x64
+RUN dotnet setversion 2.1.2.${BUILD_NUMBER};
+RUN dotnet publish -o /publish -c Release -f netcoreapp2.1 -r debian.9-x64
 
 # Runtime Image Stage
-FROM microsoft/aspnetcore:2.0
+FROM microsoft/dotnet:2.1.2-aspnetcore-runtime
 
 WORKDIR /publish
 COPY --from=build-env /publish .
