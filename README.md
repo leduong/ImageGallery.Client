@@ -20,9 +20,9 @@ L: Claire P: password
 ### Prerequisites
 
 ```
-Node v8.9.3
-NET Core 2.0.2
-VS Code 1.19.1 or VS 2017 15.4.2
+Node v9.3.0
+NET Core 2.1
+VS Code 1.19.1 or VS 2017 15.8.0 Preview 2
 ```
 
 ### Install
