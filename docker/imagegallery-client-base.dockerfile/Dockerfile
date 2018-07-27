@@ -24,15 +24,15 @@ ENV NODE_PATH $NVM_DIR/$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
 
 RUN node -v
-#RUN npm -v
+RUN npm -v
 
-#RUN gulp -v
-#RUN npm bower -v
+RUN gulp -v
+RUN npm bower -v
 
-#COPY .  /app
-#WORKDIR /app
+COPY .  /app
+WORKDIR /app
 
-#RUN dotnet restore
+RUN dotnet restore
 
-#WORKDIR /app/src/ImageGallery.Client
-#RUN npm install
+WORKDIR /app/src/ImageGallery.Client
+RUN npm install
