@@ -116,3 +116,12 @@ img{
 .navbar-inverse .navbar-nav>li>a:hover{
     color: white!important;
 }
+
+app-gallery .container {
+    margin-top: 50px;
+}
+
+#ggl-recaptcha {
+    transform: scale(.96);
+    transform-origin: 0 0;
+}

@@ -9,7 +9,7 @@
             </div>
             <div class="panel-body">
                 <p class="text-center pv">PASSWORD RESET</p>
-                <form [formGroup]="valForm" class="form-validate" role="form" name="recoverForm" novalidate="" (submit)="submitForm($event, valForm.value)">
+                <form [formGroup]="valForm" class="form-validate mb-lg" role="form" name="recoverForm" novalidate="" (submit)="submitForm($event, valForm.value)">
                     <p class="text-center">Fill with your mail to receive instructions on how to reset your password.</p>
                     <div class="form-group has-feedback">
                         <label class="text-muted">Email address</label>
@@ -18,18 +18,17 @@
                         <span class="text-danger" *ngIf="valForm.controls['email'].hasError('required') && (valForm.controls['email'].dirty || valForm.controls['email'].touched)">This field is required</span>
                         <span class="text-danger" *ngIf="valForm.controls['email'].hasError('email') && (valForm.controls['email'].dirty || valForm.controls['email'].touched)">This field must be a valid email address</span>
                     </div>
-                    <button class="btn btn-danger btn-block" type="submit">Reset</button>
+                    <button class="btn btn-primary btn-block mt-lg" type="submit">Continue</button>
                 </form>
+                <a class="btn btn-default btn-block" [routerLink]="'/login'">Login</a>
             </div>
         </div>
         <!-- END panel-->
         <div class="p-lg text-center">
-            <span>&copy;</span>
+            <span>&copy; </span>
             <span>{{ settings.app.year }}</span>
-            <span>-</span>
-            <span>{{ settings.app.name }}</span>
-            <br/>
-            <span>{{ settings.app.description }}</span>
+            <span> - </span>
+            <span>Navigator Photo Management</span>
         </div>
     </div>
 </div>
