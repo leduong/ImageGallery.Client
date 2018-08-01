@@ -61,6 +61,7 @@ COPY --from=publish /app/scripts .
 
 RUN apt-get update && apt-get install -y \
         curl \
+        dos2unix \
         dnsutils \ 
         iputils-ping \ 
 		telnet \
