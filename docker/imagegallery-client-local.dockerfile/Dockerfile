@@ -80,5 +80,5 @@ EXPOSE 44600
 
 #HEALTHCHECK CMD curl --fail http://localhost:44600/api/Diagnostics/status || exit 1
 
-#CMD ["/bin/bash"]
-ENTRYPOINT ["/entrypoint.sh"]
+CMD ["/bin/bash"]
+##ENTRYPOINT ["/entrypoint.sh"]
