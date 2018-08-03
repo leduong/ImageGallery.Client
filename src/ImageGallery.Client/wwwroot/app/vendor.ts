@@ -2,17 +2,12 @@ import 'jquery';
 
 import 'font-awesome/css/font-awesome.css';
 import 'simple-line-icons/css/simple-line-icons.css';
-import 'weather-icons/css/weather-icons.css';
-import 'weather-icons/css/weather-icons-wind.css';
 
 import '@jh3y/whirl/dist/whirl.css';
 import 'spinkit/css/spinkit.css';
 import 'loaders.css/loaders.css';
 
-import 'ag-grid/dist/styles/ag-grid.css';
-import 'ag-grid/dist/styles/theme-fresh.css';
 import 'angular2-toaster/toaster.css';
-//import 'ng2-dnd/style.css';
 
 import 'jvectormap/jquery-jvectormap.css';
 import 'jvectormap/jquery-jvectormap.min.js';
@@ -27,11 +22,6 @@ import 'flot/jquery.flot.time.js';
 import 'flot/jquery.flot.categories.js';
 import 'jquery.flot.tooltip/js/jquery.flot.tooltip.js';
 
-import 'chart.js/dist/Chart.bundle.js';
-
-import 'jqcloud2/dist/jqcloud.css';
-import 'jqcloud2/dist/jqcloud.js';
-
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 /*
 import 'bootstrap/js/dist/dropdown.js';
@@ -39,9 +29,5 @@ import 'bootstrap/js/dist/tooltip.js';
 import 'bootstrap/js/dist/popover.js';
 */
 
-import 'fullcalendar/dist/fullcalendar.min.css';
-import 'fullcalendar/dist/fullcalendar.js';
-
 import 'jquery-slimscroll/jquery.slimscroll.js';
 //import 'ng2-toastr/ng2-toastr.css';
-//import 'sweetalert/dist/sweetalert.css';
