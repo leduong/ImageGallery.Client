@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 
-import { IEditImageViewModel, IAddImageViewModel } from './shared/interfaces';
+import { IEditImageViewModel, IAddImageViewModel, IImageViewModel } from './shared/interfaces';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { OAuthService } from 'angular-oauth2-oidc';
@@ -13,6 +13,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
 export class GalleryService {
 
   private baseUrl: string = '/api/images';
+  private albumUrl: string = '/api/albums';
 
   constructor(private httpClient: HttpClient, private oauthService: OAuthService) {
   }
@@ -35,6 +36,14 @@ export class GalleryService {
   public getEditImageViewModel(id: string): Observable<IEditImageViewModel> {
     var self = this;
     return this.httpClient.get<IEditImageViewModel>(`${this.baseUrl}/${id}`, { headers: self.generateBearerHeaaders() })
+      .catch(this.handleError);
+  }
+
+  public getImageViewModel(id: string): Observable<IImageViewModel> {
+    var headers = this.generateBearerHeaaders();
+    headers.append("Content-Type", "application/json");
+    
+    return this.httpClient.get<IImageViewModel>(`${this.albumUrl}/${id}`, { headers: this.generateBearerHeaaders() })
       .catch(this.handleError);
   }
 

@@ -1,3 +1,5 @@
+@import "../../../shared/styles/bootstrap.scss";
+
 .pagination {
     display: flex;
     align-items: center;
@@ -9,4 +11,23 @@
     padding: 15px 30px;
     background-color: rgb(225, 225, 225);
     margin: 20px 0;
+}
+.card {
+    border: 1px solid #aaa;
+}
+
+.gallery {
+    margin-bottom: 20px;
+    padding: 5px;
+    border-color: grey;
+    text-align: center;
+}
+
+.homeGallery {
+    padding: 5px;
+    border: 1px solid grey;
+}
+
+.bottomMarginDefault {
+    margin-bottom: 30px;
 }

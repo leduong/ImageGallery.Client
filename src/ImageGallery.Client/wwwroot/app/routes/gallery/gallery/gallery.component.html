@@ -1,18 +1,36 @@
-<div *ngIf="galleryIndexViewModel" class="container">
-    <div *ngFor="let image of galleryIndexViewModel.images" class="pull-left col-md-4">
-        <div>
-            <img class="thumbnailImage" src="{{galleryIndexViewModel.imagesUri + image.fileName}}" />
-        </div>
-        <div>
-            <div class="h5">{{image.title}}</div>
-            <div class="h5">{{image.category}}</div>
-            <div class="bottomMarginDefault">
-                <a [routerLink]="['/gallery-edit', image.id]">Edit</a> |
-                <a (click)="deleteImage(image.id)">Delete</a>
-            </div> 
+<div *ngIf="type; else home">
+    <div *ngIf="galleryIndexViewModel" class="container">
+        <div class="row">
+            <div *ngFor="let image of galleryIndexViewModel.images" class="pull-left col-md-3">
+                <div class="card gallery bottomMarginDefault">
+                    <div class="imgBorder">
+                        <img class="card-image-top imgBorder" src="{{galleryIndexViewModel.imagesUri + image.fileName}}" [routerLink]="['/gallery-view', image.id]"/>
+                    </div>
+                    <div class="card-body">
+                        <div class="h4">{{image.title}}</div>
+                        <div class="h5">{{image.category}}</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+<ng-template #home>
+    <div *ngIf="galleryIndexViewModel" class="container">
+        <div *ngFor="let image of galleryIndexViewModel.images" class="pull-left col-md-3">
+            <div class="homeGallery bottomMarginDefault">
+                <img class="thumbnailImage" src="{{galleryIndexViewModel.imagesUri + image.fileName}}" />
+                <div class="h5">{{image.title}}</div>
+                <div class="h5">{{image.category}}</div>
+                <div class="h5">
+                    <a [routerLink]="['/gallery-edit', image.id]">Edit</a> |
+                    <a (click)="deleteImage(image.id)">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
 <div class="row pagination" *ngIf="pagination.totalItems > 0">
     <div class="col-md-3 col-sm-12 page-num-info">
         <div class="inline">

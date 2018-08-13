@@ -1,4 +1,7 @@
-﻿body {
+﻿@import "~bootstrap/dist/css/bootstrap.css";
+@import "~font-awesome/css/font-awesome.css";
+
+body {
     padding-bottom: 20px;
     background: white!important;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif!important;

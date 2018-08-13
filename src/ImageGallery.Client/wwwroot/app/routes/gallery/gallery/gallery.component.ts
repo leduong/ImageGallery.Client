@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewContainerRef, ChangeDetectorRef } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { GalleryService } from '../../../gallery.service';
-import { IGalleryIndexViewModel } from '../../../shared/interfaces';
+import { IGalleryIndexViewModel, IRouteTypeModel } from '../../../shared/interfaces';
 import { AuthService } from '../../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxLoadingSpinnerService } from 'ngx-loading-spinner-fork';
@@ -16,14 +17,19 @@ import { setTimeout } from 'timers';
 export class GalleryComponent implements OnInit {
 
     galleryIndexViewModel: IGalleryIndexViewModel;
+    typeModel: IRouteTypeModel;
+
+    type: string;
+
     pagination = {
         page: 1,
-        limit: 15,
+        limit: 16,
         totalItems: 10
     };
-    perPage = [15, 30, 60, 90];
+    perPage = [16, 32, 64, 96];
 
     constructor(
+        private activatedRoute: ActivatedRoute,
         private authService: AuthService,
         private galleryService: GalleryService,
         public toastr: ToastrService, 
@@ -35,14 +41,17 @@ export class GalleryComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.type = this.activatedRoute.snapshot.params.type;
+        
         this.authService.getIsAuthorized().subscribe(
             (isAuthorized: boolean) => {
                 if (isAuthorized) {
-                    this.pagination.limit = localStorage.getItem('limit') ? parseInt(localStorage.getItem('limit')) : 15;
+                    this.pagination.limit = localStorage.getItem('limit') ? parseInt(localStorage.getItem('limit')) : 16;
                     this.pagination.page = localStorage.getItem('page') ? parseInt(localStorage.getItem('page')) : 1;
                     this.getGalleryIndexViewModel();            
                 }
-            });
+            }
+        );
     }
 
     ngAfterViewInit() {
@@ -107,4 +116,5 @@ export class GalleryComponent implements OnInit {
     private scrollToTop() {
         window.scrollTo(0, 0);
     }
+
 }

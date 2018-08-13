@@ -12,7 +12,10 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li>
-                    <a *ngIf="isAuthorized" routerLink="/">Home</a>
+                    <a *ngIf="isAuthorized" [routerLink]="['/']">Home</a>
+                </li>
+                <li>
+                    <a *ngIf="isAuthorized" [routerLink]="['/gallery', type]">Albums</a>
                 </li>
                 <li>
                     <a *ngIf="(isAuthorized && hasPayingUserRole)" routerLink="/gallery-add">Add an image</a>

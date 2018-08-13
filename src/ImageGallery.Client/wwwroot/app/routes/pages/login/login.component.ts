@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   valForm: FormGroup;
   private alertMessage: string;
 
-  constructor(private oauthService: OAuthService, fb: FormBuilder, private router: Router) {
+  constructor(public settings: SettingsService, private oauthService: OAuthService, fb: FormBuilder, private router: Router) {
     console.log("login.component.ts");
     //oath
     if (oauthService.hasValidAccessToken()) {

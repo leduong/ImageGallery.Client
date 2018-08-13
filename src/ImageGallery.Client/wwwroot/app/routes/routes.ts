@@ -10,6 +10,7 @@ import { Error500Component } from './pages/error500/error500.component';
 
 import { GalleryComponent } from './gallery/gallery/gallery.component';
 import { GalleryEditComponent } from './gallery/gallery-edit/gallery-edit.component';
+import { GalleryViewComponent } from './gallery/gallery-view/gallery-view.component';
 import { GalleryModule } from './gallery/gallery.module';
 import { GalleryAddComponent } from './gallery/gallery-add/gallery-add.component';
 import { AboutComponent } from './gallery/about/about.component';
@@ -25,7 +26,9 @@ export const routes = [
     component: LayoutComponent,
     children: [
       { path: '', component: GalleryComponent },
+      { path: 'gallery/:type', component: GalleryComponent },
       { path: 'gallery-add', component: GalleryAddComponent, canActivate: [HasPayingUserRoleAuthenticationGuard] },
+      { path: 'gallery-view/:id', component: GalleryViewComponent },
       { path: 'gallery-edit/:id', component: GalleryEditComponent },
       { path: 'about', component: AboutComponent }
     ]

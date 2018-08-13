@@ -17,6 +17,7 @@ import { UserManagementService } from '../services/user.service';
 export class LayoutComponent implements OnInit, OnDestroy {
   isAuthorizedSubscription: Subscription;
   isAuthorized: boolean;
+  type: string;
 
   isUserInRoleSubscription: Subscription;
   hasPayingUserRole: boolean;
@@ -39,6 +40,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     console.log(`[ngOnInit]`);
+    this.type = 'album';
 
     this.isAuthorizedSubscription = this.authService.getIsAuthorized().subscribe(
       (isAuthorized: boolean) => {
