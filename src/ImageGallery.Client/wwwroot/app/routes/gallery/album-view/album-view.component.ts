@@ -5,19 +5,19 @@ import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/toPromise';
 
 import { GalleryService } from '../../../gallery.service';
-import { IImageViewModel } from '../../../shared/interfaces';
+import { IAlbumViewModel } from '../../../shared/interfaces';
 import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
-    selector: 'app-gallery-view',
-    templateUrl: './gallery-view.component.html',
-    styleUrls: ['./gallery-view.component.scss'],
+    selector: 'app-album-view',
+    templateUrl: './album-view.component.html',
+    styleUrls: ['./album-view.component.scss'],
     providers: [GalleryService]
 })
-export class GalleryViewComponent implements OnInit {
+export class AlbumViewComponent implements OnInit {
 
-    imageViewModel: IImageViewModel;
+    albumViewModel: IAlbumViewModel;
 
     categories: string[] = ['Landscapes', 'Portraits', 'Animals'];
 
@@ -35,7 +35,7 @@ export class GalleryViewComponent implements OnInit {
 
         console.log(`Image id: ${imageId}`);
 
-        this.getImageViewModel(imageId);
+        this.getAlbumViewModel(imageId);
     }
 
     private async getImageIdAsync(): Promise<string> {
@@ -45,10 +45,10 @@ export class GalleryViewComponent implements OnInit {
         return imageId;
     }
 
-    private getImageViewModel(imageId: string) {
-        this.galleryService.getImageViewModel(imageId)
-            .subscribe((response: IImageViewModel) => {
-                this.imageViewModel = response;
+    private getAlbumViewModel(imageId: string) {
+        this.galleryService.getAlbumViewModel(imageId)
+            .subscribe((response: IAlbumViewModel) => {
+                this.albumViewModel = response;
             },
             (err: any) => console.log(err),
             () => console.log('getImageViewModel() retrieved EditImageViewModel'));

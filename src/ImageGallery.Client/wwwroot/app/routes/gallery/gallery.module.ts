@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { GalleryComponent } from './gallery/gallery.component';
+import { AlbumComponent } from './album/album.component';
 import { GalleryEditComponent } from './gallery-edit/gallery-edit.component';
-import { GalleryViewComponent } from './gallery-view/gallery-view.component';
+import { AlbumViewComponent } from './album-view/album-view.component';
 import { Routes, RouterModule } from '@angular/router';
 import { SharedModule } from '../../shared/shared.module';
 import { GalleryAddComponent } from './gallery-add/gallery-add.component';
@@ -16,12 +17,13 @@ import { NgxLoadingSpinnerModule } from 'ngx-loading-spinner-fork';
         PaginationModule.forRoot(),
         NgxLoadingSpinnerModule.forRoot(),
     ],
-    declarations: [GalleryComponent, GalleryEditComponent, GalleryViewComponent, GalleryAddComponent, AboutComponent, KeysPipe],
+    declarations: [AlbumComponent, GalleryComponent, GalleryEditComponent, AlbumViewComponent, GalleryAddComponent, AboutComponent, KeysPipe],
     exports: [
         RouterModule,
         GalleryComponent,
+        AlbumComponent,
         GalleryEditComponent,
-        GalleryViewComponent,
+        AlbumViewComponent,
         GalleryAddComponent,
         AboutComponent,
         PaginationModule,

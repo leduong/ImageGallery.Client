@@ -4,7 +4,7 @@ import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 
-import { IEditImageViewModel, IAddImageViewModel, IImageViewModel } from './shared/interfaces';
+import { IEditImageViewModel, IAddImageViewModel, IAlbumViewModel, } from './shared/interfaces';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { OAuthService } from 'angular-oauth2-oidc';
@@ -13,7 +13,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
 export class GalleryService {
 
   private baseUrl: string = '/api/images';
-  private albumUrl: string = '/api/albums';
+  private albumUrl: string = 'https://imagegallery-api.informationcart.com/api/albums';
 
   constructor(private httpClient: HttpClient, private oauthService: OAuthService) {
   }
@@ -33,17 +33,33 @@ export class GalleryService {
     });
   }
 
-  public getEditImageViewModel(id: string): Observable<IEditImageViewModel> {
+  public getAlbumIndexViewModel(limit: number, page: number) {
     var self = this;
-    return this.httpClient.get<IEditImageViewModel>(`${this.baseUrl}/${id}`, { headers: self.generateBearerHeaaders() })
-      .catch(this.handleError);
+    console.log(self.generateBearerHeaaders());
+    return new Promise((resolve, reject) => {
+      this.httpClient.get(`${this.albumUrl}/${limit}/${page}`, { observe: 'response', headers: self.generateBearerHeaaders() })
+        .subscribe(res => {
+          resolve({
+            totalCount: res.headers.get('X-InlineCount'),
+            images: res.body
+          });
+        }, error => {
+          reject(error);
+        });
+    });
   }
 
-  public getImageViewModel(id: string): Observable<IImageViewModel> {
+  public getAlbumViewModel(id: string): Observable<IAlbumViewModel> {
     var headers = this.generateBearerHeaaders();
     headers.append("Content-Type", "application/json");
     
-    return this.httpClient.get<IImageViewModel>(`${this.albumUrl}/${id}`, { headers: this.generateBearerHeaaders() })
+    return this.httpClient.get<IAlbumViewModel>(`${this.albumUrl}/${id}`, { headers: this.generateBearerHeaaders() })
+      .catch(this.handleError);
+  }
+
+  public getEditImageViewModel(id: string): Observable<IEditImageViewModel> {
+    var self = this;
+    return this.httpClient.get<IEditImageViewModel>(`${this.baseUrl}/${id}`, { headers: self.generateBearerHeaaders() })
       .catch(this.handleError);
   }
 
