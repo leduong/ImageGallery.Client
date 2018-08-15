@@ -12,7 +12,7 @@ body {
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
-    padding-top:30px;
+    padding-top: 30px;
 }
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
@@ -120,6 +120,12 @@ img{
 
 .navbar-brand{
     padding:15px!important;
+    color: #9d9d9d!important;
+}
+
+.navbar-brand:hover{
+    padding:15px!important;
+    color: white!important;
 }
 
 .navbar-fixed-top{
@@ -131,6 +137,14 @@ img{
 }
 
 .navbar-inverse .navbar-nav>li>a:hover{
+    color: white!important;
+}
+
+.navbar-green .navbar-nav>li>a{
+    color: #9d9d9d!important;
+}
+
+.navbar-green .navbar-nav>li>a:hover{
     color: white!important;
 }
 
