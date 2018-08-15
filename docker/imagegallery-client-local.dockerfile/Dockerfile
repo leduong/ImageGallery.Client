@@ -26,11 +26,8 @@ ENV PATH $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
 RUN node -v
 RUN npm -v
 
-RUN npm install -g bower gulp \ 
-&& echo '{ "allow_root": true }' > /root/.bowerrc
-
+RUN npm install -g gulp  
 RUN gulp -v
-RUN npm bower -v
 
 #### Package Stage
 FROM base AS package
@@ -41,8 +38,7 @@ WORKDIR /app
 RUN dotnet restore /p:RestoreUseSkipNonexistentTargets="false"
 
 WORKDIR /app/src/ImageGallery.Client
-RUN npm install --unsafe-perm
-
+RUN npm install 
 
 ####  Publish 
 FROM package AS publish
