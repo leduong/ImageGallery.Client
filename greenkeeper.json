@@ -1,0 +1,9 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "src/ImageGallery.Client/package.json"
+      ]
+    }
+  }
+}
