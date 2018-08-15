@@ -43,7 +43,9 @@ export class LoginComponent implements OnInit {
     this
       .oauthService
       .fetchTokenUsingPasswordFlowAndLoadUserProfile(login, password)
-      .then(() => {
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem('currentUser', res['subscriptionlevel']);
         this.router.navigate(['/']);
       })
       .catch((err) => {

@@ -51,6 +51,10 @@ textarea {
     margin-bottom: 30px;
 }
 
+.bottomMarginImage {
+    margin-bottom: 5px;
+}
+
 .bottomMarginSmall {
     margin-bottom: 15px;
 }
@@ -67,10 +71,15 @@ textarea {
     margin-left: 15px;
 }
 
-.thumbnailImage {
+.image-wrapper {
+    border: 1px solid lightgrey;
+    padding: 3px;
+}
+
+img.thumbnailImage {
     max-width: 400px;
     width: 100%;
-    height: auto;
+    object-fit: cover;
 }
 
 img{
@@ -94,6 +103,11 @@ img{
 /* .navbar-inverse .navbar-brand{
     color: #9d9d9d!important;
 } */
+
+/* .navbar-inverse .navbar-brand{
+    color: #9d9d9d!important;
+} */
+
 
 .navbar{
     min-height: 50px!important;

@@ -1,12 +1,12 @@
 <div *ngIf="galleryIndexViewModel" class="container">
-    <div *ngFor="let image of galleryIndexViewModel.images" class="pull-left col-md-3">
-        <div class="bottomMarginDefault">
-            <div class="homeGallery">
-                <img class="thumbnailImage" src="{{galleryIndexViewModel.imagesUri + image.fileName}}" />
-            </div>
+    <div *ngFor="let image of galleryIndexViewModel.images" class="pull-left col-md-4">
+        <div class="image-wrapper">
+            <img class="thumbnailImage" src="{{galleryIndexViewModel.imagesUri + image.fileName}}" />
+        </div>
+        <div>
             <div class="h5">{{image.title}}</div>
             <div class="h5">{{image.category}}</div>
-            <div class="h5">
+            <div class="bottomMarginDefault">
                 <a [routerLink]="['/gallery-edit', image.id]">Edit</a> |
                 <a (click)="deleteImage(image.id)">Delete</a>
             </div>

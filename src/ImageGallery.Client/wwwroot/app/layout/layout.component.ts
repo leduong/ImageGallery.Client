@@ -18,6 +18,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   isAuthorizedSubscription: Subscription;
   isAuthorized: boolean;
   type: string;
+  userType: string;
 
   isUserInRoleSubscription: Subscription;
   hasPayingUserRole: boolean;
@@ -41,6 +42,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
   ngOnInit() {
     console.log(`[ngOnInit]`);
     this.type = 'album';
+    this.userType = localStorage.getItem('currentUser');
+    console.log("currentUser", this.userType);
 
     this.isAuthorizedSubscription = this.authService.getIsAuthorized().subscribe(
       (isAuthorized: boolean) => {
