@@ -1,0 +1,200 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using ImageGallery.Client.Configuration;
+using ImageGallery.Client.Services;
+using ImageGallery.Client.ViewModels;
+using ImageGallery.Model;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Newtonsoft.Json;
+
+namespace ImageGallery.Client.Apis
+{
+    /// <summary>
+    ///
+    /// </summary>
+    [Route("api/albums")]
+    public class AlbumApiQueryController : Controller
+    {
+        private const string InternalAlbumsRoute = "api/albums";
+
+        private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
+
+        private readonly ILogger<AlbumApiQueryController> _logger;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AlbumApiQueryController"/> class.
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <param name="imageGalleryHttpClient"></param>
+        /// <param name="logger"></param>
+        public AlbumApiQueryController(IOptions<ApplicationOptions> settings, IImageGalleryHttpClient imageGalleryHttpClient, ILogger<AlbumApiQueryController> logger)
+        {
+            ApplicationSettings = settings.Value;
+            _logger = logger;
+            _imageGalleryHttpClient = imageGalleryHttpClient;
+        }
+
+        private ApplicationOptions ApplicationSettings { get; }
+
+        /// <summary>
+        /// Get Albums
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Roles = "PayingUser, FreeUser")]
+        [HttpGet]
+        [Produces("application/json", Type = typeof(IEnumerable<AlbumIndexViewModel>))]
+        [ProducesResponseType(typeof(IEnumerable<AlbumIndexViewModel>), 200)]
+        public async Task<ActionResult> AlbumIndexViewModel()
+        {
+            await WriteOutIdentityInformation();
+
+            // call the API
+            var httpClient = await _imageGalleryHttpClient.GetClient();
+
+            var response = await httpClient.GetAsync(InternalAlbumsRoute).ConfigureAwait(false);
+
+            _logger.LogInformation($"Call {InternalAlbumsRoute} return {response.StatusCode}.");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var albumsAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                var albumIndexViewModel = new AlbumIndexViewModel(
+                    JsonConvert.DeserializeObject<IList<Album>>(albumsAsString).ToList());
+
+                return Ok(albumIndexViewModel);
+            }
+
+            switch (response.StatusCode)
+            {
+                case System.Net.HttpStatusCode.Unauthorized:
+                    return Unauthorized();
+
+                case System.Net.HttpStatusCode.Forbidden:
+                    return new ForbidResult();
+            }
+
+            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+        }
+
+        /// <summary>
+        /// Get Albums Paging
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="limit"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "PayingUser, FreeUser")]
+        [HttpGet]
+        [Route("list")]
+        [Produces("application/json", Type = typeof(IEnumerable<GalleryIndexViewModel>))]
+        [ProducesResponseType(typeof(IEnumerable<GalleryIndexViewModel>), 200)]
+        public async Task<ActionResult> Get([FromQuery] GalleryRequestModel query, int limit, int page)
+        {
+            await WriteOutIdentityInformation();
+
+            // call the API
+            var httpClient = await _imageGalleryHttpClient.GetClient();
+
+            var route = $"{InternalAlbumsRoute}/{limit}/{page}";
+            var response = await httpClient.GetAsync(route).ConfigureAwait(false);
+            string inlinecount = response.Headers.GetValues("x-inlinecount").FirstOrDefault();
+
+            _logger.LogInformation($"Call {InternalAlbumsRoute} return {response.StatusCode}.");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var imagesAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                var albumIndexViewModel = new AlbumIndexViewModel(
+                        JsonConvert.DeserializeObject<IList<Album>>(imagesAsString).ToList());
+
+                HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "X-InlineCount");
+                HttpContext.Response.Headers.Add("X-InlineCount", inlinecount);
+
+                return Ok(albumIndexViewModel);
+            }
+
+            switch (response.StatusCode)
+            {
+                case System.Net.HttpStatusCode.Unauthorized:
+                    return Unauthorized();
+
+                case System.Net.HttpStatusCode.Forbidden:
+                    return new ForbidResult();
+            }
+
+            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+        }
+
+        /// <summary>
+        /// Get Album
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet("{id}")]
+        [Produces("application/json", Type = typeof(IEnumerable<AlbumViewModel>))]
+        [ProducesResponseType(typeof(IEnumerable<AlbumViewModel>), 200)]
+        public async Task<IActionResult> GetAlbum(Guid id)
+        {
+            // call the API
+            var imagesRoute = $"{InternalAlbumsRoute}/{id}";
+            var httpClient = await _imageGalleryHttpClient.GetClient();
+
+            var response = await httpClient.GetAsync(imagesRoute).ConfigureAwait(false);
+
+            _logger.LogInformation($"Call {imagesRoute} return {response.StatusCode}.");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var albumAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                var deserializedImage = JsonConvert.DeserializeObject<Album>(albumAsString);
+
+                var albumViewModel = new AlbumViewModel
+                {
+                    Id = deserializedImage.Id,
+                    Title = deserializedImage.Title,
+                    Description = deserializedImage.Description,
+                    DateCreated = deserializedImage.DateCreated,
+                };
+
+                return Ok(albumViewModel);
+            }
+
+            switch (response.StatusCode)
+            {
+                case System.Net.HttpStatusCode.Unauthorized:
+                    return Unauthorized();
+
+                case System.Net.HttpStatusCode.Forbidden:
+                    return new ForbidResult();
+            }
+
+            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+        }
+
+        private async Task WriteOutIdentityInformation()
+        {
+            // get the saved identity token
+            var identityToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.IdToken);
+
+            // write it out
+            Debug.WriteLine($"Identity token: {identityToken}");
+
+            // write out the user claims
+            foreach (var claim in User.Claims)
+            {
+                Debug.WriteLine($"Claim type: {claim.Type} - Claim value: {claim.Value}");
+            }
+        }
+    }
+}
