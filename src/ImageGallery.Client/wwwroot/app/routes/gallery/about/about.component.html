@@ -1,17 +1,16 @@
 <div class="container">
 
+  <h3>About Page </h3>
+
   <div class="topMarginDefault bottomMarginDefault" style="margin-top: 50px; background-color: #e7e7e7; padding: 10px;">
-    <h3>About Page </h3>
     <div *ngFor="let claim of (userData | keys)">
       <strong>{{claim.key}}: </strong>
       <span>{{claim.value}}</span>
     </div>
   </div>
 
-  <div class="bottomMarginDefault" style="background-color: #e7e7e7; padding: 10px;">
-    <strong>access_token</strong>
-  </div>
-
+  <h4>access_token</h4>
+ 
   <div class="bottomMarginDefault" style="background-color: #e7e7e7; padding: 10px;">
     <span>{{access_token}}</span>
   </div>

@@ -1,5 +1,7 @@
 <div class="container bottomMarginDefault">
 
+  <h3>Albums</h3>
+
   <div *ngIf="albumIndexViewModel">
       <div class="row">
           <div *ngFor="let album of albumIndexViewModel.albums" class="pull-left col-md-4">
@@ -42,7 +44,7 @@
       </div>
   </div>
 
-  <div class="no-message" *ngIf="pagination.totalItems == 0">There are No Album in your Gallery</div>
+  <div class="no-message" *ngIf="pagination.totalItems == 0">There are No Albums in your Gallery</div>
 
   <ngx-loading-spinner> </ngx-loading-spinner>
 </div>
