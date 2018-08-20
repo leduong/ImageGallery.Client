@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs';
 import { RolesConstants } from '../roles.constants';
-import { AuthenticationService } from '../authentication.service'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserManagementService } from '../services/user.service';

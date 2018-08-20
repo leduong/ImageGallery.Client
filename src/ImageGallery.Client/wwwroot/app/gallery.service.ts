@@ -13,7 +13,8 @@ import { OAuthService } from 'angular-oauth2-oidc';
 export class GalleryService {
 
   private baseUrl: string = '/api/images';
-  private albumUrl: string = 'https://imagegallery-api.informationcart.com/api/albums';
+  // private albumUrl: string = 'https://imagegallery-api.informationcart.com/api/albums';
+  private albumUrl: string = '/api/albums';
 
   constructor(private httpClient: HttpClient, private oauthService: OAuthService) {
   }
@@ -34,10 +35,11 @@ export class GalleryService {
   }
 
   public getAlbumIndexViewModel(limit: number, page: number) {
-    var self = this;
-    console.log(self.generateBearerHeaaders());
+    var headers = this.generateBearerHeaaders();
+    headers.append("Content-type", "application/json");
+    console.log("I am here!!!");
     return new Promise((resolve, reject) => {
-      this.httpClient.get(`${this.albumUrl}/${limit}/${page}`, { observe: 'response', headers: self.generateBearerHeaaders() })
+      this.httpClient.get(`${this.albumUrl}/list?limit=${limit}&page=${page}`, { observe: 'response', headers: headers })
         .subscribe(res => {
           resolve({
             totalCount: res.headers.get('X-InlineCount'),
@@ -52,7 +54,7 @@ export class GalleryService {
   public getAlbumViewModel(id: string): Observable<IAlbumViewModel> {
     var headers = this.generateBearerHeaaders();
     headers.append("Content-Type", "application/json");
-    
+
     return this.httpClient.get<IAlbumViewModel>(`${this.albumUrl}/${id}`, { headers: this.generateBearerHeaaders() })
       .catch(this.handleError);
   }
@@ -64,14 +66,6 @@ export class GalleryService {
   }
 
   public postEditImageViewModel(model: IEditImageViewModel): Observable<Object> {
-    /*
-    var headers = this.generateBearerHeaaders();
-    headers.append("Content-Type", "application/json");
-    console.log("buuuuuu!");
-
-    return this.httpClient.post(`${this.baseUrl}/edit`, JSON.stringify(model), { headers: headers })
-      .catch(this.handleError);
-    */
     var headers = this.generateBearerHeaaders();
     headers.append("Content-Type", "application/json");
 

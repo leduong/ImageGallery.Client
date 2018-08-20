@@ -104,6 +104,7 @@ export class GalleryComponent implements OnInit {
         this.galleryService.getGalleryIndexViewModel(this.pagination.limit, this.pagination.page)
             .then((response: any) => {
                 this.galleryIndexViewModel = response.images;
+                console.log(response);
                 this.pagination.totalItems = response.totalCount;
                 this.scrollToTop();
                 this.spinnerService.hide();

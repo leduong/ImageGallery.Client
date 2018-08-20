@@ -18,12 +18,11 @@
                     <a *ngIf="isAuthorized" [routerLink]="['/']">Home</a>
                 </li>
                 <li>
-                    <a *ngIf="isAuthorized" [routerLink]="['/gallery', type]">Albums</a>
+                    <a *ngIf="isAuthorized" [routerLink]="['/albums']">Albums</a>
                 </li>
                 <li>
                     <a *ngIf="(isAuthorized && hasPayingUserRole)" routerLink="/gallery-add">Add an image</a>
                 </li>
-                <!-- <li><a asp-area="" asp-controller="Gallery" asp-action="OrderFrame">Order a framed image</a></li> -->
                 <li>
                     <a *ngIf="isAuthorized" routerLink="/about">About</a>
                 </li>
