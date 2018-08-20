@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { ToasterModule } from 'angular2-toaster/angular2-toaster';
 
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { AlertModule } from 'ngx-bootstrap/alert';
@@ -51,8 +50,7 @@ import { JqcloudDirective } from './directives/jqcloud/jqcloud.directive';
         TabsModule.forRoot(),
         TimepickerModule.forRoot(),
         TooltipModule.forRoot(),
-        TypeaheadModule.forRoot(),
-        ToasterModule
+        TypeaheadModule.forRoot()
     ],
     providers: [
         ColorsService
@@ -87,7 +85,6 @@ import { JqcloudDirective } from './directives/jqcloud/jqcloud.directive';
         TimepickerModule,
         TooltipModule,
         TypeaheadModule,
-        ToasterModule,
         FlotDirective,
         SparklineDirective,
         CheckallDirective,
