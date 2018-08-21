@@ -4,7 +4,10 @@
             <img class="thumbnailImage" src="{{galleryIndexViewModel.imagesUri + image.fileName}}" />
         </div>
         <div>
-            <div class="h5">{{image.title}}</div>
+            <div class="h5">
+                {{image.title}}
+                <img *ngIf="image.dataSource" src="../../../../assets/img/flickr.png" />
+            </div>
             <div class="h5">{{image.category}}</div>
             <div class="bottomMarginDefault">
                 <a [routerLink]="['/gallery-edit', image.id]">Edit</a> |
@@ -24,10 +27,10 @@
         </div>
     </div>
     <div class="col-md-6 col-sm-12 text-center pagination-container">
-        <pagination 
+        <pagination
             [totalItems]="pagination.totalItems"
             [itemsPerPage]="pagination.limit"
-            [maxSize]="5" 
+            [maxSize]="5"
             [(ngModel)]="pagination.page"
             [boundaryLinks]="true"
             [rotate]="false"

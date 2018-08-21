@@ -3,6 +3,8 @@ export interface IImage {
     title: string;
     fileName: string;
     category: string;
+    dataSource: string;
+    photoId: string;
 }
 
 export interface IAlbum {
