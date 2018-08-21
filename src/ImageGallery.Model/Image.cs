@@ -23,5 +23,25 @@ namespace ImageGallery.Model
         ///
         /// </summary>
         public string Category { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public string PhotoId { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public string DataSource { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public int? Width { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public int? Height { get; set; }
     }
 }
