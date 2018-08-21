@@ -23,16 +23,16 @@ export class AlbumComponent implements OnInit {
 
     pagination = {
         page: 1,
-        limit: 16,
+        limit: 15,
         totalItems: 10
     };
-    perPage = [16, 32, 64, 96];
+    perPage = [15, 30, 60, 90];
 
     constructor(
         private activatedRoute: ActivatedRoute,
         private authService: AuthService,
         private galleryService: GalleryService,
-        public toastr: ToastrService, 
+        public toastr: ToastrService,
         vcr: ViewContainerRef,
         private spinnerService: NgxLoadingSpinnerService,
         private changeDetectorRef: ChangeDetectorRef
@@ -42,13 +42,13 @@ export class AlbumComponent implements OnInit {
 
     ngOnInit() {
         this.type = this.activatedRoute.snapshot.params.type;
-        
+
         this.authService.getIsAuthorized().subscribe(
             (isAuthorized: boolean) => {
                 if (isAuthorized) {
-                    this.pagination.limit = localStorage.getItem('limit') ? parseInt(localStorage.getItem('limit')) : 16;
+                    this.pagination.limit = localStorage.getItem('limit') ? parseInt(localStorage.getItem('limit')) : 15;
                     this.pagination.page = localStorage.getItem('page') ? parseInt(localStorage.getItem('page')) : 1;
-                    this.getAlbumIndexViewModel();            
+                    this.getAlbumIndexViewModel();
                 }
             }
         );
@@ -105,6 +105,7 @@ export class AlbumComponent implements OnInit {
         .then((response: any) => {
             this.albumIndexViewModel = response.images;
             this.pagination.totalItems = response.totalCount;
+            console.log(response);
             this.scrollToTop();
             this.spinnerService.hide();
         }).catch(err => {
