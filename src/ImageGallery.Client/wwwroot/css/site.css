@@ -59,6 +59,9 @@ textarea {
     margin-bottom: 15px;
 }
 
+.topMarginDefault {
+  margin-top: 40px;
+}
 .rightMarginDefault {
     margin-right: 30px;
 }
@@ -68,6 +71,7 @@ textarea {
 }
 
 .leftMarginSmaller {
+    margin-top: 40px;
     margin-left: 15px;
 }
 

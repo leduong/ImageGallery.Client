@@ -1,14 +1,14 @@
 ﻿<div *ngIf="albumViewModel" class="form-horizontal leftMarginDefault">
 
-    <h1>
-        {{ albumViewModel.tilte }}
-    </h1>
+  <div class="leftMarginSmaller">
+    <h1>{{ albumViewModel.tilte }}</h1>
+  </div>
 
-    <div>
-        <img class="thumbnailImage" src="{{albumViewModel.photoUrl}}" />
-    </div>
+  <div>
+    <img class="thumbnailImage" src="{{albumViewModel.photoUrl}}" />
+  </div>
 
-    <h3>
-        {{ albumViewModel.description }}
-    </h3>
+  <h3>
+    {{ albumViewModel.description }}
+  </h3>
 </div>
