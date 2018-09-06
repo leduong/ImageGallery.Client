@@ -7,9 +7,9 @@
             <div class="flex">
                 <div class="h5">
                     {{image.title}}
-                    <img *ngIf="image.dataSource === 'Flickr' && image.photoId" src="../../../../assets/img/flickr.png" />
+                    <img *ngIf="image.dataSource" src="../../../../assets/img/flickr.png" />
                 </div>
-                <input type="checkbox" [checked]="albums[i]" (click)="saveAlbum(i)">
+                <input *ngIf="image.dataSource === 'Flickr' && image.photoId" type="checkbox" [checked]="albums[i]" (click)="saveAlbum(i)">
             </div>
             <div class="h5">{{image.category}}</div>
             <div class="bottomMarginDefault">
