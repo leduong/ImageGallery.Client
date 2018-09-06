@@ -27,6 +27,8 @@ export class GalleryComponent implements OnInit {
         totalItems: 10
     };
     perPage = [15, 30, 60, 90];
+    albums = [];
+    savedAlbums = [];
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -37,7 +39,8 @@ export class GalleryComponent implements OnInit {
         private spinnerService: NgxLoadingSpinnerService,
         private changeDetectorRef: ChangeDetectorRef
     ) {
-        //this.toastr.setRootViewContainerRef(vcr);
+        // this.toastr.setRootViewContainerRef(vcr);
+        this.savedAlbums = JSON.parse(localStorage.getItem('albums')) ? JSON.parse(localStorage.getItem('albums')) : [];
     }
 
     ngOnInit() {
@@ -106,6 +109,9 @@ export class GalleryComponent implements OnInit {
                 this.galleryIndexViewModel = response.images;
                 console.log("response", response.images);
                 console.log(this.galleryIndexViewModel);
+                this.galleryIndexViewModel.images.forEach((image, i) => {
+                    this.albums[i] = this.savedAlbums.findIndex(album => album.id === image.id) > -1;
+                });
                 this.pagination.totalItems = response.totalCount;
                 this.scrollToTop();
                 this.spinnerService.hide();
@@ -119,4 +125,11 @@ export class GalleryComponent implements OnInit {
         window.scrollTo(0, 0);
     }
 
+    public saveAlbum(index) {
+        this.albums[index] = !this.albums[index];
+        if (this.albums[index]) {
+            this.savedAlbums.push(this.galleryIndexViewModel.images[index]);
+        }
+        localStorage.setItem('albums', JSON.stringify(this.savedAlbums));
+    }
 }

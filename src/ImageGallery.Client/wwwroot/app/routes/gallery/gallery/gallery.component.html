@@ -1,12 +1,15 @@
 <div *ngIf="galleryIndexViewModel" class="container">
-    <div *ngFor="let image of galleryIndexViewModel.images" class="pull-left col-md-4">
+    <div *ngFor="let image of galleryIndexViewModel.images; let i = index" class="pull-left col-md-4">
         <div class="image-wrapper">
             <img class="thumbnailImage" src="{{galleryIndexViewModel.imagesUri + image.fileName}}" />
         </div>
         <div>
-            <div class="h5">
-                {{image.title}}
-                <img *ngIf="image.dataSource" src="../../../../assets/img/flickr.png" />
+            <div class="flex">
+                <div class="h5">
+                    {{image.title}}
+                    <img *ngIf="image.dataSource === 'Flickr' && image.photoId" src="../../../../assets/img/flickr.png" />
+                </div>
+                <input type="checkbox" [checked]="albums[i]" (click)="saveAlbum(i)">
             </div>
             <div class="h5">{{image.category}}</div>
             <div class="bottomMarginDefault">

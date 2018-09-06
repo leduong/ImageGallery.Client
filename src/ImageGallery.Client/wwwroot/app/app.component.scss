@@ -2,7 +2,10 @@
 @import "./shared/styles/bootstrap.scss";
 //== Application
 @import "./shared/styles/app.scss";
-
+ 
+// bootstrap style toast 
+// or import a bootstrap 4 alert styled design (SASS ONLY) 
+// should be after your bootstrap imports, it uses bs4 variables, mixins, functions 
 
 .modal-dialog {
     width: 300px;
