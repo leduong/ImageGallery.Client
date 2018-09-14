@@ -8,7 +8,7 @@ namespace ImageGallery.Client.ViewModels
     public class GalleryRequestModel : RequestModel
     {
         /// <summary>
-        /// Photo Category
+        /// Photo Category.
         /// </summary>
         public string Category { get; set; }
     }

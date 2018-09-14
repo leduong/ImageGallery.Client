@@ -4,17 +4,15 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using IdentityModel.Client;
+using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Services;
 using ImageGallery.Client.ViewModels;
 using ImageGallery.Model;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Newtonsoft.Json;
 
 namespace ImageGallery.Client.Apis
@@ -23,7 +21,7 @@ namespace ImageGallery.Client.Apis
     ///
     /// </summary>
     [Route("api/images")]
-    public class GalleryApiCommandController : Controller
+    public class GalleryApiCommandController : BaseController
     {
         private const string InternalImagesRoute = "api/images";
 
@@ -47,7 +45,7 @@ namespace ImageGallery.Client.Apis
         private ApplicationOptions ApplicationSettings { get; }
 
         /// <summary>
-        /// Edit Image
+        /// Edit Image.
         /// </summary>
         /// <param name="editImageViewModel"></param>
         /// <returns></returns>
@@ -85,7 +83,7 @@ namespace ImageGallery.Client.Apis
         }
 
         /// <summary>
-        /// Delete Image
+        /// Delete Image.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -116,7 +114,7 @@ namespace ImageGallery.Client.Apis
         }
 
         /// <summary>
-        /// Add Image
+        /// Add Image.
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -128,7 +126,7 @@ namespace ImageGallery.Client.Apis
         }
 
         /// <summary>
-        /// Order Picture Frame
+        /// Order Picture Frame.
         /// </summary>
         /// <param name="addImageViewModel"></param>
         /// <returns></returns>

@@ -83,7 +83,7 @@
     }
 
     /// <summary>
-    /// Swagger Ui OAuth Configuration
+    /// Swagger Ui OAuth Configuration.
     /// </summary>
     public class SwaggerUiConfiguration
     {

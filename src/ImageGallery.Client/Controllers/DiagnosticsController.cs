@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
+using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Extensions;
 using ImageGallery.Client.ViewModels.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -17,7 +18,7 @@ namespace ImageGallery.Client.Controllers
     ///
     /// </summary>
     [Route("api/[controller]")]
-    public class DiagnosticsController : Controller
+    public class DiagnosticsController : BaseController
     {
         private readonly IHostingEnvironment _env;
         private readonly IConfiguration _configuration;
@@ -35,14 +36,14 @@ namespace ImageGallery.Client.Controllers
         }
 
         /// <summary>
-        ///  Heartbeat
+        ///  Heartbeat.
         /// </summary>
         /// <returns></returns>
         [HttpGet("status")]
         public IActionResult Status() => Ok();
 
         /// <summary>
-        ///  Get Server Diagnostics
+        ///  Get Server Diagnostics.
         /// </summary>
         /// <returns></returns>
         [HttpGet]

@@ -20,7 +20,7 @@ using Newtonsoft.Json;
 namespace ImageGallery.Client.Controllers
 {
     /// <summary>
-    /// Gallery View Controller
+    /// Gallery View Controller.
     /// </summary>
     public class GalleryController : Controller
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using IdentityModel.Client;
+using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Configuration;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ namespace ImageGallery.Client.Apis
     ///
     /// </summary>
     [Route("api/images")]
-    public class AuthorizationApiController : Controller
+    public class AuthorizationApiController : BaseController
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthorizationApiController"/> class.
@@ -27,7 +28,7 @@ namespace ImageGallery.Client.Apis
         private ApplicationOptions ApplicationSettings { get; }
 
         /// <summary>
-        /// Logout
+        /// Logout.
         /// </summary>
         /// <returns></returns>
         [HttpGet]

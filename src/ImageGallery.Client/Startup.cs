@@ -27,7 +27,7 @@ namespace ImageGallery.Client
     /// </summary>
     public class Startup
     {
-        ///  <summary />
+        /// <summary />
         /// <param name="configuration"></param>
         public Startup(IConfiguration configuration)
         {
@@ -217,7 +217,7 @@ namespace ImageGallery.Client
 
         private string ValidateUrl(string url)
         {
-            // ADD LOGIC - THROW EXCEPTION IF NOT VALID 
+            // ADD LOGIC - THROW EXCEPTION IF NOT VALID
             return url;
         }
     }
