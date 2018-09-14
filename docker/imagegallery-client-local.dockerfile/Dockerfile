@@ -1,5 +1,5 @@
 #### Base Stage
-FROM microsoft/dotnet:2.2-sdk AS base
+FROM microsoft/dotnet:2.1.402-sdk AS base
 
 # Declare constants
 ENV NVM_VERSION v0.33.8
@@ -48,10 +48,10 @@ WORKDIR /app/src/ImageGallery.Client
 
 RUN node node_modules/webpack/bin/webpack.js --config webpack.config.js --env.prod
 RUN npm run compile-app
-RUN dotnet publish -o /publish -c Release -f netcoreapp2.2 -r debian.9-x64
+RUN dotnet publish -o /publish -c Release -f netcoreapp2.1 -r debian.9-x64
 
 #### RELEASE 
-FROM microsoft/dotnet:2.2-aspnetcore-runtime AS release
+FROM microsoft/dotnet:2.1.4-aspnetcore-runtime AS release
 
 COPY --from=publish /app/scripts .
 
