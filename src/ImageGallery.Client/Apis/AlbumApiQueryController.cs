@@ -110,10 +110,10 @@ namespace ImageGallery.Client.Apis
 
             if (response.IsSuccessStatusCode)
             {
-                var imagesAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                var albumsAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                 var albumIndexViewModel = new AlbumIndexViewModel(
-                        JsonConvert.DeserializeObject<IList<Album>>(imagesAsString).ToList());
+                        JsonConvert.DeserializeObject<IList<Album>>(albumsAsString).ToList());
 
                 HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "X-InlineCount");
                 HttpContext.Response.Headers.Add("X-InlineCount", inlinecount);
@@ -145,12 +145,12 @@ namespace ImageGallery.Client.Apis
         public async Task<IActionResult> GetAlbum(Guid id)
         {
             // call the API
-            var imagesRoute = $"{InternalAlbumsRoute}/{id}";
+            var albumsRoute = $"{InternalAlbumsRoute}/{id}";
             var httpClient = await _imageGalleryHttpClient.GetClient();
 
-            var response = await httpClient.GetAsync(imagesRoute).ConfigureAwait(false);
+            var response = await httpClient.GetAsync(albumsRoute).ConfigureAwait(false);
 
-            _logger.LogInformation($"Call {imagesRoute} return {response.StatusCode}.");
+            _logger.LogInformation($"Call {albumsRoute} return {response.StatusCode}.");
 
             if (response.IsSuccessStatusCode)
             {
@@ -166,6 +166,54 @@ namespace ImageGallery.Client.Apis
                 };
 
                 return Ok(albumViewModel);
+            }
+
+            switch (response.StatusCode)
+            {
+                case System.Net.HttpStatusCode.Unauthorized:
+                    return Unauthorized();
+
+                case System.Net.HttpStatusCode.Forbidden:
+                    return new ForbidResult();
+            }
+
+            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+        }
+
+        /// <summary>
+        /// Album Images Paging and Filtering List.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="query"></param>
+        /// <param name="limit"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        [HttpGet("images/{limit:int}/{page:int}")]
+        [Produces("application/json", Type = typeof(List<GalleryIndexViewModel>))]
+        public async Task<IActionResult> GetAlbumImagesPaging([FromQuery] Guid id, GalleryRequestModel query, int limit, int page)
+        {
+            await WriteOutIdentityInformation();
+
+            // call the API
+            var httpClient = await _imageGalleryHttpClient.GetClient();
+
+            var route = $"{InternalAlbumsRoute}/images/{limit}/{page}?id={id}";
+            var response = await httpClient.GetAsync(route).ConfigureAwait(false);
+            string inlinecount = response.Headers.GetValues("x-inlinecount").FirstOrDefault();
+
+            _logger.LogInformation($"Call {InternalAlbumsRoute} return {response.StatusCode}.");
+            if (response.IsSuccessStatusCode)
+            {
+                var imagesAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                var galleryIndexViewModel = new GalleryIndexViewModel(
+                    JsonConvert.DeserializeObject<IList<Image>>(imagesAsString).ToList(),
+                    ApplicationSettings.ImagesUri);
+
+                HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "X-InlineCount");
+                HttpContext.Response.Headers.Add("X-InlineCount", inlinecount);
+
+                return Ok(galleryIndexViewModel);
             }
 
             switch (response.StatusCode)
