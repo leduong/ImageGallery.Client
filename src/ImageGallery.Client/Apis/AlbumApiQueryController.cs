@@ -18,7 +18,9 @@ namespace ImageGallery.Client.Apis
     /// <summary>
     ///
     /// </summary>
+    [ApiController]
     [Route("api/albums")]
+    [Authorize(Roles = "PayingUser, FreeUser")]
     public class AlbumApiQueryController : BaseController
     {
         private const string InternalAlbumsRoute = "api/albums";
@@ -46,7 +48,6 @@ namespace ImageGallery.Client.Apis
         /// Get Albums.
         /// </summary>
         /// <returns></returns>
-        [Authorize(Roles = "PayingUser, FreeUser")]
         [HttpGet]
         [Produces("application/json", Type = typeof(IEnumerable<AlbumIndexViewModel>))]
         [ProducesResponseType(typeof(IEnumerable<AlbumIndexViewModel>), 200)]
@@ -90,7 +91,6 @@ namespace ImageGallery.Client.Apis
         /// <param name="limit"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        [Authorize(Roles = "PayingUser, FreeUser")]
         [HttpGet]
         [Route("list")]
         [Produces("application/json", Type = typeof(IEnumerable<GalleryIndexViewModel>))]
@@ -138,7 +138,6 @@ namespace ImageGallery.Client.Apis
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Authorize]
         [HttpGet("{id}")]
         [Produces("application/json", Type = typeof(IEnumerable<AlbumViewModel>))]
         [ProducesResponseType(typeof(IEnumerable<AlbumViewModel>), 200)]

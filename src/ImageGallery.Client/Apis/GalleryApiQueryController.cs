@@ -21,6 +21,7 @@ namespace ImageGallery.Client.Apis
     /// <summary>
     ///
     /// </summary>
+    [ApiController]
     [Route("api/images")]
     public class GalleryApiQueryController : BaseController
     {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ImageGallery.Model;
 
 namespace ImageGallery.Client.ViewModels
@@ -10,7 +9,7 @@ namespace ImageGallery.Client.ViewModels
     public class AlbumIndexViewModel
     {
         /// <summary>
-        ///
+        /// Initializes a new instance of the <see cref="AlbumIndexViewModel"/> class.
         /// </summary>
         /// <param name="albums"></param>
         public AlbumIndexViewModel(List<Album> albums)

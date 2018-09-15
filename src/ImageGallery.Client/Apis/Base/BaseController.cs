@@ -6,7 +6,6 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace ImageGallery.Client.Apis.Base
 {
-
     /// <summary>
     ///
     /// </summary>
