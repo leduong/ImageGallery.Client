@@ -164,9 +164,7 @@
     </ItemGroup>
   </Target>
 
-  <PropertyGroup>
-    <CodeAnalysisRuleSet>$(SolutionDir)/_stylecop/StyleCopeRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
+
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>bin\Debug\netcoreapp2.1\ImageGallery.Client.xml</DocumentationFile>
@@ -176,9 +174,17 @@
     <DocumentationFile>bin\Release\netcoreapp2.1\ImageGallery.Client.xml</DocumentationFile>
   </PropertyGroup>
 
-  <ItemGroup>
-    <AdditionalFiles Include="$(SolutionDir)\_stylecop\stylecop.json" Link="stylecop.json" />
+  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT'">
+    <CodeAnalysisRuleSet>$(SolutionDir)/_stylecop/StyleCopeRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(OS)' == 'Windows_NT'">
+    <AdditionalFiles Include="$(SolutionDir)/_stylecop/stylecop.json" Link="stylecop.json" />
   </ItemGroup>
+
+  <PropertyGroup Condition=" '$(OS)' != 'Windows_NT'">
+    <CodeAnalysisRuleSet>$(SolutionDir)../../_stylecop/StyleCopeRules.ruleset</CodeAnalysisRuleSet>
+</PropertyGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="wwwroot\app\app.component.ts" />

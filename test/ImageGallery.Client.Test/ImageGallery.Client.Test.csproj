@@ -46,13 +46,17 @@
     <DotNetCliToolReference Include="dotnet-setversion" Version="1.0.3" />
   </ItemGroup>
 
-  <PropertyGroup>
+  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT'">
     <CodeAnalysisRuleSet>$(SolutionDir)/_stylecop/StyleCopeRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
-  <ItemGroup>
-    <AdditionalFiles Include="$(SolutionDir)\_stylecop\stylecop.json" Link="stylecop.json" />
+  <ItemGroup Condition=" '$(OS)' == 'Windows_NT'">
+    <AdditionalFiles Include="$(SolutionDir)/_stylecop/stylecop.json" Link="stylecop.json" />
   </ItemGroup>
+
+  <PropertyGroup Condition=" '$(OS)' != 'Windows_NT'">
+    <CodeAnalysisRuleSet>$(SolutionDir)../../_stylecop/StyleCopeRules.ruleset</CodeAnalysisRuleSet>
+</PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\ImageGallery.Client\ImageGallery.Client.csproj" />
