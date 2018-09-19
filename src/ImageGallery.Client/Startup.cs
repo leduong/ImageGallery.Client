@@ -57,18 +57,14 @@ namespace ImageGallery.Client
 
             services.AddOptions();
             services.Configure<ApplicationOptions>(Configuration);
-
-            // REMOVE NOT NEEDED
             services.Configure<ApplicationOptions>(Configuration.GetSection("applicationSettings"));
-            services.Configure<Dataprotection>(Configuration.GetSection("dataprotection"));
-            services.Configure<OpenIdConnectConfiguration>(Configuration.GetSection("openIdConnectConfiguration"));
-            services.Configure<LogglyClientConfiguration>(Configuration.GetSection("logglyClientConfiguration"));
 
             var config = Configuration.Get<ApplicationOptions>();
-
             Console.WriteLine($"Dataprotection Enabled: {config.Dataprotection.Enabled}");
             Console.WriteLine($"Dataprotection Redis: {config.Dataprotection.RedisConnection}");
             Console.WriteLine($"RedisKey: {config.Dataprotection.RedisKey}");
+
+            Console.WriteLine($"ApiAttractionsUri: {config.ClientConfiguration.ApiAttractionsUri}");
 
             Console.WriteLine($"Authority: {config.OpenIdConnectConfiguration.Authority}");
             Console.WriteLine($"ClientId: {config.OpenIdConnectConfiguration.ClientId}");
