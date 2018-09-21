@@ -183,20 +183,19 @@ namespace ImageGallery.Client.Apis
         /// Album Images Paging and Filtering List.
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="query"></param>
         /// <param name="limit"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        [HttpGet("images/{limit:int}/{page:int}")]
+        [HttpGet("images/list/{limit:int}/{page:int}")]
         [Produces("application/json", Type = typeof(List<GalleryIndexViewModel>))]
-        public async Task<IActionResult> GetAlbumImagesPaging([FromQuery] Guid id, GalleryRequestModel query, int limit, int page)
+        public async Task<IActionResult> GetAlbumImagesPaging([FromQuery] Guid id, int limit, int page)
         {
             await WriteOutIdentityInformation();
 
             // call the API
             var httpClient = await _imageGalleryHttpClient.GetClient();
-
             var route = $"{InternalAlbumsRoute}/images/{limit}/{page}?id={id}";
+
             var response = await httpClient.GetAsync(route).ConfigureAwait(false);
             string inlinecount = response.Headers.GetValues("x-inlinecount").FirstOrDefault();
 

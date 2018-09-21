@@ -47,6 +47,7 @@ namespace ImageGallery.Client.Controllers
 
             return Ok(new
             {
+                _configurationOptions.ClientConfiguration,
                 _configurationOptions.OpenIdConnectConfiguration,
                 _configurationOptions.LogglyClientConfiguration,
             });
