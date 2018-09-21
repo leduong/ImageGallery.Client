@@ -1,5 +1,5 @@
 <div *ngIf="galleryIndexViewModel" class="container">
-    <div *ngFor="let image of galleryIndexViewModel.images; let i = index" class="pull-left col-md-4">
+    <div *ngFor="let image of galleryIndexViewModel.images; let i = index" class="pull-left col-md-4" [class.selected]="albums[i]">
         <div class="image-wrapper">
             <img class="thumbnailImage" src="{{galleryIndexViewModel.imagesUri + image.fileName}}" />
         </div>

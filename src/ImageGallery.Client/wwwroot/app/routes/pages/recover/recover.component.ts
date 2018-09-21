@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SettingsService } from '../../../core/settings/settings.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
+import { UserManagementService } from '../../../services/user.service';
 
 @Component({
     selector: 'app-recover',
@@ -12,7 +13,7 @@ export class RecoverComponent implements OnInit {
 
     valForm: FormGroup;
 
-    constructor(public settings: SettingsService, fb: FormBuilder) {
+    constructor(public settings: SettingsService, fb: FormBuilder, public userService: UserManagementService) {
         this.valForm = fb.group({
             'email': [null, Validators.compose([Validators.required, CustomValidators.email])]
         });
@@ -24,8 +25,9 @@ export class RecoverComponent implements OnInit {
             this.valForm.controls[c].markAsTouched();
         }
         if (this.valForm.valid) {
-            console.log('Valid!');
-            console.log(value);
+            this.userService.resetPassword(value).subscribe(res => {
+                console.log(res);
+            });
         }
     }
 

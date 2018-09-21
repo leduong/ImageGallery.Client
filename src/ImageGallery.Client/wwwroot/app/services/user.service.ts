@@ -13,4 +13,9 @@ export class UserManagementService {
         let url = 'https://user-management.informationcart.com/api/UserProfile';
         return this.http.get(url);
     }
+
+    resetPassword(email) {
+        let url = 'https://user-management.informationcart.com/api/Account';
+        return this.http.post(url, email);
+    }
 }
