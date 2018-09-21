@@ -51,11 +51,11 @@ export class GalleryService {
     });
   }
 
-  public getAlbumViewModel(id: string): Observable<IAlbumViewModel> {
+  public getAlbumViewModel(id: string, limit: number, page: number): Observable<IAlbumViewModel> {
     var headers = this.generateBearerHeaaders();
     headers.append("Content-Type", "application/json");
 
-    return this.httpClient.get<IAlbumViewModel>(`${this.albumUrl}/${id}`, { headers: this.generateBearerHeaaders() })
+    return this.httpClient.get<IAlbumViewModel>(`${this.albumUrl}/images/${page}/${limit}?id=${id}`, { headers: this.generateBearerHeaaders() })
       .catch(this.handleError);
   }
 

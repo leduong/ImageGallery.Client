@@ -19,6 +19,13 @@ export class AlbumViewComponent implements OnInit {
 
     albumViewModel: IAlbumViewModel;
 
+    pagination = {
+        page: 1,
+        limit: 15,
+        totalItems: 10
+    };
+    perPage = [15, 30, 60, 90];
+
     categories: string[] = ['Landscapes', 'Portraits', 'Animals'];
 
     constructor(private readonly galleryService: GalleryService,
@@ -46,8 +53,9 @@ export class AlbumViewComponent implements OnInit {
     }
 
     private getAlbumViewModel(imageId: string) {
-        this.galleryService.getAlbumViewModel(imageId)
+        this.galleryService.getAlbumViewModel(imageId, this.pagination.limit, this.pagination.page)
             .subscribe((response: IAlbumViewModel) => {
+                console.log(response)
                 this.albumViewModel = response;
             },
             (err: any) => console.log(err),
