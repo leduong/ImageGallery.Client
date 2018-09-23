@@ -10,6 +10,9 @@ using Microsoft.Extensions.Options;
 
 namespace ImageGallery.Client.Apis
 {
+    /// <summary>
+    ///
+    /// </summary>
     [Route("api/albums")]
     [Authorize(Roles = "PayingUser, FreeUser")]
     [ApiController]

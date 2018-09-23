@@ -60,8 +60,6 @@ namespace ImageGallery.Client.Apis
 
             // call the API
             var httpClient = await _imageGalleryHttpClient.GetClient();
-
-
             var response = await httpClient.GetAsync(InternalImagesRoute).ConfigureAwait(false);
 
             _logger.LogInformation($"Call {InternalImagesRoute} return {response.StatusCode}.");
