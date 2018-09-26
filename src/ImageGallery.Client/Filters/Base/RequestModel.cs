@@ -1,4 +1,4 @@
-﻿namespace ImageGallery.Client.ViewModels.Base
+﻿namespace ImageGallery.Client.Filters.Base
 {
     /// <summary>
     /// Request Model - Base.

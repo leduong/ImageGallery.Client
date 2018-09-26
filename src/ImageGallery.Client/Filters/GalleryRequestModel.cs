@@ -1,4 +1,4 @@
-﻿using ImageGallery.Client.ViewModels.Base;
+﻿using ImageGallery.Client.Filters.Base;
 
 namespace ImageGallery.Client.ViewModels
 {

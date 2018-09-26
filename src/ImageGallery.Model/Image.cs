@@ -37,11 +37,11 @@ namespace ImageGallery.Model
         /// <summary>
         ///
         /// </summary>
-        public int? Width { get; set; }
+        public int? Width => 320;
 
         /// <summary>
         ///
         /// </summary>
-        public int? Height { get; set; }
+        public int? Height => 240;
     }
 }
