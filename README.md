@@ -48,3 +48,9 @@ dotnet run
 
 http://localhost:8000/
 ```
+#### Build Options 
+
+```
+Production: npm run compile-app-prod
+Development: npm run compile-app
+```
