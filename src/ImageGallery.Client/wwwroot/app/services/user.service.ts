@@ -18,4 +18,14 @@ export class UserManagementService {
         let url = 'https://user-management.informationcart.com/api/Account';
         return this.http.post(url, email);
     }
+
+    validatePassword(password) {
+        let url = 'https://user-management.informationcart.com/api/Account/ValidatePassword';
+        return this.http.post(url, password);
+    }
+
+    createPassword(password) {
+        let url = 'https://user-management.informationcart.com/api/Account/CreatePassword';
+        return this.http.post(url, password);
+    }
 }
