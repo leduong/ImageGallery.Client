@@ -7,6 +7,7 @@ using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Filters;
 using ImageGallery.Client.Services;
 using ImageGallery.Client.ViewModels;
+using ImageGallery.Client.ViewModels.Album;
 using ImageGallery.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -207,8 +208,8 @@ namespace ImageGallery.Client.Apis
             {
                 var imagesAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                var galleryIndexViewModel = new GalleryIndexViewModel(
-                    JsonConvert.DeserializeObject<IList<Image>>(imagesAsString).ToList(),
+                var galleryIndexViewModel = new AlbumImageIndexViewModel(
+                    JsonConvert.DeserializeObject<IList<AlbumImage>>(imagesAsString).ToList(),
                     ApplicationSettings.ImagesUri);
 
                 HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "X-InlineCount");
