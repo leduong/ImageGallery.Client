@@ -6,7 +6,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
 using ImageGallery.Client.Apis.Base;
-using ImageGallery.Client.Extensions;
 using ImageGallery.Client.ViewModels.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -51,20 +50,21 @@ namespace ImageGallery.Client.Controllers
         [Produces("application/json", Type = typeof(ServerDiagnostics))]
         public ServerDiagnostics Get()
         {
+            var osNameAndVersion = System.Runtime.InteropServices.RuntimeInformation.OSDescription;
             var diagnostics = new ServerDiagnostics
             {
                 MachineDate = DateTime.Now,
                 MachineName = Environment.MachineName,
                 MachineCulture =
                     string.Format("{0} - {1}", CultureInfo.CurrentCulture.DisplayName, CultureInfo.CurrentCulture.Name),
-
-                Platform = PlatformHandler.Platform.OSPlatform.ToString(),
+                Platform = osNameAndVersion.Trim(),
                 DnsHostName = Dns.GetHostName(),
                 WorkingDirectory = null,
                 ContentRootPath = _env.ContentRootPath,
                 WebRootPath = _env.WebRootPath,
                 ApplicationName = _env.ApplicationName,
                 EnvironmentName = _env.EnvironmentName,
+                Runtime = GetNetCoreVersion(),
             };
 
             diagnostics.MachineTimeZone = TimeZoneInfo.Local.IsDaylightSavingTime(diagnostics.MachineDate) ? TimeZoneInfo.Local.DaylightName : TimeZoneInfo.Local.StandardName;
@@ -82,6 +82,16 @@ namespace ImageGallery.Client.Controllers
             diagnostics.IpAddressList = ipList;
 
             return diagnostics;
+        }
+
+        private static string GetNetCoreVersion()
+        {
+            var assembly = typeof(System.Runtime.GCSettings).GetTypeInfo().Assembly;
+            var assemblyPath = assembly.CodeBase.Split(new[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries);
+            int netCoreAppIndex = Array.IndexOf(assemblyPath, "Microsoft.NETCore.App");
+            if (netCoreAppIndex > 0 && netCoreAppIndex < assemblyPath.Length - 2)
+                return assemblyPath[netCoreAppIndex + 1];
+            return null;
         }
     }
 }

@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Configuration;
+using ImageGallery.Client.Filters;
 using ImageGallery.Client.Services;
 using ImageGallery.Client.ViewModels;
+using ImageGallery.Client.ViewModels.Album;
 using ImageGallery.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -67,7 +69,8 @@ namespace ImageGallery.Client.Apis
                 var albumsAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                 var albumIndexViewModel = new AlbumIndexViewModel(
-                    JsonConvert.DeserializeObject<IList<Album>>(albumsAsString).ToList());
+                    JsonConvert.DeserializeObject<IList<Album>>(albumsAsString).ToList(),
+                    ApplicationSettings.ImagesUri);
 
                 return Ok(albumIndexViewModel);
             }
@@ -95,7 +98,7 @@ namespace ImageGallery.Client.Apis
         [Route("list")]
         [Produces("application/json", Type = typeof(IEnumerable<GalleryIndexViewModel>))]
         [ProducesResponseType(typeof(IEnumerable<GalleryIndexViewModel>), 200)]
-        public async Task<IActionResult> Get([FromQuery] GalleryRequestModel query, int limit, int page)
+        public async Task<IActionResult> Get([FromQuery] AlbumRequestModel query, int limit, int page)
         {
             await WriteOutIdentityInformation();
 
@@ -113,7 +116,8 @@ namespace ImageGallery.Client.Apis
                 var albumsAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                 var albumIndexViewModel = new AlbumIndexViewModel(
-                        JsonConvert.DeserializeObject<IList<Album>>(albumsAsString).ToList());
+                    JsonConvert.DeserializeObject<IList<Album>>(albumsAsString).ToList(),
+                    ApplicationSettings.ImagesUri);
 
                 HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "X-InlineCount");
                 HttpContext.Response.Headers.Add("X-InlineCount", inlinecount);
@@ -204,8 +208,8 @@ namespace ImageGallery.Client.Apis
             {
                 var imagesAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                var galleryIndexViewModel = new GalleryIndexViewModel(
-                    JsonConvert.DeserializeObject<IList<Image>>(imagesAsString).ToList(),
+                var galleryIndexViewModel = new AlbumImageIndexViewModel(
+                    JsonConvert.DeserializeObject<IList<AlbumImage>>(imagesAsString).ToList(),
                     ApplicationSettings.ImagesUri);
 
                 HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "X-InlineCount");

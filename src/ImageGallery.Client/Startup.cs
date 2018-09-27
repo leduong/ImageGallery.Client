@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using StackExchange.Redis;
@@ -100,7 +99,7 @@ namespace ImageGallery.Client
                             { "imagegalleryapi", "Image Gallery API" },
                         },
                     });
-                    options.IncludeXmlComments(GetXmlCommentsPath(PlatformServices.Default.Application));
+                    options.IncludeXmlComments(GetXmlCommentsPath());
                 });
             }
 
@@ -205,10 +204,13 @@ namespace ImageGallery.Client
             });
         }
 
-        private static string GetXmlCommentsPath(ApplicationEnvironment appEnvironment)
+        private static string GetXmlCommentsPath()
         {
-            var documentationFile = $"{appEnvironment.ApplicationName}.xml";
-            return Path.Combine(appEnvironment.ApplicationBasePath, documentationFile);
+            var basePath = AppContext.BaseDirectory;
+            var assemblyName = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
+            var fileName = Path.GetFileName($"{assemblyName}.xml");
+
+            return Path.Combine(basePath, fileName);
         }
 
         private string ValidateUrl(string url)

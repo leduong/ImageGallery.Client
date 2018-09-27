@@ -28,6 +28,6 @@
 
   <PropertyGroup Condition=" '$(OS)' != 'Windows_NT'">
     <CodeAnalysisRuleSet>$(SolutionDir)../../_stylecop/StyleCopeRules.ruleset</CodeAnalysisRuleSet>
-</PropertyGroup>
+  </PropertyGroup>
 
 </Project>

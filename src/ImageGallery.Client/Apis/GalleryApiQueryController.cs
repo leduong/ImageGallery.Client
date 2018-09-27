@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
@@ -8,12 +7,10 @@ using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Services;
 using ImageGallery.Client.ViewModels;
 using ImageGallery.Model;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Newtonsoft.Json;
 
 namespace ImageGallery.Client.Apis

@@ -184,7 +184,7 @@
 
   <PropertyGroup Condition=" '$(OS)' != 'Windows_NT'">
     <CodeAnalysisRuleSet>$(SolutionDir)../../_stylecop/StyleCopeRules.ruleset</CodeAnalysisRuleSet>
-</PropertyGroup>
+  </PropertyGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="wwwroot\app\app.component.ts" />
@@ -238,6 +238,10 @@
     <TypeScriptCompile Include="wwwroot\app\shared\interfaces.ts" />
     <TypeScriptCompile Include="wwwroot\app\shared\shared.module.ts" />
     <TypeScriptCompile Include="wwwroot\app\vendor.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Extensions\" />
   </ItemGroup>
 
 </Project>

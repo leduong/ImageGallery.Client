@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using ImageGallery.Model;
 
 namespace ImageGallery.Client.ViewModels
 {
@@ -12,14 +11,21 @@ namespace ImageGallery.Client.ViewModels
         /// Initializes a new instance of the <see cref="AlbumIndexViewModel"/> class.
         /// </summary>
         /// <param name="albums"></param>
-        public AlbumIndexViewModel(List<Album> albums)
+        /// <param name="imagesUri"></param>
+        public AlbumIndexViewModel(List<Model.Album> albums, string imagesUri)
         {
             Albums = albums;
+            ImagesUri = imagesUri;
         }
 
         /// <summary>
         ///
         /// </summary>
-        public IEnumerable<Album> Albums { get; private set; }
+        public IEnumerable<Model.Album> Albums { get; private set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public string ImagesUri { get; private set; }
     }
 }
