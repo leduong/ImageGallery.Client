@@ -7,7 +7,7 @@
             <div class="flex">
                 <div class="h5">
                     {{image.title}}
-                    <img *ngIf="image.dataSource === 'Flickr' && image.photoId" src="../../../../assets/img/flickr.png" />
+                    <img *ngIf="image.dataSource === 'Flickr' && image.photoId" src="../../../../assets/img/flickr.png" (click)="showModal(image)"/>
                 </div>
                 <input *ngIf="image.dataSource === 'Flickr' && image.photoId" type="checkbox" [checked]="albums[i]" (click)="saveAlbum(i)">
             </div>

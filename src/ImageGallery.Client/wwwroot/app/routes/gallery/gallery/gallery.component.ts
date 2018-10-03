@@ -132,4 +132,10 @@ export class GalleryComponent implements OnInit {
         }
         localStorage.setItem('albums', JSON.stringify(this.savedAlbums));
     }
+
+    public showModal(photo) {
+        this.galleryService.getPhotoAttraction(photo.photoId).subscribe(res => {
+            console.log(res);
+        });
+    }
 }

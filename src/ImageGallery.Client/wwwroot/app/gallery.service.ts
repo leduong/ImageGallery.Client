@@ -15,8 +15,16 @@ export class GalleryService {
   private baseUrl: string = '/api/images';
   // private albumUrl: string = 'https://imagegallery-api.informationcart.com/api/albums';
   private albumUrl: string = '/api/albums';
+  private photoUrl = '';
 
   constructor(private httpClient: HttpClient, private oauthService: OAuthService) {
+    this.getConfig().subscribe((res: any) => {
+      this.photoUrl = res.clientConfiguration.apiAttractionsUri;
+    });
+  }
+
+  private getConfig() {
+    return this.httpClient.get('api/ClientAppSettings');
   }
 
   public getGalleryIndexViewModel(limit: number, page: number) {
@@ -37,7 +45,6 @@ export class GalleryService {
   public getAlbumIndexViewModel(limit: number, page: number) {
     var headers = this.generateBearerHeaaders();
     headers.append("Content-type", "application/json");
-    console.log("I am here!!!");
     return new Promise((resolve, reject) => {
       this.httpClient.get(`${this.albumUrl}/list?limit=${limit}&page=${page}`, { observe: 'response', headers: headers })
         .subscribe(res => {
@@ -63,6 +70,10 @@ export class GalleryService {
     var self = this;
     return this.httpClient.get<IEditImageViewModel>(`${this.baseUrl}/${id}`, { headers: self.generateBearerHeaaders() })
       .catch(this.handleError);
+  }
+
+  public getPhotoAttraction(id: string): Observable<Object> {
+    return this.httpClient.get(`${this.photoUrl}/api/photo/attraction/${id}`, {headers: this.generateBearerHeaaders()}).catch(this.handleError);
   }
 
   public postEditImageViewModel(model: IEditImageViewModel): Observable<Object> {
