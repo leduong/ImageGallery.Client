@@ -26,6 +26,8 @@
     border: 1px solid lightgrey;
 }
 
-.bottomMarginDefault:hover {
-    cursor: pointer;
+.image-title {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }

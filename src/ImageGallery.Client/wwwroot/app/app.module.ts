@@ -22,6 +22,7 @@ import { AuthGuard } from './guards/authGuard';
 import { OAuthModule, OAuthService, JwksValidationHandler } from 'angular-oauth2-oidc';
 
 import { HttpXSRFInterceptorProvider } from './services/xsrfInterceptor.service';
+import { ModalModule } from 'ngx-bootstrap';
 
 // https://github.com/ocombe/ng2-translate/issues/218
 export function createTranslateLoader(http: HttpClient) {
@@ -55,7 +56,8 @@ export function createTranslateLoader(http: HttpClient) {
         }
       }
     }),
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    ModalModule.forRoot()
   ],
   providers: [
     { provide: 'ORIGIN_URL', useFactory: getBaseUrl },

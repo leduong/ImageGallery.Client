@@ -6,6 +6,7 @@ import { AuthService } from '../../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxLoadingSpinnerService } from 'ngx-loading-spinner-fork';
 import { setTimeout } from 'timers';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 
 @Component({
@@ -30,6 +31,9 @@ export class GalleryComponent implements OnInit {
     albums = [];
     savedAlbums = [];
 
+    modalRef: BsModalRef;
+    flickrList = [];
+
     constructor(
         private activatedRoute: ActivatedRoute,
         private authService: AuthService,
@@ -37,7 +41,8 @@ export class GalleryComponent implements OnInit {
         public toastr: ToastrService,
         vcr: ViewContainerRef,
         private spinnerService: NgxLoadingSpinnerService,
-        private changeDetectorRef: ChangeDetectorRef
+        private changeDetectorRef: ChangeDetectorRef,
+        private modalService: BsModalService
     ) {
         // this.toastr.setRootViewContainerRef(vcr);
         this.savedAlbums = JSON.parse(localStorage.getItem('albums')) ? JSON.parse(localStorage.getItem('albums')) : [];
@@ -133,9 +138,12 @@ export class GalleryComponent implements OnInit {
         localStorage.setItem('albums', JSON.stringify(this.savedAlbums));
     }
 
-    public showModal(photo) {
-        this.galleryService.getPhotoAttraction(photo.photoId).subscribe(res => {
-            console.log(res);
+    public showModal(photo, template) {
+        this.spinnerService.show();
+        this.galleryService.getPhotoAttraction(photo.photoId).subscribe((res: any) => {
+            this.flickrList = res;
+            this.modalRef = this.modalService.show(template);
+            this.spinnerService.hide();
         });
     }
 }

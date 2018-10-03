@@ -7,9 +7,9 @@
                 </div>
                 <div class="panel-footer">
                     <div class="d-flex">
-                        <div class="d-flex">
-                            <h4 class="mr-2">{{image.title}}</h4>
-                            <img *ngIf="image.dataSource === 'Flickr' && image.photoId" src="../../../../assets/img/flickr.png" (click)="showModal(image)"/>
+                        <div class="d-flex flex-10">
+                            <h5 class="mr-1 image-title">{{image.title}}</h5>
+                            <img class="flickr-img" *ngIf="image.dataSource === 'Flickr' && image.photoId" src="../../../../assets/img/flickr.png" (click)="showModal(image, template)"/>
                         </div>
                         <input *ngIf="image.dataSource === 'Flickr' && image.photoId" type="checkbox" [checked]="albums[i]" (click)="saveAlbum(i)">
                     </div>
@@ -52,3 +52,34 @@
 <div class="no-message" *ngIf="pagination.totalItems == 0">There are No Images in your Gallery</div>
 
 <ngx-loading-spinner> </ngx-loading-spinner>
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Flickr List Modal</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Key</th>
+                        <th>Feature Key</th>
+                        <th>Catalog</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let f of flickrList">
+                        <td>{{f.title}}</td>
+                        <td>{{f.key}}</td>
+                        <td>{{f.featureKey}}</td>
+                        <td>{{f.catalog}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</ng-template>

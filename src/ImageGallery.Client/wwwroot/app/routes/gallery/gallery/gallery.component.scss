@@ -18,10 +18,25 @@
 
 .d-flex {
     display: flex;
-    justify-content: space-between;
     align-items: center;
 }
 
-.mr-2 {
-    margin-right: 10px;
+.flex-10 {
+    flex: 10;
+    max-width: 100%;
+}
+
+.mr-1 {
+    margin-right: 5px;
+}
+
+.image-title {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: calc(100% - 30px);
+}
+
+.flickr-img:hover {
+    cursor: pointer;
 }
