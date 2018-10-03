@@ -1,21 +1,14 @@
-<div class="container bottomMarginDefault">
-
-  <div class="leftMarginSmaller">
-    <h3>Albums</h3>
-  </div>
-
-  <div *ngIf="albumIndexViewModel">
-    <div class="row">
-      <div *ngFor="let album of albumIndexViewModel.albums" class="pull-left col-md-4">
-        <div class="bottomMarginDefault">
-          <div>
-            <img class="thumbnailImage" src="{{albumIndexViewModel.photoUrl}}"/>
-          </div>
-
-          <div [routerLink]="['/album-view', album.id]">
-            <div class="h4">{{album.title}}</div>
-            <div class="h5">{{album.description}}</div>
-          </div>
+<div class="container">
+  <h2 class="page-header">Albums</h2>
+  <div class="row" *ngIf="albumIndexViewModel">
+    <div class="col-md-4" *ngFor="let album of albumIndexViewModel.albums">
+      <div class="panel panel-default" [class.panel-primary]="album.isPrimaryImage" [routerLink]="['/album-view', album.id]">
+        <div class="panel-body text-center">
+          <img src="{{albumIndexViewModel.imagesUri + '/' + album.fileName}}" width="{{album.width}}" height="{{album.height}}">
+        </div>
+        <div class="panel-footer">
+          <h4>{{album.title}}</h4>
+          <h5>{{album.description}}</h5>
         </div>
       </div>
     </div>

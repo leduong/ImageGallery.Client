@@ -1,20 +1,24 @@
-<div *ngIf="galleryIndexViewModel" class="container">
-    <div *ngFor="let image of galleryIndexViewModel.images; let i = index" class="pull-left col-md-4" [class.selected]="albums[i]">
-        <div class="image-wrapper">
-            <img class="thumbnailImage" src="{{galleryIndexViewModel.imagesUri + image.fileName}}" />
-        </div>
-        <div>
-            <div class="flex">
-                <div class="h5">
-                    {{image.title}}
-                    <img *ngIf="image.dataSource === 'Flickr' && image.photoId" src="../../../../assets/img/flickr.png" (click)="showModal(image)"/>
+<div class="container">
+    <div class="row" *ngIf="galleryIndexViewModel">
+        <div class="col-md-4" *ngFor="let image of galleryIndexViewModel.images; let i = index">
+            <div class="panel panel-default" [class.panel-warning]="albums[i]">
+                <div class="panel-body text-center">
+                    <img src="{{galleryIndexViewModel.imagesUri + image.fileName}}" width="{{image.width}}" height="{{image.height}}">
                 </div>
-                <input *ngIf="image.dataSource === 'Flickr' && image.photoId" type="checkbox" [checked]="albums[i]" (click)="saveAlbum(i)">
-            </div>
-            <div class="h5">{{image.category}}</div>
-            <div class="bottomMarginDefault">
-                <a [routerLink]="['/gallery-edit', image.id]">Edit</a> |
-                <a (click)="deleteImage(image.id)">Delete</a>
+                <div class="panel-footer">
+                    <div class="d-flex">
+                        <div class="d-flex">
+                            <h4 class="mr-2">{{image.title}}</h4>
+                            <img *ngIf="image.dataSource === 'Flickr' && image.photoId" src="../../../../assets/img/flickr.png" (click)="showModal(image)"/>
+                        </div>
+                        <input *ngIf="image.dataSource === 'Flickr' && image.photoId" type="checkbox" [checked]="albums[i]" (click)="saveAlbum(i)">
+                    </div>
+                    <h5>{{image.category}}</h5>
+                    <div>
+                        <a [routerLink]="['/gallery-edit', image.id]">Edit</a> |
+                        <a (click)="deleteImage(image.id)">Delete</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

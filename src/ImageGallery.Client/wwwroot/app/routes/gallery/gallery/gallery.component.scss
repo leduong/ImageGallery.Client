@@ -16,13 +16,12 @@
     border: 1px solid #aaa;
 }
 
-.flex {
+.d-flex {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.selected>div {
-    box-shadow: 0 0 20px #ffef3f;
-    background-color: #fffce0;
+.mr-2 {
+    margin-right: 10px;
 }

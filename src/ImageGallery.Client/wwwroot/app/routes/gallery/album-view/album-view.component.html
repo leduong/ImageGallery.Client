@@ -1,14 +1,15 @@
-﻿<div *ngIf="albumViewModel" class="form-horizontal leftMarginDefault">
-
-  <div class="leftMarginSmaller">
-    <h1>{{ albumViewModel.tilte }}</h1>
+﻿<div class="container">
+  <h2 class="page-header">Album View</h2>
+  <div class="row" *ngIf="albumViewModel && albumViewModel.images">
+    <div class="col-md-4" *ngFor="let album of albumViewModel.images">
+      <div class="panel panel-default" [class.panel-primary]="album.isPrimaryImage">
+        <div class="panel-body text-center">
+          <img src="{{albumViewModel.imagesUri + '/' + album.fileName}}" width="{{album.width}}" height="{{album.height}}">
+        </div>
+        <div class="panel-footer">
+          <h4>{{album.title}}</h4>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <div>
-    <img class="thumbnailImage" src="{{albumViewModel.photoUrl}}" />
-  </div>
-
-  <h3>
-    {{ albumViewModel.description }}
-  </h3>
 </div>

@@ -46,8 +46,8 @@ export class AlbumComponent implements OnInit {
         this.authService.getIsAuthorized().subscribe(
             (isAuthorized: boolean) => {
                 if (isAuthorized) {
-                    this.pagination.limit = localStorage.getItem('limit') ? parseInt(localStorage.getItem('limit')) : 15;
-                    this.pagination.page = localStorage.getItem('page') ? parseInt(localStorage.getItem('page')) : 1;
+                    this.pagination.limit = localStorage.getItem('album-limit') ? parseInt(localStorage.getItem('album-limit')) : 15;
+                    this.pagination.page = localStorage.getItem('album-page') ? parseInt(localStorage.getItem('album-page')) : 1;
                     this.getAlbumIndexViewModel();
                 }
             }
@@ -64,7 +64,7 @@ export class AlbumComponent implements OnInit {
             localStorage.removeItem('isAdded');
         }
         setTimeout(() => {
-            this.pagination.page = localStorage.getItem('page') ? parseInt(localStorage.getItem('page')) : 1;
+            this.pagination.page = localStorage.getItem('album-page') ? parseInt(localStorage.getItem('album-page')) : 1;
             this.changeDetectorRef.detectChanges();
         }, 1000);
     }
@@ -88,16 +88,16 @@ export class AlbumComponent implements OnInit {
         if (typeof event == 'string') {
             this.pagination.limit = parseInt(event);
             this.pagination.page = 1;
-            localStorage.setItem('limit', this.pagination.limit.toString());
-            localStorage.setItem('page', this.pagination.page.toString());
+            localStorage.setItem('album-limit', this.pagination.limit.toString());
+            localStorage.setItem('album-page', this.pagination.page.toString());
         } else if (typeof event == 'object') {
             this.pagination.limit = event.itemsPerPage;
             this.pagination.page = event.page;
-            localStorage.setItem('limit', this.pagination.limit.toString());
-            localStorage.setItem('page', this.pagination.page.toString());
+            localStorage.setItem('album-limit', this.pagination.limit.toString());
+            localStorage.setItem('album-page', this.pagination.page.toString());
         }
         setTimeout(() => {
-            this.pagination.page = localStorage.getItem('page') ? parseInt(localStorage.getItem('page')) : 1;
+            this.pagination.page = localStorage.getItem('album-page') ? parseInt(localStorage.getItem('album-page')) : 1;
             this.changeDetectorRef.detectChanges();
         }, 1000);
 

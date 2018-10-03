@@ -62,7 +62,7 @@ export class GalleryService {
     var headers = this.generateBearerHeaaders();
     headers.append("Content-Type", "application/json");
 
-    return this.httpClient.get<IAlbumViewModel>(`${this.albumUrl}/images/${page}/${limit}?id=${id}`, { headers: this.generateBearerHeaaders() })
+    return this.httpClient.get<IAlbumViewModel>(`${this.albumUrl}/images/list/${limit}/${page}?id=${id}`, { headers: this.generateBearerHeaaders() })
       .catch(this.handleError);
   }
 
