@@ -152,6 +152,12 @@
         ///
         /// </summary>
         public string RollingFilePath { get; set; }
+
+        /// <summary>
+        ///  Serilog Console Logging
+        /// </summary>
+        public bool ConsoleEnabled { get; set; }
+
     }
 
     /// <summary>

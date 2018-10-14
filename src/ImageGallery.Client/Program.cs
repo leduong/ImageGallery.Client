@@ -12,6 +12,7 @@ using Serilog;
 using Serilog.Enrichers;
 using Serilog.Events;
 using Serilog.Sinks.RollingFileAlternate;
+using Serilog.Sinks.SystemConsole.Themes;
 
 namespace ImageGallery.Client
 {
@@ -36,11 +37,17 @@ namespace ImageGallery.Client
         /// <returns></returns>
         public static int Main(string[] args)
         {
+            var config = Configuration.Get<ApplicationOptions>();
             ConfigureLoggly();
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Debug)
+
+                 .WriteTo.Logger(lc => lc
+                    .Filter.ByExcluding(_ => !config.LoggingConfiguration.ConsoleEnabled))
+                    .WriteTo.Console(theme: SystemConsoleTheme.Literate)
+
                 .Enrich.FromLogContext()
                 .Enrich.WithProcessId()
                 .Enrich.WithThreadId()
