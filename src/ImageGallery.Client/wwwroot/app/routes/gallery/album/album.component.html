@@ -2,7 +2,7 @@
   <h2 class="page-header">Albums</h2>
   <div class="row" *ngIf="albumIndexViewModel">
     <div class="col-md-4" *ngFor="let album of albumIndexViewModel.albums">
-      <div class="panel panel-default" [class.panel-primary]="album.isPrimaryImage" [routerLink]="['/album-view', album.id]">
+      <div class="panel panel-default" [class.panel-primary]="album.isPrimaryImage" (click)="goToAlbumView(album)">
         <div class="panel-body text-center">
           <img src="{{albumIndexViewModel.imagesUri + '/' + album.fileName}}" width="{{album.width}}" height="{{album.height}}">
         </div>

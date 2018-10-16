@@ -25,6 +25,7 @@ export class AlbumViewComponent implements OnInit {
         totalItems: 10
     };
     perPage = [15, 30, 60, 90];
+    title = '';
 
     categories: string[] = ['Landscapes', 'Portraits', 'Animals'];
 
@@ -36,29 +37,22 @@ export class AlbumViewComponent implements OnInit {
     }
 
     async ngOnInit() {
-        console.log(`[ngOnInit] app-gallery-view`);
-
+        this.title = localStorage.getItem('album-title');
         const imageId = await this.getImageIdAsync();
-
-        console.log(`Image id: ${imageId}`);
-
         this.getAlbumViewModel(imageId);
     }
 
     private async getImageIdAsync(): Promise<string> {
         const params = await this.activatedRoute.paramMap.first().toPromise();
         const imageId = params.get('id');
-        console.log(imageId);
         return imageId;
     }
 
     private getAlbumViewModel(imageId: string) {
         this.galleryService.getAlbumViewModel(imageId, this.pagination.limit, this.pagination.page)
             .subscribe((response: IAlbumViewModel) => {
-                console.log(response)
                 this.albumViewModel = response;
             },
-            (err: any) => console.log(err),
-            () => console.log('getImageViewModel() retrieved EditImageViewModel'));
+            (err: any) => console.log(err));
     }
 }

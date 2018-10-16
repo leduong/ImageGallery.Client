@@ -1,5 +1,9 @@
 ﻿<div class="container">
-  <h2 class="page-header">Album View</h2>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/albums">Albums</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{title}}</li>
+  </ol>
+  <h2 class="page-header">{{title}}</h2>
   <div class="row" *ngIf="albumViewModel && albumViewModel.images">
     <div class="col-md-4" *ngFor="let album of albumViewModel.images">
       <div class="panel panel-default" [class.panel-primary]="album.isPrimaryImage">
@@ -11,5 +15,8 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="jumbotron" *ngIf="albumViewModel && albumViewModel.images.length === 0">
+    <span>No Photos Exist for the Album</span>
   </div>
 </div>

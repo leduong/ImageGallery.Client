@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GalleryService } from '../../../gallery.service';
 import { IAlbumIndexViewModel, IRouteTypeModel } from '../../../shared/interfaces';
 import { AuthService } from '../../../services/auth.service';
@@ -35,7 +35,8 @@ export class AlbumComponent implements OnInit {
         public toastr: ToastrService,
         vcr: ViewContainerRef,
         private spinnerService: NgxLoadingSpinnerService,
-        private changeDetectorRef: ChangeDetectorRef
+        private changeDetectorRef: ChangeDetectorRef,
+        private router: Router
     ) {
         //this.toastr.setRootViewContainerRef(vcr);
     }
@@ -118,4 +119,8 @@ export class AlbumComponent implements OnInit {
         window.scrollTo(0, 0);
     }
 
+    goToAlbumView(album) {
+        localStorage.setItem('album-title', album.title);
+        this.router.navigate(['album-view', album.id]);
+    }
 }
