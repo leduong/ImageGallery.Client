@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Services;
 using ImageGallery.Client.ViewModels;
 using ImageGallery.Model;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Newtonsoft.Json;
 
 namespace ImageGallery.Client.Apis
@@ -20,8 +18,9 @@ namespace ImageGallery.Client.Apis
     /// <summary>
     ///
     /// </summary>
+    [ApiController]
     [Route("api/images")]
-    public class GalleryApiQueryController : Controller
+    public class GalleryApiQueryController : BaseController
     {
         private const string InternalImagesRoute = "api/images";
 
@@ -45,21 +44,19 @@ namespace ImageGallery.Client.Apis
         private ApplicationOptions ApplicationSettings { get; }
 
         /// <summary>
-        /// Get Images
+        /// Get Images.
         /// </summary>
         /// <returns></returns>
         [Authorize(Roles = "PayingUser, FreeUser")]
         [HttpGet]
         [Produces("application/json", Type = typeof(IEnumerable<GalleryIndexViewModel>))]
         [ProducesResponseType(typeof(IEnumerable<GalleryIndexViewModel>), 200)]
-        public async Task<ActionResult> GalleryIndexViewModel()
+        public async Task<IActionResult> GalleryIndexViewModel()
         {
             await WriteOutIdentityInformation();
 
             // call the API
             var httpClient = await _imageGalleryHttpClient.GetClient();
-
-
             var response = await httpClient.GetAsync(InternalImagesRoute).ConfigureAwait(false);
 
             _logger.LogInformation($"Call {InternalImagesRoute} return {response.StatusCode}.");
@@ -88,7 +85,7 @@ namespace ImageGallery.Client.Apis
         }
 
         /// <summary>
-        /// Get Images Paging
+        /// Get Images Paging.
         /// </summary>
         /// <param name="query"></param>
         /// <param name="limit"></param>
@@ -99,7 +96,7 @@ namespace ImageGallery.Client.Apis
         [Route("list")]
         [Produces("application/json", Type = typeof(IEnumerable<GalleryIndexViewModel>))]
         [ProducesResponseType(typeof(IEnumerable<GalleryIndexViewModel>), 200)]
-        public async Task<ActionResult> Get([FromQuery] GalleryRequestModel query, int limit, int page)
+        public async Task<IActionResult> Get([FromQuery] GalleryRequestModel query, int limit, int page)
         {
             await WriteOutIdentityInformation();
 
@@ -139,7 +136,7 @@ namespace ImageGallery.Client.Apis
         }
 
         /// <summary>
-        /// Get Image
+        /// Get Image.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -182,21 +179,6 @@ namespace ImageGallery.Client.Apis
             }
 
             throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
-        }
-
-        private async Task WriteOutIdentityInformation()
-        {
-            // get the saved identity token
-            var identityToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.IdToken);
-
-            // write it out
-            Debug.WriteLine($"Identity token: {identityToken}");
-
-            // write out the user claims
-            foreach (var claim in User.Claims)
-            {
-                Debug.WriteLine($"Claim type: {claim.Type} - Claim value: {claim.Value}");
-            }
         }
     }
 }

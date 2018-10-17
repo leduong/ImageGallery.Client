@@ -1,7 +1,12 @@
 # ImageGallery.Client
 
 [![This image on DockerHub](https://img.shields.io/docker/pulls/stuartshay/imagegallery-client.svg)](https://hub.docker.com/r/stuartshay/imagegallery-client/)
- [![dependencies Status](https://david-dm.org/stuartshay/ImageGallery.Client/status.svg)](https://david-dm.org/stuartshay/ImageGallery.Client) [![devDependencies Status](https://david-dm.org/stuartshay/ImageGallery.Client/dev-status.svg)](https://david-dm.org/stuartshay/ImageGallery.Client?type=dev) 
+[![Greenkeeper badge](https://badges.greenkeeper.io/stuartshay/ImageGallery.Client.svg)](https://greenkeeper.io/)
+
+[![SonarCloud](http://sonar.navigatorglass.com:9000/api/project_badges/measure?project=ImageGalleryClient&metric=alert_status)](http://sonar.navigatorglass.com:9000/dashboard?id=ImageGalleryClient)
+[![SonarCloud](http://sonar.navigatorglass.com:9000/api/project_badges/measure?project=ImageGalleryClient&metric=reliability_rating)](http://sonar.navigatorglass.com:9000/dashboard?id=ImageGalleryClient)
+[![SonarCloud](http://sonar.navigatorglass.com:9000/api/project_badges/measure?project=ImageGalleryClient&metric=security_rating)](http://sonar.navigatorglass.com:9000/dashboard?id=ImageGalleryClient)
+[![SonarCloud](http://sonar.navigatorglass.com:9000/api/project_badges/measure?project=ImageGalleryClient&metric=sqale_rating)](http://sonar.navigatorglass.com:9000/dashboard?id=ImageGalleryClient)
 
 
  Jenkins | Status  
@@ -9,17 +14,26 @@
 Base Image (Auth) | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery-Auth/ImageGallery-Auth-base)](https://jenkins.navigatorglass.com/job/ImageGallery-Auth/job/ImageGallery-Auth-base/)
 Application Image (Auth) | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery-Auth/ImageGallery-Auth-build)](https://jenkins.navigatorglass.com/job/ImageGallery-Auth/job/ImageGallery-Auth-build/)
 Local Image (Auth) | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery-Auth/ImageGallery-Auth-local)](https://jenkins.navigatorglass.com/job/ImageGallery-Auth/job/ImageGallery-Auth-local/)
+JS Web Tests (Auth) | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery-Auth/ImageGallery-Auth-web-tests)](https://jenkins.navigatorglass.com/job/ImageGallery-Auth/job/ImageGallery-Auth-web-tests/)
+SonarQube (Auth) | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery-Auth/ImageGallery-Auth-sonarqube)](https://jenkins.navigatorglass.com/job/ImageGallery-Auth/job/ImageGallery-Auth-sonarqube/)
+AppVeyor |[![Build status](https://ci.appveyor.com/api/projects/status/iub0tbs42d9ut0g7?svg=true)](https://ci.appveyor.com/project/StuartShay/imagegallery-client)
 
+
+### Demo
+```
+https://dev.informationcart.com
+L: Claire P: password
+```
 
 ### Prerequisites
 
 ```
-Node v8.9.3
-NET Core 2.0.2
-VS Code 1.19.1 or VS 2017 15.4.2
+Node v9.3.0
+NET Core SDK 2.1.4
+VS Code 1.19.1 or VS 2017 15.8.4
 ```
 
-### Install
+### Install & Run
 
 ```
 cd ImageGallery.Client
@@ -33,32 +47,11 @@ npm run compile-app
 
 dotnet run
 
-http://localhost:5000/home
+http://localhost:8000/
 ```
-
-### Docker
-```
-docker build -t imagegallery-core-base
-
-docker run -p 8080:44300 imagegallery-core-base
-```
-
-### Demo
-```
-https://imagegallery-client.informationcart.com/
-
-User with Full Access 
-L: Claire
-P: password
-
-User with Read Access 
-L: Frank
-P: password
+#### Build Options 
 
 ```
-### Identity Server
-https://auth.informationcart.com/
-      
-### API
-https://imagegallery-api.informationcart.com/swagger
-
+Production: npm run compile-app-prod
+Development: npm run compile-app
+```

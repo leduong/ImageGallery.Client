@@ -2,13 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RuntimeFrameworkVersion>2.1.4</RuntimeFrameworkVersion>
     <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
     <RuntimeIdentifiers>win10-x64;debian.9-x64;ubuntu.16.04-x64;osx.10.12-x64</RuntimeIdentifiers>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <NoWarn>$(NoWarn),1701;1702;1705</NoWarn>
-    <TypeScriptToolsVersion>2.3</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Extensions\**" />
+    <Content Remove="Extensions\**" />
+    <EmbeddedResource Remove="Extensions\**" />
+    <None Remove="Extensions\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Remove="wwwroot\app\app.component.ts" />
@@ -75,35 +82,34 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.7" />
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Redis" Version="0.3.2" />
-    <PackageReference Include="IdentityModel" Version="3.6.1" />
-    <PackageReference Include="BundlerMinifier.Core" Version="2.6.375" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Https" Version="2.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="2.1.0" />
-    <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
-    <PackageReference Include="Serilog.Sinks.Loggly" Version="5.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Redis" Version="0.4.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Https" Version="2.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="2.2.5" />
+    <PackageReference Include="IdentityModel" Version="3.10.0" />
+    <PackageReference Include="BundlerMinifier.Core" Version="2.8.391" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    
-    <PackageReference Include="loggly-csharp" Version="4.6.1.47" />
-    <PackageReference Include="Serilog" Version="2.6.0" />
+    <PackageReference Include="loggly-csharp" Version="4.6.1.64" />
+    <PackageReference Include="Serilog" Version="2.7.1" />
+    <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
+    <PackageReference Include="Serilog.Enrichers.Process" Version="2.0.1" />
+    <PackageReference Include="Serilog.Enrichers.Thread" Version="3.0.0" />
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="2.1.2" />
+    <PackageReference Include="Serilog.Sinks.Loggly" Version="5.3.0" />
     <PackageReference Include="Serilog.Sinks.PeriodicBatching" Version="2.1.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
     <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
     <PackageReference Include="Serilog.Sinks.RollingFileAlternate" Version="2.0.9" />
-    <PackageReference Include="Serilog.Sinks.Async" Version="1.1.0" />
-    <PackageReference Include="Serilog.Enrichers.Environment" Version="2.1.2" />
-    <PackageReference Include="Serilog.Enrichers.Process" Version="2.0.1" />
-    <PackageReference Include="Serilog.Enrichers.Thread" Version="3.0.0" />
-
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" />
+    <PackageReference Include="Serilog.Sinks.ColoredConsole" Version="3.0.1" />
+    <PackageReference Include="Serilog.Sinks.Async" Version="1.3.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta009" />
     <PackageReference Include="dotnet-setversion" Version="1.0.3" />
-
   </ItemGroup>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.6.375" />
+    <DotNetCliToolReference Include="BundlerMinifier.Core" Version="2.8.391" />
     <DotNetCliToolReference Include="dotnet-setversion" Version="1.0.3" />
   </ItemGroup>
 
@@ -135,7 +141,6 @@
   </ItemGroup>
 
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
-    <Exec Command="bower install" />
     <Exec Command="dotnet bundle" />
   </Target>
 
@@ -167,9 +172,7 @@
     </ItemGroup>
   </Target>
 
-  <PropertyGroup>
-    <CodeAnalysisRuleSet>$(SolutionDir)/_stylecop/StyleCopeRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
+
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>bin\Debug\netcoreapp2.1\ImageGallery.Client.xml</DocumentationFile>
@@ -179,9 +182,17 @@
     <DocumentationFile>bin\Release\netcoreapp2.1\ImageGallery.Client.xml</DocumentationFile>
   </PropertyGroup>
 
-  <ItemGroup>
-    <AdditionalFiles Include="$(SolutionDir)\_stylecop\stylecop.json" Link="stylecop.json" />
+  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT'">
+    <CodeAnalysisRuleSet>$(SolutionDir)/_stylecop/StyleCopeRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(OS)' == 'Windows_NT'">
+    <AdditionalFiles Include="$(SolutionDir)/_stylecop/stylecop.json" Link="stylecop.json" />
   </ItemGroup>
+
+  <PropertyGroup Condition=" '$(OS)' != 'Windows_NT'">
+    <CodeAnalysisRuleSet>$(SolutionDir)../../_stylecop/StyleCopeRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="wwwroot\app\app.component.ts" />

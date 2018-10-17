@@ -1,5 +1,7 @@
-﻿body {
-    padding-top: 50px;
+﻿@import "~bootstrap/dist/css/bootstrap.css";
+/* @import "~font-awesome/css/font-awesome.css"; */
+
+body {
     padding-bottom: 20px;
     background: white!important;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif!important;
@@ -10,7 +12,7 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
-    padding-top:30px;
+    padding-top: 30px;
 }
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
@@ -49,10 +51,17 @@ textarea {
     margin-bottom: 30px;
 }
 
+.bottomMarginImage {
+    margin-bottom: 5px;
+}
+
 .bottomMarginSmall {
     margin-bottom: 15px;
 }
 
+.topMarginDefault {
+  margin-top: 40px;
+}
 .rightMarginDefault {
     margin-right: 30px;
 }
@@ -62,13 +71,19 @@ textarea {
 }
 
 .leftMarginSmaller {
+    margin-top: 40px;
     margin-left: 15px;
 }
 
-.thumbnailImage {
+.image-wrapper {
+    border: 1px solid lightgrey;
+    padding: 3px;
+}
+
+img.thumbnailImage {
     max-width: 400px;
     width: 100%;
-    height: auto;
+    object-fit: cover;
 }
 
 img{
@@ -89,9 +104,14 @@ img{
     overflow: hidden;
 }
 
-.navbar-inverse .navbar-brand{
+/* .navbar-inverse .navbar-brand{
     color: #9d9d9d!important;
-}
+} */
+
+/* .navbar-inverse .navbar-brand{
+    color: #9d9d9d!important;
+} */
+
 
 .navbar{
     min-height: 50px!important;
@@ -104,6 +124,12 @@ img{
 
 .navbar-brand{
     padding:15px!important;
+    color: #9d9d9d!important;
+}
+
+.navbar-brand:hover{
+    padding:15px!important;
+    color: white!important;
 }
 
 .navbar-fixed-top{
@@ -116,4 +142,21 @@ img{
 
 .navbar-inverse .navbar-nav>li>a:hover{
     color: white!important;
+}
+
+.navbar-green .navbar-nav>li>a{
+    color: #9d9d9d!important;
+}
+
+.navbar-green .navbar-nav>li>a:hover{
+    color: white!important;
+}
+
+app-gallery .container {
+    margin-top: 50px;
+}
+
+#ggl-recaptcha {
+    transform: scale(.96);
+    transform-origin: 0 0;
 }

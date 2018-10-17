@@ -3,6 +3,23 @@ export interface IImage {
     title: string;
     fileName: string;
     category: string;
+    dataSource: string;
+    photoId: string;
+}
+
+export interface IAlbum {
+    id: string;
+    title: string;
+    descritpion: string;
+}
+
+export interface IRouteTypeModel {
+    type: string;
+}
+
+export interface IAlbumIndexViewModel {
+    albums: IAlbum[];
+    albumsUri: string;
 }
 
 export interface IGalleryIndexViewModel {
@@ -20,4 +37,10 @@ export interface IAddImageViewModel {
     title: string;
     category: string;
     file: File;
+}
+
+export interface IAlbumViewModel {
+    id: string;
+    title: string;
+    description: string;
 }

@@ -14,13 +14,11 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Swagger;
 
-//Test Jenkins
 namespace ImageGallery.Client
 {
     /// <summary>
@@ -28,7 +26,7 @@ namespace ImageGallery.Client
     /// </summary>
     public class Startup
     {
-        ///  <summary />
+        /// <summary />
         /// <param name="configuration"></param>
         public Startup(IConfiguration configuration)
         {
@@ -54,94 +52,19 @@ namespace ImageGallery.Client
 
             Log.Information("ConfigureServices:ImageGallery.Client");
 
-            services.AddMvc();
-
             services.AddOptions();
             services.Configure<ApplicationOptions>(Configuration);
-
-            // REMOVE NOT NEEDED
             services.Configure<ApplicationOptions>(Configuration.GetSection("applicationSettings"));
-            services.Configure<Dataprotection>(Configuration.GetSection("dataprotection"));
-            services.Configure<OpenIdConnectConfiguration>(Configuration.GetSection("openIdConnectConfiguration"));
-            services.Configure<LogglyClientConfiguration>(Configuration.GetSection("logglyClientConfiguration"));
 
-            var config = Configuration.Get<ApplicationOptions>();
+            services.DisplayConfiguration(Configuration);
+            services.AddCustomDataprotection(Configuration);
+            services.AddCustomSwagger(Configuration);
 
-            Console.WriteLine($"Dataprotection Enabled: {config.Dataprotection.Enabled}");
-            Console.WriteLine($"Dataprotection Redis: {config.Dataprotection.RedisConnection}");
-            Console.WriteLine($"RedisKey: {config.Dataprotection.RedisKey}");
+            services.AddCors();
 
-            Console.WriteLine($"Authority: {config.OpenIdConnectConfiguration.Authority}");
-            Console.WriteLine($"ClientId: {config.OpenIdConnectConfiguration.ClientId}");
-            Console.WriteLine($"ClientSecret: {config.OpenIdConnectConfiguration.ClientSecret}");
-            Console.WriteLine($"LogglyKey: {config.LogglyClientConfiguration.LogglyKey}");
-
-            if (config.Dataprotection.Enabled)
-            {
-                var redis = ConnectionMultiplexer.Connect(config.Dataprotection.RedisConnection);
-                services.AddDataProtection().PersistKeysToRedis(redis, config.Dataprotection.RedisKey);
-            }
-
-            if (config.SwaggerUiConfiguration.Enabled)
-            {
-                services.AddSwaggerGen(options =>
-                {
-                    options.SwaggerDoc("v1", new Info
-                    {
-                        Title = "ImageGallery.Client",
-                        Description = "ImageGallery.Client",
-                        Version = "v1",
-                    });
-
-                    // Handle OAuth
-                    options.AddSecurityDefinition("oauth2", new OAuth2Scheme
-                    {
-                        Type = "oauth2",
-                        Flow = "implicit",
-                        AuthorizationUrl = ValidateUrl($"{config.OpenIdConnectConfiguration.Authority}/connect/authorize"),
-                        TokenUrl = ValidateUrl($"{config.OpenIdConnectConfiguration.Authority}/connect/token"),
-                        Scopes = new Dictionary<string, string>()
-                        {
-                            { "imagegalleryapi", "Image Gallery API" },
-                        },
-                    });
-                    options.IncludeXmlComments(GetXmlCommentsPath(PlatformServices.Default.Application));
-                });
-            }
-
-            services.AddAuthentication(options =>
-                {
-                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(options =>
-                {
-                    options.Authority = config.OpenIdConnectConfiguration.Authority;
-                    options.RequireHttpsMetadata = true;
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateAudience = true,
-                        ValidAudiences = new List<string>
-                        {
-                            $"{config.OpenIdConnectConfiguration.Authority}/resources",
-                            config.OpenIdConnectConfiguration.ClientId,
-                        },
-                    };
-                });
-
-            services.AddAuthorization(authorizationOptions =>
-            {
-                authorizationOptions.AddPolicy(
-                    "CanOrderFrame",
-                    policyBuilder =>
-                    {
-                        policyBuilder.RequireAuthenticatedUser();
-                        policyBuilder.RequireClaim("country", "be");
-                        policyBuilder.RequireClaim("subscriptionlevel", "PayingUser");
-                        policyBuilder.RequireRole("PayingUser");
-                    });
-            });
+            services.AddMvc();
+            services.AddCustomAuthentication(Configuration);
+            services.AddCustomAuthorization(Configuration);
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IImageGalleryHttpClient, ImageGalleryHttpClient>();
@@ -198,6 +121,10 @@ namespace ImageGallery.Client
                 });
             }
 
+            app.UseCors(
+                options => options.AllowAnyMethod()
+            );
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -209,17 +136,130 @@ namespace ImageGallery.Client
                     defaults: new { controller = "Gallery", action = "Index" });
             });
         }
+    }
 
-        private static string GetXmlCommentsPath(ApplicationEnvironment appEnvironment)
+    /// <summary>
+    /// 
+    /// </summary>
+    internal static class ServiceCollectionExtensions
+    {
+        public static void DisplayConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
-            var documentationFile = $"{appEnvironment.ApplicationName}.xml";
-            return Path.Combine(appEnvironment.ApplicationBasePath, documentationFile);
+            var config = configuration.Get<ApplicationOptions>();
+
+            Console.WriteLine($"Dataprotection Enabled: {config.Dataprotection.Enabled}");
+            Console.WriteLine($"Dataprotection Redis: {config.Dataprotection.RedisConnection}");
+            Console.WriteLine($"RedisKey: {config.Dataprotection.RedisKey}");
+
+            Console.WriteLine($"ApiAttractionsUri: {config.ClientConfiguration.ApiAttractionsUri}");
+
+            Console.WriteLine($"Authority: {config.OpenIdConnectConfiguration.Authority}");
+            Console.WriteLine($"ClientId: {config.OpenIdConnectConfiguration.ClientId}");
+            Console.WriteLine($"ClientSecret: {config.OpenIdConnectConfiguration.ClientSecret}");
+            Console.WriteLine($"LogglyKey: {config.LogglyClientConfiguration.LogglyKey}");
         }
 
-        private string ValidateUrl(string url)
+        public static IServiceCollection AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
-            // ADD LOGIC - THROW EXCEPTION IF NOT VALID 
-            return url;
+            var config = configuration.Get<ApplicationOptions>();
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = config.OpenIdConnectConfiguration.Authority;
+                    options.RequireHttpsMetadata = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = true,
+                        ValidAudiences = new List<string>
+                        {
+                            $"{config.OpenIdConnectConfiguration.Authority}/resources",
+                            config.OpenIdConnectConfiguration.ClientId,
+                        },
+                    };
+                });
+
+            return services;
+        }
+
+        public static IServiceCollection AddCustomAuthorization(this IServiceCollection services, IConfiguration configuration)
+        {
+            var config = configuration.Get<ApplicationOptions>();
+
+            services.AddAuthorization(authorizationOptions =>
+            {
+                authorizationOptions.AddPolicy(
+                    "CanOrderFrame",
+                    policyBuilder =>
+                    {
+                        policyBuilder.RequireAuthenticatedUser();
+                        policyBuilder.RequireClaim("country", "be");
+                        policyBuilder.RequireClaim("subscriptionlevel", "PayingUser");
+                        policyBuilder.RequireRole("PayingUser");
+                    });
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection AddCustomSwagger(this IServiceCollection services, IConfiguration configuration)
+        {
+            var config = configuration.Get<ApplicationOptions>();
+            if (config.SwaggerUiConfiguration.Enabled)
+            {
+                services.AddSwaggerGen(options =>
+                {
+                    options.SwaggerDoc("v1", new Info
+                    {
+                        Title = "ImageGallery.Client",
+                        Description = "ImageGallery.Client",
+                        Version = "v1",
+                    });
+
+                    // Handle OAuth
+                    options.AddSecurityDefinition("oauth2", new OAuth2Scheme
+                    {
+                        Type = "oauth2",
+                        Flow = "implicit",
+                        AuthorizationUrl = $"{config.OpenIdConnectConfiguration.Authority}/connect/authorize",
+                        TokenUrl = $"{config.OpenIdConnectConfiguration.Authority}/connect/token",
+                        Scopes = new Dictionary<string, string>()
+                        {
+                            { "imagegalleryapi", "Image Gallery API" },
+                        },
+                    });
+                    options.IncludeXmlComments(GetXmlCommentsPath());
+                });
+            }
+
+            return services;
+        }
+
+        public static IServiceCollection AddCustomDataprotection(this IServiceCollection services, IConfiguration configuration)
+        {
+            var config = configuration.Get<ApplicationOptions>();
+
+            Console.WriteLine($"Dataprotection Enabled:{config.Dataprotection.Enabled}");
+            if (config.Dataprotection.Enabled)
+            {
+                var redis = ConnectionMultiplexer.Connect(config.Dataprotection.RedisConnection);
+                services.AddDataProtection().PersistKeysToRedis(redis, config.Dataprotection.RedisKey);
+            }
+
+            return services;
+        }
+
+        private static string GetXmlCommentsPath()
+        {
+            var basePath = AppContext.BaseDirectory;
+            var assemblyName = System.Reflection.Assembly.GetEntryAssembly().GetName().Name;
+            var fileName = Path.GetFileName(assemblyName + ".xml");
+
+            return Path.Combine(basePath, fileName);
         }
     }
 }

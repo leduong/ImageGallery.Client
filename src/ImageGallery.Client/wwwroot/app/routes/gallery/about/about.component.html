@@ -1,17 +1,20 @@
-<h3>About Page </h3>
+<div class="container">
 
-<div class="bottomMarginDefault">
-    <strong>id_token</strong>
-    <span>{{id_token}})</span>
-</div>
+  <div class="topMarginDefault">
+    <h3>About Page</h3>
+  </div>
 
-<div class="bottomMarginDefault">
-    <strong>access_token</strong>
-    <span>{{access_token}}</span>
-</div>
+  <div class="topMarginDefault bottomMarginDefault" style="margin-top: 30px; background-color: #e7e7e7; padding: 10px;">
+    <div *ngFor="let claim of (userData | keys)">
+      <strong>{{claim.key}}: </strong>
+      <span>{{claim.value}}</span>
+    </div>
+  </div>
 
+  <h4>access_token</h4>
 
-<div *ngFor="let claim of (userData | keys)">
-    <strong>{{claim.key}}: </strong>
-    <span>{{claim.value}}</span>
+  <div class="bottomMarginDefault" style="background-color: #e7e7e7; padding: 10px;">
+    <span style="display: block;overflow: scroll;">{{access_token}}</span>
+  </div>
+
 </div>

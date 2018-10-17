@@ -26,6 +26,7 @@ namespace ImageGallery.Client.Services
 
         private ApplicationOptions ApplicationSettings { get; }
 
+        /// <inheritdoc/>
         public async Task<HttpClient> GetClient()
         {
             var currentContext = _httpContextAccessor.HttpContext;

@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   valForm: FormGroup;
   private alertMessage: string;
 
-  constructor(private oauthService: OAuthService, fb: FormBuilder, private router: Router) {
+  constructor(public settings: SettingsService, private oauthService: OAuthService, fb: FormBuilder, private router: Router) {
     console.log("login.component.ts");
     //oath
     if (oauthService.hasValidAccessToken()) {
@@ -43,7 +43,9 @@ export class LoginComponent implements OnInit {
     this
       .oauthService
       .fetchTokenUsingPasswordFlowAndLoadUserProfile(login, password)
-      .then(() => {
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem('currentUser', res['subscriptionlevel']);
         this.router.navigate(['/']);
       })
       .catch((err) => {

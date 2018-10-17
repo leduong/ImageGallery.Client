@@ -392,6 +392,7 @@ input[type="checkbox"] {
   // Ensure icons don't overlap text
   .form-control {
     padding-right: ($input-height-base * 1.25);
+    max-width: 100%;
   }
 }
 // Feedback icon (requires .glyphicon classes)

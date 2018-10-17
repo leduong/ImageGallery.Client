@@ -1,4 +1,7 @@
-<div class="navbar navbar-inverse navbar-fixed-top">
+<!-- <div *ngIf="userType?'PayingUser':navbarType1,navbarType2">
+
+</div> -->
+<div class="navbar navbar-fixed-top" [class.navbar-green]="userType === 'PayingUser'" [class.navbar-inverse]="userType !== 'PayingUser'">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -12,12 +15,14 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li>
-                    <a *ngIf="isAuthorized" routerLink="/">Home</a>
+                    <a *ngIf="isAuthorized" [routerLink]="['/']">Home</a>
+                </li>
+                <li>
+                    <a *ngIf="isAuthorized" [routerLink]="['/albums']">Albums</a>
                 </li>
                 <li>
                     <a *ngIf="(isAuthorized && hasPayingUserRole)" routerLink="/gallery-add">Add an image</a>
                 </li>
-                <!-- <li><a asp-area="" asp-controller="Gallery" asp-action="OrderFrame">Order a framed image</a></li> -->
                 <li>
                     <a *ngIf="isAuthorized" routerLink="/about">About</a>
                 </li>
@@ -26,7 +31,9 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a *ngIf="isAuthorized" href="#" (click)="openModal(template)">Welcome {{name}}</a></li>
+                <li>
+                    <a *ngIf="isAuthorized" href="#" (click)="openModal(template)">Welcome {{name}}</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -43,7 +50,7 @@
     <div class="modal-header">
         <h4 class="modal-title pull-left">Modal Title</h4>
         <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-        <span aria-hidden="true">&times;</span>
+            <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body">

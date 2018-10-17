@@ -1,4 +1,5 @@
-﻿using ImageGallery.Client.Configuration;
+﻿using ImageGallery.Client.Apis.Base;
+using ImageGallery.Client.Configuration;
 using Loggly;
 using Loggly.Config;
 using Microsoft.AspNetCore.Mvc;
@@ -8,10 +9,10 @@ using Serilog;
 namespace ImageGallery.Client.Controllers
 {
     /// <summary>
-    /// Client Configuration Controller
+    /// Client Configuration Controller.
     /// </summary>
     [Route("api/[controller]")]
-    public class ClientAppSettingsController : Controller
+    public class ClientAppSettingsController : BaseController
     {
         private readonly ApplicationOptions _configurationOptions;
 
@@ -33,7 +34,7 @@ namespace ImageGallery.Client.Controllers
         }
 
         /// <summary>
-        /// Get Client Configuration
+        /// Get Client Configuration.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -46,6 +47,7 @@ namespace ImageGallery.Client.Controllers
 
             return Ok(new
             {
+                _configurationOptions.ClientConfiguration,
                 _configurationOptions.OpenIdConnectConfiguration,
                 _configurationOptions.LogglyClientConfiguration,
             });

@@ -21,7 +21,7 @@ export class SettingsService {
         // App Settings
         // -----------------------------------
         this.app = {
-            name: 'Angle',
+            name: 'Image Gallery',
             description: 'Angular Bootstrap Admin Template',
             year: ((new Date()).getFullYear())
         };

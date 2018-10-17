@@ -74,6 +74,11 @@ namespace ImageGallery.Client.ViewModels.Diagnostics
         public string MachineTimeZone { get; set; }
 
         /// <summary>
+        /// .NET Core Runtime
+        /// </summary>
+        public string Runtime { get; set; }
+
+        /// <summary>
         ///
         /// </summary>
         public IEnumerable<string> IpAddressList { get; set; }

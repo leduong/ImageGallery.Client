@@ -18,6 +18,11 @@
         /// <summary>
         ///
         /// </summary>
+        public ClientConfiguration ClientConfiguration { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
         public Dataprotection Dataprotection { get; set; }
 
         /// <summary>
@@ -55,10 +60,19 @@
     /// </summary>
     public class Dataprotection
     {
+        /// <summary>
+        ///
+        /// </summary>
         public string RedisConnection { get; set; }
 
+        /// <summary>
+        ///
+        /// </summary>
         public string RedisKey { get; set; }
 
+        /// <summary>
+        ///
+        /// </summary>
         public bool Enabled { get; set; }
     }
 
@@ -67,23 +81,44 @@
     /// </summary>
     public class OpenIdConnectConfiguration
     {
+        /// <summary>
+        ///
+        /// </summary>
         public string Authority { get; set; }
 
+        /// <summary>
+        ///
+        /// </summary>
         public string ClientSecret { get; set; }
 
+        /// <summary>
+        ///
+        /// </summary>
         public string ClientId { get; set; }
 
+        /// <summary>
+        ///
+        /// </summary>
         public string RedirectUri { get; set; }
 
+        /// <summary>
+        ///
+        /// </summary>
         public string ResponseType { get; set; }
 
+        /// <summary>
+        ///
+        /// </summary>
         public string Scope { get; set; }
 
+        /// <summary>
+        ///
+        /// </summary>
         public string PostLogoutRedirectUri { get; set; }
     }
 
     /// <summary>
-    /// Swagger Ui OAuth Configuration
+    /// Swagger Ui OAuth Configuration.
     /// </summary>
     public class SwaggerUiConfiguration
     {
@@ -113,7 +148,16 @@
     /// </summary>
     public class LoggingConfiguration
     {
+        /// <summary>
+        ///
+        /// </summary>
         public string RollingFilePath { get; set; }
+
+        /// <summary>
+        ///  Serilog Console Logging
+        /// </summary>
+        public bool ConsoleEnabled { get; set; }
+
     }
 
     /// <summary>
@@ -121,6 +165,9 @@
     /// </summary>
     public class LogglyClientConfiguration
     {
+        /// <summary>
+        ///
+        /// </summary>
         public string LogglyKey { get; set; }
     }
 }

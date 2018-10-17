@@ -9,7 +9,7 @@ namespace ImageGallery.Client.Test.UI.Pages
     public class BasePage : IDisposable
     {
         /// <summary>
-        /// Default load timeout for page controls is 10 seconds
+        /// Default load timeout for page controls is 10 seconds.
         /// </summary>
         protected const int DefaultTimeout = 10;
 

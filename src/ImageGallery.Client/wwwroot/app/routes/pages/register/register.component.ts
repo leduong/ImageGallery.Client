@@ -19,7 +19,8 @@ export class RegisterComponent implements AfterViewInit {
   constructor(public fb: FormBuilder
     , private http: Http
     , private router: Router
-    , private reCaptchaService: ReCaptchaService) {
+    , private reCaptchaService: ReCaptchaService
+    , public settings: SettingsService) {
 
     let password = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9]{6,10}$')]));
     let certainPassword = new FormControl('', CustomValidators.equalTo(password));

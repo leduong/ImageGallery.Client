@@ -50,6 +50,7 @@
     background-image: url(../assets/img/preloader/preloader.full.png);
     background-size: 100px 30px;
 }
+
 .preloader-hidden {
     display: none;
 }
@@ -67,3 +68,4 @@
 .preloader-hidden-add-active {
     opacity: 0;
 }
+/* color="#818181" */

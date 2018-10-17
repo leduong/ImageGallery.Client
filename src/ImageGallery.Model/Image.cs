@@ -1,5 +1,6 @@
 ﻿using System;
 
+
 namespace ImageGallery.Model
 {
     public class Image
@@ -23,5 +24,25 @@ namespace ImageGallery.Model
         ///
         /// </summary>
         public string Category { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public string PhotoId { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public string DataSource { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public int? Width => 320;
+
+        /// <summary>
+        ///
+        /// </summary>
+        public int? Height => 240;
     }
 }

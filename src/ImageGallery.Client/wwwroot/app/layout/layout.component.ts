@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs';
 import { RolesConstants } from '../roles.constants';
-import { AuthenticationService } from '../authentication.service'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserManagementService } from '../services/user.service';
@@ -17,6 +16,8 @@ import { UserManagementService } from '../services/user.service';
 export class LayoutComponent implements OnInit, OnDestroy {
   isAuthorizedSubscription: Subscription;
   isAuthorized: boolean;
+  type: string;
+  userType: string;
 
   isUserInRoleSubscription: Subscription;
   hasPayingUserRole: boolean;
@@ -39,6 +40,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     console.log(`[ngOnInit]`);
+    this.type = 'album';
+    this.userType = localStorage.getItem('currentUser');
+    console.log("currentUser", this.userType);
 
     this.isAuthorizedSubscription = this.authService.getIsAuthorized().subscribe(
       (isAuthorized: boolean) => {

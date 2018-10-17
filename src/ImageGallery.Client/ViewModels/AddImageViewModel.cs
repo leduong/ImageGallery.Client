@@ -9,18 +9,18 @@ namespace ImageGallery.Client.ViewModels
     public class AddImageViewModel
     {
         /// <summary>
-        /// File
+        /// File.
         /// </summary>
         public IFormFile File { get; set; }
 
         /// <summary>
-        /// Title
+        /// Title.
         /// </summary>
         [Required]
         public string Title { get; set; }
 
         /// <summary>
-        /// Category
+        /// Category.
         /// </summary>
         [Required]
         public string Category { get; set; }

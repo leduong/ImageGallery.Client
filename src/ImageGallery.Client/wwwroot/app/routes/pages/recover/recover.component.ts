@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { SettingsService } from '../../../core/settings/settings.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
+import { UserManagementService } from '../../../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-recover',
@@ -10,26 +12,71 @@ import { CustomValidators } from 'ng2-validation';
 })
 export class RecoverComponent implements OnInit {
 
-    valForm: FormGroup;
+    emailForm: FormGroup;
+    passForm: FormGroup;
+    resetForm: FormGroup;
+    step: number = 1;
+    email: string = '';
 
-    constructor(public settings: SettingsService, fb: FormBuilder) {
-        this.valForm = fb.group({
+    constructor(public settings: SettingsService, fb: FormBuilder, public userService: UserManagementService, public router: Router) {
+        this.emailForm = fb.group({
             'email': [null, Validators.compose([Validators.required, CustomValidators.email])]
+        });
+
+        this.passForm = fb.group({
+            'password': [null, Validators.compose([Validators.required])]
+        });
+
+        this.resetForm = fb.group({
+            'password': [null, Validators.compose([Validators.required])],
+            'confirmPassword': [null, Validators.compose([Validators.required])],
         });
     }
 
-    submitForm($ev, value: any) {
+    submitStep1($ev, value: any) {
         $ev.preventDefault();
-        for (let c in this.valForm.controls) {
-            this.valForm.controls[c].markAsTouched();
+        this.email = value.email;
+        const len = this.email.indexOf('@') - 1;
+        this.email = this.replaceAt(this.email, 1, new Array(len + 1).join('x'));
+
+        for (let c in this.emailForm.controls) {
+            this.emailForm.controls[c].markAsTouched();
         }
-        if (this.valForm.valid) {
-            console.log('Valid!');
-            console.log(value);
+        if (this.emailForm.valid) {
+            this.userService.resetPassword(value).subscribe(res => {
+                this.step = 2;
+            });
+        }
+    }
+
+    submitStep2($ev, value: any) {
+        $ev.preventDefault();
+        for (let c in this.passForm.controls) {
+            this.passForm.controls[c].markAsTouched();
+        }
+        if (this.passForm.valid) {
+            this.userService.validatePassword(value).subscribe(res => {
+                this.step = 3;
+            });
+        }
+    }
+
+    submitStep3($ev, value: any) {
+        $ev.preventDefault();
+        for (let c in this.resetForm.controls) {
+            this.resetForm.controls[c].markAsTouched();
+        }
+        if (this.resetForm.valid && value.password === value.confirmPassword) {
+            this.userService.createPassword(value).subscribe(res => {
+                this.router.navigate(['login']);
+            });
         }
     }
 
     ngOnInit() {
     }
 
+    replaceAt(string, index, replace) {
+        return string.substring(0, index) + replace + string.substring(index + replace.length);
+    }
 }

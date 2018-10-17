@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { OAuthService } from 'angular-oauth2-oidc';
 import { Router } from '@angular/router';
-//import { OidcSecurityService, OpenIDImplicitFlowConfiguration } from 'angular-auth-oidc-client';
 
 @Injectable()
 export class AuthService /*implements OnInit, OnDestroy*/ {

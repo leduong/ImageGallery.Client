@@ -4,8 +4,16 @@ using Microsoft.Extensions.Configuration;
 
 namespace ImageGallery.Client.Configuration
 {
+    /// <summary>
+    ///
+    /// </summary>
     public static class LogConfiguration
     {
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
         public static string GetLoggingPath(IConfiguration configuration)
         {
             LoggingConfiguration loggingConfiguration = new LoggingConfiguration();
