@@ -8,23 +8,34 @@ node_js:
 - '8'
 - '9'
 - '10'
-script:
-# addons:
-#   sauce_connect: true
+
 cache:
   directories:
   - node_modules
+# install:
+#   - wget -q https://packages.microsoft.com/config/ubuntu/14.04/packages-microsoft-prod.deb
+#   - sudo dpkg -i packages-microsoft-prod.deb
 
-jobs:
-  include:
-    - stage: "Build"
-      before_install:
-        - if [[ `npm -v` != 3* ]]; then npm i -g npm@3; fi
-        - cd src/CoreDataStore.Web
-      script: $TRAVIS_BUILD_DIR/travis_build.sh
-
-    - stage: "Deploy"
-      script: $TRAVIS_BUILD_DIR/travis_deploy.sh
+script:
+  # - dotnet restore
+  - if [[ `npm -v` != 6* ]]; then npm i -g npm@6; fi
+  - cd src/ImageGallery.Client
+  - npm i
+  - ./node_modules/.bin/license-checker
+  - npm test
+  - npm run build
+# addons:
+#   sauce_connect: true
+# jobs:
+#   include:
+#     - stage: "Build"
+#       before_install:
+#         - if [[ `npm -v` != 6* ]]; then npm i -g npm@6; fi
+#         - cd src/ImageGallery.Client
+#       script: $TRAVIS_BUILD_DIR/travis_build.sh
+#
+#     - stage: "Deploy"
+#       script: $TRAVIS_BUILD_DIR/travis_deploy.sh
 
 # - npm i selenium-webdriver assert mocha
 # - npm run selenium
@@ -33,4 +44,4 @@ notifications:
 
 # travis by gem
 # travis encrypt DOCKER_USERNAME=navigatordatastore DOCKER_PASSWORD=yourPassword --add env.global
-# travis encrypt SAUCE_USERNAME=navigatordatastore SAUCE_ACCESS_KEY=yourKey--add env.global   
+# travis encrypt SAUCE_USERNAME=navigatordatastore SAUCE_ACCESS_KEY=yourKey--add env.global

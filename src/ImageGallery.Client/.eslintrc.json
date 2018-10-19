@@ -1,0 +1,32 @@
+{
+  "env": {
+    "node": true
+  },
+  "extends": [
+    "xo",
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "prettier/flowtype",
+    "prettier/standard"
+  ],
+  "plugins": ["prettier", "angular"],
+  "rules": {
+    "angular/controller_name": 0,
+    "indent": ["error", 2],
+    "semi": ["error", "always"],
+    "quotes": ["error", "single"],
+    "no-console": [
+      "error",
+      {
+        "allow": ["warn", "log", "error"]
+      }
+    ],
+    "prettier/prettier": "error"
+  },
+  "globals": {
+    "navigator": false,
+    "window": false,
+    "angular": false,
+    "document": false
+  }
+}

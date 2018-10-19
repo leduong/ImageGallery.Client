@@ -1,46 +1,46 @@
 export interface IImage {
-    id: string;
-    title: string;
-    fileName: string;
-    category: string;
-    dataSource: string;
-    photoId: string;
+  id: string
+  title: string
+  fileName: string
+  category: string
+  dataSource: string
+  photoId: string
 }
 
 export interface IAlbum {
-    id: string;
-    title: string;
-    descritpion: string;
+  id: string
+  title: string
+  descritpion: string
 }
 
 export interface IRouteTypeModel {
-    type: string;
+  type: string
 }
 
 export interface IAlbumIndexViewModel {
-    albums: IAlbum[];
-    albumsUri: string;
+  albums: IAlbum[]
+  albumsUri: string
 }
 
 export interface IGalleryIndexViewModel {
-    images: IImage[];
-    imagesUri: string;
+  images: IImage[]
+  imagesUri: string
 }
 
 export interface IEditImageViewModel {
-    id: string;
-    title: string;
-    category: string;
+  id: string
+  title: string
+  category: string
 }
 
 export interface IAddImageViewModel {
-    title: string;
-    category: string;
-    file: File;
+  title: string
+  category: string
+  file: File
 }
 
 export interface IAlbumViewModel {
-    id: string;
-    title: string;
-    description: string;
+  id: string
+  title: string
+  description: string
 }

@@ -5,8 +5,9 @@
   "license": "https://wrapbootstrap.com/help/licenses",
   "scripts": {
     "install": "napa",
+    "test": "./node_modules/.bin/eslint ./wwwroot",
     "postinstall": "modernizr -c modernizr-config.json -d wwwroot/app/modernizr.js",
-    "build": "webpack --config webpack.config.js",
+    "build": "webpack --config webpack.config.js --env.prod",
     "compile-app": "webpack --config webpack.config.js",
     "compile-app-prod": "webpack --config webpack.config.js --env.prod"
   },
@@ -79,11 +80,40 @@
     "zone.js": "0.8.26"
   },
   "devDependencies": {
+    "license-checker":"latest",
     "@angular/cli": "^6.2.5",
     "@auth0/angular-jwt": "^2.0.0",
     "angular-auth-oidc-client": "^6.0.10",
+    "eslint": "^5.7.0",
+    "eslint-config-prettier": "^3.0.1",
+    "eslint-config-xo": "^0.25.0",
+    "eslint-plugin-angular": "^3.3.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "husky": "^1.1.2",
+    "lint-staged": "^7.2.2",
+    "prettier": "^1.11.1",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "webpack": "^4.20.2",
     "webpack-dev-middleware": "^3.4.0"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "semi": false,
+    "singleQuote": true
+  },
+  "lint-staged": {
+    "*.(js|ts)": [
+      "./node_modules/.bin/prettier --write",
+      "git add"
+    ],
+    "*.json": [
+      "git add",
+      "./node_modules/.bin/prettier --write"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
